@@ -1,15 +1,16 @@
-import React from 'react';
-import { FC } from 'react';
-import { cn } from '@bem-react/classname';
+import React from "react";
+import { FC } from "react";
+import { cn } from "@bem-react/classname";
 
-import './Centerblock.css';
-import { FilterButton } from '../../../components/FilterButton/FilterButton';
-import { THeader } from '../../../types';
-import { TTrack } from '../../../types';
-import { secondsToHms } from '../../../utils/utils';
-
-const cnCenterblock = cn('Centerblock');
-const cnContent = cn('Content');
+import "./Centerblock.css";
+import { FilterButton } from "../../../components/FilterButton/FilterButton";
+import { THeader } from "../../../types";
+import { TTrack } from "../../../types";
+import { secondsToHms } from "../../../utils/utils";
+import { InputAdornment, TextField } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
+const cnCenterblock = cn("Centerblock");
+const cnContent = cn("Content");
 
 export type PlayerProps = {
   tracks: TTrack[];
@@ -19,48 +20,58 @@ export type PlayerProps = {
 export const Centerblock: FC<PlayerProps> = ({ header, tracks }) => {
   return (
     <div className={cnCenterblock()}>
-      <div className={cnCenterblock('Input-Wrapper')}>
-        <input
-          className={cnCenterblock('Input')}
-          type="search"
+      <form className={cnCenterblock("Input-Wrapper")}>
+        <TextField
+          InputLabelProps={{ }}
           placeholder="Поиск"
-        ></input>
-        <img
-          className={cnCenterblock('Input-Icon')}
-          src="./icons/search.svg"
-          alt="search-icon"
-        ></img>
-      </div>
-      <h2 className={cnCenterblock('Title')}>{header}</h2>
-      <div className={cnCenterblock('Filters')}>
-        <span className={cnCenterblock('Filters-Text')}>Искать по:</span>
+          fullWidth
+          autoComplete="off"
+          variant="standard"
+          type={"search"}
+          sx={{
+            mt: "5px",
+            input: { color: "white" },
+            label: { color: "white", pl: "30px" },
+          }}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment  sx={{ color: "white" }} position="start">
+                <SearchIcon />
+              </InputAdornment>
+            ),
+          }}
+        />
+      </form>
+      <h2 className={cnCenterblock("Title")}>{header}</h2>
+      <div className={cnCenterblock("Filters")}>
+        <span className={cnCenterblock("Filters-Text")}>Искать по:</span>
         <FilterButton buttonText="исполнителю"></FilterButton>
         <FilterButton buttonText="году выпуска"></FilterButton>
         <FilterButton buttonText="жанру"></FilterButton>
       </div>
-      <div className={cnCenterblock('Content')}>
-        <div className={cnContent('Header')}>
-          <span className={cnContent('Track')}>ТРЕК</span>
-          <span className={cnContent('Singer')}>ИСПОЛНИТЕЛЬ</span>
-          <span className={cnContent('Album')}>АЛЬБОМ</span>
-          <span className={cnContent('Time')}>
+      <div className={cnCenterblock("Content")}>
+        <div className={cnContent("Header")}>
+          <span className={cnContent("Track")}>ТРЕК</span>
+          <span className={cnContent("Singer")}>ИСПОЛНИТЕЛЬ</span>
+          <span className={cnContent("Album")}>АЛЬБОМ</span>
+          <span className={cnContent("Time")}>
             <img src="./icons/watch.svg" alt="duration" />
           </span>
         </div>
 
         {tracks.map((track) => (
-          <div className={cnContent('Track-Info')} key={crypto.randomUUID()}>
+          <div className={cnContent("Track-Info")} key={crypto.randomUUID()}>
             <img
-              className={cnContent('Track-Icon')}
+              className={cnContent("Track-Icon")}
               src="./icons/note.svg"
               alt="note"
             ></img>
-            <span className={cnContent('Track-Name')}> {track.name}</span>
-            <span className={cnContent('Track-Author')}>{track.author}</span>
-            <span className={cnContent('Track-Album')}>{track.album}</span>
-            <span className={cnContent('Track-Like')}>
+            <span className={cnContent("Track-Name")}> {track.name}</span>
+            <span className={cnContent("Track-Author")}>{track.author}</span>
+            <span className={cnContent("Track-Album")}>{track.album}</span>
+            <span className={cnContent("Track-Like")}>
               <svg
-                className={cnContent('Track-Like-Icon')}
+                className={cnContent("Track-Like-Icon")}
                 width="16"
                 height="14"
                 viewBox="0 0 16 14"
@@ -73,7 +84,7 @@ export const Centerblock: FC<PlayerProps> = ({ header, tracks }) => {
                 />
               </svg>
             </span>
-            <span className={cnContent('Track-Duration')}>
+            <span className={cnContent("Track-Duration")}>
               {secondsToHms(track.duration_in_seconds)}
             </span>
           </div>

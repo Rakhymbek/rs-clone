@@ -18,15 +18,9 @@
 }
 
 .NavMenu-Burger {
-  font-style: normal;
-  font-weight: 400;
   font-size: 16px;
   line-height: 24px;
-  color: #ffffff;
-
   width: 20px;
-
-  margin-bottom: 28px;
 }
 
 .NavMenu-Burger-Icon {

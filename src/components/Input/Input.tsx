@@ -1,13 +1,13 @@
-import React from 'react';
-import { FC } from 'react';
-import { cn } from '@bem-react/classname';
+import React from "react";
+import { FC } from "react";
+import { cn } from "@bem-react/classname";
 
-import './Input.css';
+import "./Input.css";
 
-const cnInput = cn('Input');
+const cnInput = cn("Input");
 
 export type InputProps = {
-  inputPlaceholder: 'Логин' | 'Пароль' | 'Повторите пароль';
+  inputPlaceholder: "Логин" | "Пароль" | "Повторите пароль";
   marginBottom: string;
 };
 
