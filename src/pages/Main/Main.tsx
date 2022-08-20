@@ -31,7 +31,6 @@ export const Main: FC<MainProps> = ({ header }) => {
         <Sidebar isVisible={header === 'Треки'}></Sidebar>
         <Player track={TRACK}></Player>
       </Box>
-      <div className={cnMain('Player')}></div>
     </Wrapper>
   );
 };
