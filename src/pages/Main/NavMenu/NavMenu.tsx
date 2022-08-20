@@ -4,8 +4,9 @@ import { cn } from "@bem-react/classname";
 
 import "./NavMenu.css";
 import { NavLink } from "react-router-dom";
-import { IconButton, Typography } from "@mui/material";
+import { IconButton } from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
+import Logo from "../../../components/Logo/Logo";
 const cnNavMenu = cn("NavMenu");
 
 export const NavMenu: FC<{}> = () => {
@@ -25,34 +26,7 @@ export const NavMenu: FC<{}> = () => {
       }
     >
       <NavLink to={"/main"}>
-        <Typography
-          fontSize={22}
-          fontWeight={600}
-          marginBottom={5}
-          color={"#fff"}
-        >
-          <span
-            style={{
-              display: "inline-block",
-              fontSize: "22px",
-              marginLeft: "-7px",
-              color: "#580ea2"
-            }}
-          >
-            ▶
-          </span>
-          <span
-            style={{
-              display: "inline-block",
-              fontSize: "22px",
-              marginLeft: "-7px",
-              color: "#580ea2"
-            }}
-          >
-            ▶
-          </span>{" "}
-          LePLAYER
-        </Typography>
+      <Logo textColor="#fff"/>
       </NavLink>
       <IconButton className={cnNavMenu("Burger")} onClick={handleClick}>
         <MenuIcon className={cnNavMenu("Burger-Icon")} sx={{mb: 3.5}}/>
