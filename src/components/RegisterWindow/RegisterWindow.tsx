@@ -22,7 +22,7 @@ export const RegisterWindow: FC<{}> = () => {
         <Input inputPlaceholder="Повторите пароль" inputType="password" marginBottom="56px"></Input>
       </FormControl>
       <NavLink to={"/main"}>
-        <Button type="filled" buttonText="Зарегистрироваться"></Button>
+        <Button buttonVariant="contained" buttonText="Зарегистрироваться"></Button>
       </NavLink>
     </Box>
   );

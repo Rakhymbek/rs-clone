@@ -19,10 +19,10 @@ export const LoginWindow: FC<{}> = () => {
       <Input inputPlaceholder="Логин" inputType="text" marginBottom="32px"></Input>
       <Input inputPlaceholder="Пароль" inputType="password" marginBottom="56px"></Input>
       <NavLink to={'/main'}>
-        <Button type="filled" buttonText="Войти"></Button>
+        <Button buttonVariant="contained" buttonText="Войти"></Button>
       </NavLink>
       <NavLink to={'/register'}>
-        <Button type="outlined" buttonText="Зарегистрироваться"></Button>
+        <Button buttonVariant="outlined" buttonText="Зарегистрироваться"></Button>
       </NavLink>
     </Box>
   );

@@ -1,24 +1,20 @@
-import React from 'react';
-import { FC } from 'react';
-import { cn } from '@bem-react/classname';
-
-import './Button.css';
-
-const cnButton = cn('Button');
+import React from "react";
+import { FC } from "react";
+import { Button as MUIButton } from "@mui/material";
 
 export type ButtonProps = {
-  type: 'filled' | 'outlined';
+  buttonVariant: "contained" | "outlined";
   buttonText: string;
 };
 
-export const Button: FC<ButtonProps> = ({ buttonText, type }) => {
+export const Button: FC<ButtonProps> = ({ buttonText, buttonVariant }) => {
   return (
-    <button
-      className={cnButton({
-        type: type,
-      })}
+    <MUIButton
+      color="primary"
+      variant={buttonVariant}
+      sx={{ width: "278px", height: "52px", mb: 2.5, fontSize: "18px" }}
     >
       {buttonText}
-    </button>
+    </MUIButton>
   );
 };
