@@ -13,10 +13,14 @@ export type InputProps = {
   inputType: string;
 };
 
-export const Input: FC<InputProps> = ({ inputPlaceholder, inputType, marginBottom }) => {
+export const Input: FC<InputProps> = ({
+  inputPlaceholder,
+  inputType,
+  marginBottom,
+}) => {
   return (
     <TextField
-    fullWidth
+      fullWidth
       label={inputPlaceholder}
       type={inputType}
       variant="standard"

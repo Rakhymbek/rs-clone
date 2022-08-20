@@ -12,7 +12,7 @@ export const Button: FC<ButtonProps> = ({ buttonText, buttonVariant }) => {
     <MUIButton
       color="primary"
       variant={buttonVariant}
-      sx={{ width: "278px", height: "52px", mb: 2.5, fontSize: "18px" }}
+      sx={{ width: "278px", height: "52px", mb: 2.5, fontSize: "18px", textTransform: 'capitalize' }}
     >
       {buttonText}
     </MUIButton>

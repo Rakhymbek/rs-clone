@@ -17,7 +17,7 @@ export const LoginWindow: FC<{}> = () => {
     <Box className={cnLoginWindow()}>
       <Logo textColor="#000"/>
       <Input inputPlaceholder="Логин" inputType="text" marginBottom="32px"></Input>
-      <Input inputPlaceholder="Пароль" inputType="password" marginBottom="56px"></Input>
+      <Input inputPlaceholder="Пароль" inputType="password" marginBottom="40px"></Input>
       <NavLink to={'/main'}>
         <Button buttonVariant="contained" buttonText="Войти"></Button>
       </NavLink>

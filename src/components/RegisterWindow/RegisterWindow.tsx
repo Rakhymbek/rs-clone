@@ -16,10 +16,10 @@ export const RegisterWindow: FC<{}> = () => {
   return (
     <Box className={cnRegisterWindow()}>
       <Logo textColor="#000"/>
-      <FormControl>
+      <FormControl fullWidth>
         <Input inputPlaceholder="Логин" inputType="text" marginBottom="32px"></Input>
         <Input inputPlaceholder="Пароль" inputType="password" marginBottom="32px"></Input>
-        <Input inputPlaceholder="Повторите пароль" inputType="password" marginBottom="56px"></Input>
+        <Input inputPlaceholder="Повторите пароль" inputType="password" marginBottom="40px"></Input>
       </FormControl>
       <NavLink to={"/main"}>
         <Button buttonVariant="contained" buttonText="Зарегистрироваться"></Button>
