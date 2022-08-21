@@ -31,7 +31,7 @@ export const FilterButton: FC<FilterButtonProps> = ({ buttonText }) => {
   }
 
   return (
-    <div className={cnFilterButton('Wrapper')}>
+    <div className={cnFilterButton("Wrapper")}>
       <button
         className={cnFilterButton()}
         style={{ borderColor: borderColor }}
@@ -39,7 +39,7 @@ export const FilterButton: FC<FilterButtonProps> = ({ buttonText }) => {
       >
         {buttonText.toLowerCase()}
         <div
-          className={cnFilterButton('NumberOfCheckedItems')}
+          className={cnFilterButton("NumberOfCheckedItems")}
           style={{ display: display }}
         >
           {NumberOfCheckedItems}

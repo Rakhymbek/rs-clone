@@ -10,6 +10,7 @@ import './Main.css';
 import { Player } from '../../components/Player/Player';
 import { THeader } from '../../types';
 import { TRACK, TRACKS } from '../../constants';
+import { Box, styled } from '@mui/material';
 
 const cnMain = cn('Main');
 
@@ -17,16 +18,19 @@ export type MainProps = {
   header: THeader;
 };
 
+const Wrapper = styled(Box)`
+  max-width: 100%;
+`
+
 export const Main: FC<MainProps> = ({ header }) => {
   return (
-    <div className={cnMain('Wrapper')}>
-      <div className={cnMain()}>
+    <Wrapper className={cnMain('Wrapper')}>
+      <Box sx={{display: "flex"}} className={cnMain()}>
         <NavMenu />
         <Centerblock tracks={TRACKS} header={header}></Centerblock>
-        <Sidebar isVisible={header === 'Треки'}></Sidebar>
+        <Sidebar isVisible={header === "Треки"}></Sidebar>
         <Player track={TRACK}></Player>
-      </div>
-      <div className={cnMain('Player')}></div>
-    </div>
+      </Box>
+    </Wrapper>
   );
 };

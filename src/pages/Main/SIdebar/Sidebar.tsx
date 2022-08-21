@@ -5,6 +5,7 @@ import { cn } from '@bem-react/classname';
 import './Sidebar.css';
 import { USER } from '../../../constants';
 import { NavLink } from 'react-router-dom';
+import { Box, Card, CardMedia, Typography } from '@mui/material';
 
 const cnSidebar = cn('Sidebar');
 
@@ -14,37 +15,44 @@ export type SidebarProps = {
 
 export const Sidebar: FC<SidebarProps> = ({ isVisible }) => {
   return (
-    <div className={cnSidebar()}>
+    <Box className={cnSidebar()}>
       <div className={cnSidebar('User')}>
-        <div className={cnSidebar('User-Name')}>{USER.name}</div>
+        <Typography className={cnSidebar('User-Name')}>{USER.name}</Typography>
         <div className={cnSidebar('User-Avatar')}></div>
       </div>
-      <div
+      <Card
         className={cnSidebar('List')}
-        style={isVisible ? { display: 'block' } : { display: 'none' }}
+        sx={
+          isVisible
+            ? { display: "block", backgroundColor: "transparent" }
+            : { display: "none" }
+        }
       >
         <NavLink to={'/dayplaylist'}>
-          <img
+          <CardMedia
+            component="img"
             className={cnSidebar('Button')}
-            src="./playlist/playlist-day.png"
+            image="./playlist/playlist-day.png"
             alt="Playlist of the day"
-          ></img>
+          />
         </NavLink>
-        <NavLink to={'/hits'}>
-          <img
+        <NavLink to={"/hits"}>
+          <CardMedia
+            component="img"
             className={cnSidebar('Button')}
-            src="./playlist/playlist-hits.png"
+            image="./playlist/playlist-hits.png"
             alt="Playlist of hits"
-          ></img>
+          />
         </NavLink>
-        <NavLink to={'/indie'}>
-          <img
+        <NavLink to={"/indie"}>
+          <CardMedia
+            component="img"
             className={cnSidebar('Button')}
-            src="./playlist/playlist-indie.png"
+            image="./playlist/playlist-indie.png"
             alt="Indie charge"
-          ></img>
+          />
         </NavLink>
-      </div>
-    </div>
+      </Card>
+    </Box>
   );
 };
