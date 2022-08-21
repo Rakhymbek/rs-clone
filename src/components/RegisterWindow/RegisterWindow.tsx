@@ -1,16 +1,16 @@
-import React from "react";
-import { FC } from "react";
-import { cn } from "@bem-react/classname";
+import React from 'react';
+import { FC } from 'react';
+import { cn } from '@bem-react/classname';
 
-import { Input } from "../Input/Input";
-import { Button } from "../Button/Button";
+import { Input } from '../Input/Input';
+import { Button } from '../Button/Button';
 
-import "./RegisterWindow.css";
-import { NavLink } from "react-router-dom";
-import { Box, FormControl } from "@mui/material";
-import Logo from "../Logo/Logo";
+import './RegisterWindow.css';
+import { NavLink } from 'react-router-dom';
+import { Box, FormControl } from '@mui/material';
+import Logo from '../Logo/Logo';
 
-const cnRegisterWindow = cn("RegisterWindow");
+const cnRegisterWindow = cn('RegisterWindow');
 
 export const RegisterWindow: FC<{}> = () => {
   return (

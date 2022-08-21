@@ -25,10 +25,10 @@ const Wrapper = styled(Box)`
 export const Main: FC<MainProps> = ({ header }) => {
   return (
     <Wrapper className={cnMain('Wrapper')}>
-      <Box sx={{display: 'flex'}} className={cnMain()}>
+      <Box sx={{display: "flex"}} className={cnMain()}>
         <NavMenu />
         <Centerblock tracks={TRACKS} header={header}></Centerblock>
-        <Sidebar isVisible={header === 'Треки'}></Sidebar>
+        <Sidebar isVisible={header === "Треки"}></Sidebar>
         <Player track={TRACK}></Player>
       </Box>
     </Wrapper>

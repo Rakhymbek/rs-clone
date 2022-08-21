@@ -18,10 +18,10 @@ export const LoginWindow: FC<{}> = () => {
       <Logo textColor="#000"/>
       <Input inputPlaceholder="Логин" inputType="text" marginBottom="32px"></Input>
       <Input inputPlaceholder="Пароль" inputType="password" marginBottom="40px"></Input>
-      <NavLink to={'/main'}>
+      <NavLink to={"/main"}>
         <Button buttonVariant="contained" buttonText="Войти"></Button>
       </NavLink>
-      <NavLink to={'/register'}>
+      <NavLink to={"/register"}>
         <Button buttonVariant="outlined" buttonText="Зарегистрироваться"></Button>
       </NavLink>
     </Box>
