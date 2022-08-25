@@ -1,10 +1,10 @@
-import React from "react";
-import { FC } from "react";
-import { cn } from "@bem-react/classname";
-import AudioPlayer, { RHAP_UI } from "react-h5-audio-player";
-import "react-h5-audio-player/lib/styles.css";
-import "./Player.css";
-import { TTrack } from "../../types";
+import React from 'react';
+import { FC } from 'react';
+import { cn } from '@bem-react/classname';
+import AudioPlayer, { RHAP_UI } from 'react-h5-audio-player';
+import 'react-h5-audio-player/lib/styles.css';
+import './Player.css';
+import { TTrack } from '../../types';
 import {
   PlayArrow,
   Pause,
@@ -12,16 +12,16 @@ import {
   VolumeOff,
   FavoriteBorder,
   Shuffle,
-} from "@mui/icons-material";
-import { styled } from "@mui/system";
-import { Box, IconButton } from "@mui/material";
-const cnPlayer = cn("Player");
+} from '@mui/icons-material';
+import { styled } from '@mui/system';
+import { Box, IconButton } from '@mui/material';
+const cnPlayer = cn('Player');
 
 export type PlayerProps = {
   track: TTrack;
 };
 
-const PlayerControlsWrapper = styled("div")`
+const PlayerControlsWrapper = styled('div')`
   display: flex;
   align-items: center;
   gap: 25px;
@@ -41,27 +41,27 @@ export const Player: FC<PlayerProps> = ({ track }) => {
         defaultCurrentTime={false}
         customIcons={{
           play: (
-            <PlayArrow fontSize='large' className={cnPlayer("ControlsIcon")} />
+            <PlayArrow fontSize="large" className={cnPlayer('ControlsIcon')} />
           ),
           pause: (
-            <Pause fontSize='large' className={cnPlayer("ControlsIcon")} />
+            <Pause fontSize="large" className={cnPlayer('ControlsIcon')} />
           ),
-          volume: <VolumeUp className={cnPlayer("ControlsIcon")} />,
-          volumeMute: <VolumeOff className={cnPlayer("ControlsIcon")} />,
+          volume: <VolumeUp className={cnPlayer('ControlsIcon')} />,
+          volumeMute: <VolumeOff className={cnPlayer('ControlsIcon')} />,
         }}
         customControlsSection={[
           RHAP_UI.MAIN_CONTROLS,
           RHAP_UI.ADDITIONAL_CONTROLS,
           <PlayerControlsWrapper>
-            <div className={cnPlayer("TrackInfo")}>
-              <img src='./icons/note.svg' alt='note'></img>
+            <div className={cnPlayer('TrackInfo')}>
+              <img src="./icons/note.svg" alt="note"></img>
               <div>
                 <p>{track.name}</p>
                 <p>{track.author}</p>
               </div>
             </div>
             <IconButton>
-              <FavoriteBorder className={cnPlayer("ControlsIcon")} />
+              <FavoriteBorder className={cnPlayer('ControlsIcon')} />
             </IconButton>
           </PlayerControlsWrapper>,
           RHAP_UI.VOLUME_CONTROLS,
@@ -69,7 +69,7 @@ export const Player: FC<PlayerProps> = ({ track }) => {
         customAdditionalControls={[
           RHAP_UI.LOOP,
           <IconButton sx={{ svg: { fontSize: "26px" }, padding: 0 }}>
-            <Shuffle className={cnPlayer("ControlsIcon")} />
+            <Shuffle className={cnPlayer('ControlsIcon')} />
           </IconButton>,
         ]}
         showSkipControls={true}
