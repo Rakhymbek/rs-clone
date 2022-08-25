@@ -15,9 +15,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import { Search, AccessTime, FavoriteBorder } from '@mui/icons-material';
 
 const cnCenterblock = cn('Centerblock');
 const cnContent = cn('Content');
@@ -46,7 +44,7 @@ export const Centerblock: FC<PlayerProps> = ({ header, tracks }) => {
           InputProps={{
             startAdornment: (
               <InputAdornment sx={{ color: "white" }} position="start">
-                <SearchIcon />
+                <Search />
               </InputAdornment>
             ),
           }}
@@ -67,7 +65,7 @@ export const Centerblock: FC<PlayerProps> = ({ header, tracks }) => {
           <span className={cnContent('Singer')}>ИСПОЛНИТЕЛЬ</span>
           <span className={cnContent('Album')}>АЛЬБОМ</span>
           <SvgIcon fontSize="small" sx={{ my: "auto", ml: "auto" }}>
-            <AccessTimeIcon />
+            <AccessTime />
           </SvgIcon>
         </div>
 
@@ -82,7 +80,7 @@ export const Centerblock: FC<PlayerProps> = ({ header, tracks }) => {
             <span className={cnContent('Track-Author')}>{track.author}</span>
             <span className={cnContent('Track-Album')}>{track.album}</span>
             <IconButton sx={{ width: "5%" }} color="inherit">
-              <FavoriteBorderIcon fontSize="small"/>
+              <FavoriteBorder fontSize="small"/>
             </IconButton>
             <span className={cnContent('Track-Duration')}>
               {secondsToHms(track.duration_in_seconds)}
