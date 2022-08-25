@@ -41,7 +41,7 @@ export const NavMenu: FC<{}> = () => {
           <li>
             <NavLink
               className={cnNavMenu(null, ['List-Button'])}
-              to="mytracks"
+              to="/mytracks"
             >
               Мои треки
             </NavLink>
