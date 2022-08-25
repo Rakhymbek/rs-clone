@@ -80,3 +80,75 @@
 .Player-Volume-Range {
   cursor: pointer;
 }
+
+.rhap_container {
+  padding: 0px 0px 10px;
+  flex: 1 1 auto;
+  background-color: #18181881;
+}
+
+.rhap_progress-section {
+  flex: 0 1 auto;
+}
+
+.rhap_time {
+  display: none;
+}
+
+.rhap_progress-indicator {
+  width: 0;
+}
+
+.rhap_progress-filled {
+  background-color: #acacac;
+}
+
+.rhap_progress-container {
+  height: 5px;
+  margin: 0;
+}
+
+.rhap_progress-bar-show-download {
+  background-color: #2e2e2e;
+}
+
+.rhap_stacked .rhap_controls-section {
+  padding-left: 34px;
+  padding-right: 65px;
+}
+
+.rhap_main-controls-button {
+  width: 35px;
+  font-size: 35px;
+  height: 25px;
+}
+.rhap_play-pause-button {
+  height: 52px;
+}
+.rhap_skip-button {
+  color: #fff;
+  font-size: 25px;
+}
+
+.rhap_volume-bar {
+  height: 10px;
+  background: #2686ff;
+  border-radius: 4px;
+}
+
+.rhap_volume-indicator {
+  width: 14px;
+  height: 14px;
+  top: -2px;
+  background: #ffffff;
+}
+.rhap_volume-container {
+  flex: 0 1 160px;
+}
+
+.Player-ControlsIcon,
+.rhap_skip-button {
+  color: #fff;
+  font-size: 24px;
+  height: 25px;
+}
