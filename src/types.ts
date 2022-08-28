@@ -18,6 +18,25 @@ export type TData = {
   results: TTrack[];
 };
 
+export type SongType = {
+  _id?: number;
+  album?: string;
+  artist?: string;
+  img?: string;
+  rank?: number;
+  title?: string;
+  url?: string;
+  urlPlay?: string;
+  year?: string;
+  duration?: string;
+};
+
+export type AlbumType = {
+  name?: string;
+  poster?: string;
+  songs?: SongType[];
+};
+
 // export type THeader =
 //   | 'Треки'
 //   | 'Плейлист дня'

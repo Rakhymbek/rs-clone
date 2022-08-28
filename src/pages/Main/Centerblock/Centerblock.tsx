@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { FC } from 'react';
 import { cn } from '@bem-react/classname';
 
 import './Centerblock.css';
 import { FilterButton } from '../../../components/FilterButton/FilterButton';
-import { TLanguages, TTrack } from '../../../types';
+import { SongType, TLanguages, TTrack } from '../../../types';
 import { lightenDarkenColor, secondsToHms } from '../../../utils/utils';
 import {
   Box,
@@ -17,21 +17,27 @@ import {
 import { Search, AccessTime, FavoriteBorder } from '@mui/icons-material';
 import { text } from '../../../constants';
 import { Profile } from '../Profile/Profile';
-import { useAppSelector } from '../../../hook';
+import { useAppDispatch, useAppSelector } from '../../../hook';
+import { changeCurrentSong } from '../../../store/trackSlice';
 
 const cnCenterblock = cn('Centerblock');
 const cnContent = cn('Content');
 
 export type PlayerProps = {
-  tracks: TTrack[];
+  tracks: SongType[];
   header: string;
 };
 
 export const Centerblock: FC<PlayerProps> = ({ header, tracks }) => {
-  const lang = useAppSelector((state) => state.language.lang);
+  const dispatch = useAppDispatch();
 
+  const lang = useAppSelector((state) => state.language.lang);
   const textColor = useAppSelector((state) => state.colorTheme.textColor);
   const textColorSecondary = lightenDarkenColor(textColor, -120);
+
+  const handleChooseSong = useCallback((track: SongType) => {
+    dispatch(changeCurrentSong(track))
+  }, [dispatch]);
 
   if (header === text.menu.profile[lang]) {
     return <Profile />;
@@ -101,11 +107,12 @@ export const Centerblock: FC<PlayerProps> = ({ header, tracks }) => {
             </SvgIcon>
           </div>
 
-          {tracks.map((track) => (
+          {tracks?.map((track) => (
             <div
               className={cnContent('Track-Info')}
               style={{ color: textColor }}
-              key={track.name + track.author + track.album}
+              key={track._id}
+              onClick={() => handleChooseSong(track)}
             >
               <img
                 className={cnContent('Track-Icon')}
@@ -113,8 +120,8 @@ export const Centerblock: FC<PlayerProps> = ({ header, tracks }) => {
                 src="./icons/note.svg"
                 alt="note"
               ></img>
-              <span className={cnContent('Track-Name')}>{track.name}</span>
-              <span className={cnContent('Track-Author')}>{track.author}</span>
+              <span className={cnContent('Track-Name')}>{track.title}</span>
+              <span className={cnContent('Track-Author')}>{track.artist}</span>
               <span
                 className={cnContent('Track-Album')}
                 style={{ color: textColorSecondary }}
@@ -131,7 +138,8 @@ export const Centerblock: FC<PlayerProps> = ({ header, tracks }) => {
                 className={cnContent('Track-Duration')}
                 style={{ color: textColorSecondary }}
               >
-                {secondsToHms(track.duration_in_seconds)}
+                {/* {secondsToHms(track.duration_in_seconds)} */}
+                {track?.duration}
               </span>
             </div>
           ))}
