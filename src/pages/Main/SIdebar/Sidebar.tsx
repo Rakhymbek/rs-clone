@@ -2,15 +2,34 @@ import React from 'react';
 import { FC } from 'react';
 import { cn } from '@bem-react/classname';
 import { NavLink } from 'react-router-dom';
-import { Box, Card, Typography } from '@mui/material';
+import {
+  autocompleteClasses,
+  Box,
+  Card,
+  createTheme,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+  ThemeProvider,
+  Typography,
+} from '@mui/material';
 
 import { SpanChangeColor } from '../../../components/changeColor/SpanChangeColor/SpanChangeColor';
 import { AlbumCover } from '../../../components/AlbumCover/AlbumCover';
 import { text, USER } from '../../../constants';
-import { useAppSelector } from '../../../hook';
+import { useAppDispatch, useAppSelector } from '../../../hook';
 
 import './Sidebar.css';
-import { extradarkToDark, extradarkToHover } from '../../../utils/utils';
+import {
+  bgColorToBgColorLight,
+  colorToSecondary,
+  extradarkToDark,
+  extradarkToHover,
+} from '../../../utils/utils';
+import { TLanguages } from '../../../types';
+import { changeLanguage } from '../../../store/languageSlice';
 // import './Animation.css';
 
 const cnSidebar = cn('Sidebar');
@@ -24,20 +43,40 @@ export const Sidebar: FC<SidebarProps> = ({
   isVisible,
   isUserVisible = true,
 }) => {
+  const dispatch = useAppDispatch();
+
   const lang = useAppSelector((state) => state.language.lang);
   const textColor = useAppSelector((state) => state.colorTheme.textColor);
+  const bgColor = useAppSelector((state) => state.colorTheme.bgColor);
   const decorativeColor = useAppSelector(
     (state) => state.colorTheme.decorativeColor,
   );
-
+  const bgColorLight = bgColorToBgColorLight(bgColor);
   const colorHover = extradarkToHover(decorativeColor);
   const colorDark = extradarkToDark(decorativeColor);
+
+  const [language, setLanguage] = React.useState(lang);
+
+  const handleChange = (event: SelectChangeEvent) => {
+    const newLanguage = event.target.value as TLanguages;
+    setLanguage(newLanguage);
+    dispatch(changeLanguage(newLanguage));
+    localStorage.setItem('language', newLanguage);
+  };
+
+  const buttonTheme = createTheme({
+    palette: {
+      primary: {
+        main: decorativeColor,
+      },
+    },
+  });
 
   return (
     <Box className={cnSidebar()}>
       {isUserVisible && (
-        <NavLink to={'/profile'}>
-          <div className={cnSidebar('User')}>
+        <div className={cnSidebar('User')}>
+          <NavLink to={'/profile'}>
             <Typography
               className={cnSidebar('User-Name')}
               style={{ color: textColor }}
@@ -46,9 +85,39 @@ export const Sidebar: FC<SidebarProps> = ({
                 {USER.name}
               </SpanChangeColor>
             </Typography>
-            <div className={cnSidebar('User-Avatar')}></div>
-          </div>
-        </NavLink>
+          </NavLink>
+          {/* <div className={cnSidebar('User-Avatar')}></div> */}
+
+          <ThemeProvider theme={buttonTheme}>
+            <FormControl
+              variant="standard"
+              sx={{
+                marginLeft: '25px',
+                width: '55px',
+                backgroundColor: bgColorLight,
+                borderTopLeftRadius: '5px',
+                borderTopRightRadius: '5px',
+              }}
+            >
+              <Select
+                labelId="demo-simple-select-standard-label"
+                id="demo-simple-select-standard"
+                value={language}
+                onChange={handleChange}
+                label="Language"
+                style={{
+                  color: textColor,
+                  fontSize: '15px',
+                  padding: '0 5px',
+                }}
+              >
+                <MenuItem value={'ru'}>Ru</MenuItem>
+                <MenuItem value={'en'}>En</MenuItem>
+                {/* <MenuItem value={'bel'}>Беларускі</MenuItem> */}
+              </Select>
+            </FormControl>
+          </ThemeProvider>
+        </div>
       )}
 
       <Card
