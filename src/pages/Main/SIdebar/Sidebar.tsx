@@ -102,7 +102,7 @@ export const Sidebar: FC<SidebarProps> = ({
               <Select
                 labelId="demo-simple-select-standard-label"
                 id="demo-simple-select-standard"
-                value={language}
+                value={lang}
                 onChange={handleChange}
                 label="Language"
                 style={{

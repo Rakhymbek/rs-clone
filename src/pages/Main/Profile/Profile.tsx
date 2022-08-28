@@ -41,10 +41,10 @@ export const Profile: FC = () => {
 
   const textColorSecondary = colorToSecondary(textColor);
 
-  const [language, setLanguage] = React.useState(lang);
-  const [_, setBgColorInput] = React.useState(bgColor);
-  const [__, setTextColorInput] = React.useState(textColor);
-  const [___, setDecorativeColorInput] = React.useState(decorativeColor);
+  const [_, setLanguage] = React.useState(lang);
+  const [__, setBgColorInput] = React.useState(bgColor);
+  const [___, setTextColorInput] = React.useState(textColor);
+  const [____, setDecorativeColorInput] = React.useState(decorativeColor);
 
   const handleChange = (event: SelectChangeEvent) => {
     const newLanguage = event.target.value as TLanguages;
@@ -194,14 +194,14 @@ export const Profile: FC = () => {
             <Select
               labelId="demo-simple-select-standard-label"
               id="demo-simple-select-standard"
-              value={language}
+              value={lang}
               onChange={handleChange}
               label="Language"
               style={{ color: textColor }}
             >
               <MenuItem value={'ru'}>Русский</MenuItem>
               <MenuItem value={'en'}>English</MenuItem>
-              <MenuItem value={'bel'}>Беларускі</MenuItem>
+              {/* <MenuItem value={'bel'}>Беларускі</MenuItem> */}
             </Select>
           </FormControl>
         </ThemeProvider>
