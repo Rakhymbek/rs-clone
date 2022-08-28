@@ -1,17 +1,16 @@
 import React from 'react';
 import { FC } from 'react';
 import { cn } from '@bem-react/classname';
+import { Box, styled } from '@mui/material';
 
 import { NavMenu } from './NavMenu/NavMenu';
 import { Sidebar } from './SIdebar/Sidebar';
 import { Centerblock } from './Centerblock/Centerblock';
-
-import './Main.css';
 import { Player } from '../../components/Player/Player';
 import { text, TRACK, TRACKS } from '../../constants';
-import { Box, styled } from '@mui/material';
 import { useAppSelector } from '../../hook';
-import { TLanguages } from '../../types';
+
+import './Main.css';
 
 const cnMain = cn('Main');
 

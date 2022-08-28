@@ -1,16 +1,18 @@
 import React from 'react';
 import { FC } from 'react';
 import { cn } from '@bem-react/classname';
-
-import './Sidebar.css';
-// import './Animation.css';
 import { NavLink } from 'react-router-dom';
 import { Box, Card, Typography } from '@mui/material';
-import { SpanChangeColor } from '../../../components/SpanChangeColor/SpanChangeColor';
+
+import { SpanChangeColor } from '../../../components/changeColor/SpanChangeColor/SpanChangeColor';
 import { AlbumCover } from '../../../components/AlbumCover/AlbumCover';
 import { text, USER } from '../../../constants';
 import { useAppSelector } from '../../../hook';
-import { TLanguages } from '../../../types';
+
+import './Sidebar.css';
+import { extradarkToDark, extradarkToHover } from '../../../utils/utils';
+// import './Animation.css';
+
 const cnSidebar = cn('Sidebar');
 
 export type SidebarProps = {
@@ -24,6 +26,12 @@ export const Sidebar: FC<SidebarProps> = ({
 }) => {
   const lang = useAppSelector((state) => state.language.lang);
   const textColor = useAppSelector((state) => state.colorTheme.textColor);
+  const decorativeColor = useAppSelector(
+    (state) => state.colorTheme.decorativeColor,
+  );
+
+  const colorHover = extradarkToHover(decorativeColor);
+  const colorDark = extradarkToDark(decorativeColor);
 
   return (
     <Box className={cnSidebar()}>
@@ -34,7 +42,9 @@ export const Sidebar: FC<SidebarProps> = ({
               className={cnSidebar('User-Name')}
               style={{ color: textColor }}
             >
-              <SpanChangeColor>{USER.name}</SpanChangeColor>
+              <SpanChangeColor colorHover={colorHover} colorActive={colorDark}>
+                {USER.name}
+              </SpanChangeColor>
             </Typography>
             <div className={cnSidebar('User-Avatar')}></div>
           </div>

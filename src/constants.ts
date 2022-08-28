@@ -1,5 +1,10 @@
 import { TData } from './types';
-import { lightenDarkenColor } from './utils/utils';
+import {
+  bgColorToBgColorLight,
+  colorToSecondary,
+  extradarkToDark,
+  extradarkToHover,
+} from './utils/utils';
 
 import { createTheme } from '@mui/material';
 
@@ -9,13 +14,13 @@ export const BGCOLOR = '#181818';
 export const COLOR = '#ffffff';
 export const COLOR_EXTRADARK = '#580ea2';
 
-export const BGCOLOR_LIGHT = lightenDarkenColor(BGCOLOR, 10); //'#1c1c1c';
+export const BGCOLOR_LIGHT = bgColorToBgColorLight(BGCOLOR); //'#1c1c1c';
 
-export const COLOR_DARK = lightenDarkenColor(COLOR_EXTRADARK, 60); //'#ad61ff';
+export const COLOR_DARK = extradarkToDark(COLOR_EXTRADARK); //'#ad61ff';
 
-export const COLOR_HOVER = lightenDarkenColor(COLOR_EXTRADARK, 120); //`#D9B6FF`;
+export const COLOR_HOVER = extradarkToHover(COLOR_EXTRADARK); //`#D9B6FF`;
 
-export const COLOR_SECONDARY = lightenDarkenColor(COLOR, -120); //'#696969';
+export const COLOR_SECONDARY = colorToSecondary(COLOR); //'#696969';
 
 export const theme = createTheme({
   palette: {
@@ -59,6 +64,7 @@ export const text = {
     bgcolor: { ru: 'Цвет фона:', en: 'Background:' },
     textColor: { ru: 'Цвет текста:', en: 'Text color:' },
     designColor: { ru: 'Цветовое оформление:', en: 'Color design:' },
+    buttonText: { ru: 'Сброс настроек', en: 'Reset settings' },
     language: { ru: 'Язык', en: 'Language' },
   },
 };

@@ -1,11 +1,6 @@
 import React from 'react';
 import { FC } from 'react';
 import { cn } from '@bem-react/classname';
-
-import './Centerblock.css';
-import { FilterButton } from '../../../components/FilterButton/FilterButton';
-import { TLanguages, TTrack } from '../../../types';
-import { lightenDarkenColor, secondsToHms } from '../../../utils/utils';
 import {
   Box,
   IconButton,
@@ -15,9 +10,21 @@ import {
   Typography,
 } from '@mui/material';
 import { Search, AccessTime, FavoriteBorder } from '@mui/icons-material';
+
+import { FilterButton } from '../../../components/FilterButton/FilterButton';
+import {
+  colorToSecondary,
+  extradarkToDark,
+  extradarkToHover,
+  secondsToHms,
+} from '../../../utils/utils';
+import { TTrack } from '../../../types';
 import { text } from '../../../constants';
 import { Profile } from '../Profile/Profile';
 import { useAppSelector } from '../../../hook';
+
+import './Centerblock.css';
+import { DivChangeColor } from '../../../components/changeColor/DivChangeColor/DivChangeColor';
 
 const cnCenterblock = cn('Centerblock');
 const cnContent = cn('Content');
@@ -31,7 +38,13 @@ export const Centerblock: FC<PlayerProps> = ({ header, tracks }) => {
   const lang = useAppSelector((state) => state.language.lang);
 
   const textColor = useAppSelector((state) => state.colorTheme.textColor);
-  const textColorSecondary = lightenDarkenColor(textColor, -120);
+  const textColorSecondary = colorToSecondary(textColor);
+  const decorativeColor = useAppSelector(
+    (state) => state.colorTheme.decorativeColor,
+  );
+
+  const colorHover = extradarkToHover(decorativeColor);
+  const colorDark = extradarkToDark(decorativeColor);
 
   if (header === text.menu.profile[lang]) {
     return <Profile />;
@@ -102,9 +115,11 @@ export const Centerblock: FC<PlayerProps> = ({ header, tracks }) => {
           </div>
 
           {tracks.map((track) => (
-            <div
+            <DivChangeColor
+              color={textColor}
+              colorHover={colorHover}
+              colorActive={colorDark}
               className={cnContent('Track-Info')}
-              style={{ color: textColor }}
               key={track.name + track.author + track.album}
             >
               <img
@@ -113,7 +128,9 @@ export const Centerblock: FC<PlayerProps> = ({ header, tracks }) => {
                 src="./icons/note.svg"
                 alt="note"
               ></img>
+
               <span className={cnContent('Track-Name')}>{track.name}</span>
+
               <span className={cnContent('Track-Author')}>{track.author}</span>
               <span
                 className={cnContent('Track-Album')}
@@ -133,7 +150,7 @@ export const Centerblock: FC<PlayerProps> = ({ header, tracks }) => {
               >
                 {secondsToHms(track.duration_in_seconds)}
               </span>
-            </div>
+            </DivChangeColor>
           ))}
         </Box>
       </div>

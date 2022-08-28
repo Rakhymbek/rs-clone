@@ -35,7 +35,7 @@ export const Player: FC<PlayerProps> = ({ track }) => {
     <Box className={cnPlayer()}>
       <AudioPlayer
         src={
-          "https://docs.google.com/uc?export=open&id=1r4N5SBd-6C-zECrMge8UKlknBh9p1d4g"
+          'https://docs.google.com/uc?export=open&id=1r4N5SBd-6C-zECrMge8UKlknBh9p1d4g'
         }
         defaultDuration={false}
         defaultCurrentTime={false}
@@ -68,7 +68,7 @@ export const Player: FC<PlayerProps> = ({ track }) => {
         ]}
         customAdditionalControls={[
           RHAP_UI.LOOP,
-          <IconButton sx={{ svg: { fontSize: "26px" }, padding: 0 }}>
+          <IconButton sx={{ svg: { fontSize: '26px' }, padding: 0 }}>
             <Shuffle className={cnPlayer('ControlsIcon')} />
           </IconButton>,
         ]}
