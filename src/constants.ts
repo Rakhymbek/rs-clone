@@ -1,4 +1,77 @@
-import { TData, THeader } from './types';
+import { TData } from './types';
+import {
+  bgColorToBgColorLight,
+  colorToSecondary,
+  extradarkToDark,
+  extradarkToHover,
+} from './utils/utils';
+
+import { createTheme } from '@mui/material';
+
+export const COLOR_DARK_DEFAULT = '#ad61ff';
+
+export const BGCOLOR = '#181818';
+export const COLOR = '#ffffff';
+export const COLOR_EXTRADARK = '#580ea2';
+
+export const BGCOLOR_LIGHT = bgColorToBgColorLight(BGCOLOR); //'#1c1c1c';
+
+export const COLOR_DARK = extradarkToDark(COLOR_EXTRADARK); //'#ad61ff';
+
+export const COLOR_HOVER = extradarkToHover(COLOR_EXTRADARK); //`#D9B6FF`;
+
+export const COLOR_SECONDARY = colorToSecondary(COLOR); //'#696969';
+
+export const theme = createTheme({
+  palette: {
+    primary: {
+      main: COLOR_EXTRADARK,
+    },
+  },
+});
+
+export const lang = 'ru';
+
+export const text = {
+  menu: {
+    homepage: { ru: 'Главная', en: 'Homepage' },
+    mytracks: { ru: 'Мои треки', en: 'My tracks' },
+    profile: { ru: 'Личный кабинет', en: 'Profile' },
+    logout: { ru: 'Выйти', en: 'Logout' },
+  },
+  searchInput: { ru: 'Поиск', en: 'Search' },
+  header: { tracks: { ru: 'Треки', en: 'Tracks' } },
+  albums: {
+    dayplaylist: { ru: 'Плейлист дня', en: 'Playlist of the day' },
+    hits: { ru: '100 танцевальных хитов', en: '100 dance hits' },
+  },
+  search: {
+    searchBy: { ru: 'Искать по:', en: 'Search by' },
+    artist: { ru: 'исполнителю', en: 'artist' },
+    release: { ru: 'году выпуска', en: 'release date' },
+    genre: { ru: 'жанру', en: 'genre' },
+  },
+  listHeader: {
+    track: { ru: 'ТРЕК', en: 'TRACK' },
+    artist: { ru: 'ИСПОЛНИТЕЛЬ', en: 'ARTIST' },
+    album: { ru: 'АЛЬБОМ', en: 'ALBUM' },
+  },
+  profile: {
+    userData: { ru: 'Данные пользователя', en: 'User data' },
+    userName: { ru: 'Имя:', en: 'User name:' },
+    login: { ru: 'Логин:', en: 'Login:' },
+    custom: { ru: 'Кастомизация плеера', en: 'Customization of the player' },
+    bgcolor: { ru: 'Цвет фона:', en: 'Background:' },
+    textColor: { ru: 'Цвет текста:', en: 'Text color:' },
+    designColor: { ru: 'Цветовое оформление:', en: 'Color design:' },
+    buttonText: { ru: 'Сброс настроек', en: 'Reset settings' },
+    language: { ru: 'Язык', en: 'Language' },
+  },
+};
+
+////////////////////////// TEMP ///////////////////
+
+export const USER = { name: 'Evgenia Leleo', login: 'Leleo', avatar: '' };
 
 export const NumberOfCheckedItems = 3;
 
@@ -135,6 +208,10 @@ export const DATA: TData = {
     },
   ],
 };
+
+export const TRACKS = DATA.results;
+
+export const TRACK = DATA.results[0];
 
 // export const DATA: TData = {
 //   count: 29,
@@ -274,15 +351,10 @@ export const DATA: TData = {
 //   ],
 // };
 
-export const USER = { name: 'Evgenia Leleo', avatar: '' };
+// export const DONE = '33%';
 
-export const TRACKS = DATA.results;
+// export const HEADER: THeader = 'Треки';
 
-export const TRACK = DATA.results[0];
-
-export const DONE = '33%';
-
-export const HEADER: THeader = 'Треки';
 // export const HEADER: THeader = 'Плейлист дня';
 // export const HEADER: THeader = '100 танцевальных хитов';
 // export const HEADER: THeader = 'Инди заряд';

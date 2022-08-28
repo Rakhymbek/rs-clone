@@ -2,7 +2,10 @@ import React from 'react';
 import { FC } from 'react';
 import { cn } from '@bem-react/classname';
 
+import { useAppSelector } from '../../hook';
+
 import './Popup.css';
+import { bgColorToBgColorLight } from '../../utils/utils';
 
 const cnPopup = cn('Popup');
 
@@ -13,13 +16,23 @@ export type PopupProps = {
 };
 
 export const Popup: FC<PopupProps> = ({ items, rows, isVisible }) => {
+  const bgColor = useAppSelector((state) => state.colorTheme.bgColor);
+  const bgColorLight = bgColorToBgColorLight(bgColor);
+
   let display;
   let height;
   isVisible ? (display = 'block') : (display = 'none');
   rows === 1 ? (height = '92px') : (height = '138px');
 
   return (
-    <div className={cnPopup()} style={{ height: height, display: display }}>
+    <div
+      className={cnPopup()}
+      style={{
+        height: height,
+        display: display,
+        backgroundColor: bgColorLight,
+      }}
+    >
       <div className={cnPopup('Content-Wrapper')}>
         {items.map((item) => (
           <span key={crypto.randomUUID()}>

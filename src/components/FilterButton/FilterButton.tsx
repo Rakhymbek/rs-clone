@@ -2,9 +2,13 @@ import React, { useState } from 'react';
 import { FC } from 'react';
 import { cn } from '@bem-react/classname';
 
-import './FilterButton.css';
 import { checkedItems, NumberOfCheckedItems } from '../../constants';
 import { Popup } from '../Popup/Popup';
+import { useAppSelector } from '../../hook';
+import { extradarkToDark, extradarkToHover } from '../../utils/utils';
+
+import './FilterButton.css';
+import { ButtonChangeColor } from '../changeColor/ButtonChangeColor/ButtonChangeColor';
 
 const cnFilterButton = cn('FilterButton');
 
@@ -13,39 +17,44 @@ export type FilterButtonProps = {
 };
 
 export const FilterButton: FC<FilterButtonProps> = ({ buttonText }) => {
-  const [state, setState] = useState(false);
+  const textColor = useAppSelector((state) => state.colorTheme.textColor);
+  const decorativeColor = useAppSelector(
+    (state) => state.colorTheme.decorativeColor,
+  );
+
+  const colorHover = extradarkToHover(decorativeColor);
+  const colorDark = extradarkToDark(decorativeColor);
+
+  const [clicked, setClicked] = useState(false);
+  const [color, setColor] = useState(textColor);
 
   const handleClick = () => {
-    setState(!state);
+    setClicked(!clicked);
+    setColor(!clicked ? colorDark : textColor);
   };
 
   let display;
-  let borderColor;
-  // let borderColorHover;
-  state ? (display = 'block') : (display = 'none');
-  if (state) {
-    borderColor = '#ad61ff';
-  } else {
-    borderColor = '#ffffff';
-    // borderColorHover = '#D9B6FF';
-  }
+  clicked ? (display = 'block') : (display = 'none');
 
   return (
-    <div className={cnFilterButton("Wrapper")}>
-      <button
+    <div className={cnFilterButton('Wrapper')}>
+      <ButtonChangeColor
         className={cnFilterButton()}
-        style={{ borderColor: borderColor }}
+        color={color}
+        colorHover={colorHover}
+        colorActive={colorDark}
+        borderColor={color}
         onClick={handleClick}
       >
         {buttonText.toLowerCase()}
         <div
-          className={cnFilterButton("NumberOfCheckedItems")}
-          style={{ display: display }}
+          className={cnFilterButton('NumberOfCheckedItems')}
+          style={{ display: display, backgroundColor: decorativeColor }}
         >
           {NumberOfCheckedItems}
         </div>
-      </button>
-      <Popup items={checkedItems} rows={2} isVisible={state}></Popup>
+      </ButtonChangeColor>
+      <Popup items={checkedItems} rows={2} isVisible={clicked}></Popup>
     </div>
   );
 };
