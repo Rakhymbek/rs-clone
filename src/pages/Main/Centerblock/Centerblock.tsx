@@ -4,7 +4,7 @@ import { cn } from '@bem-react/classname';
 
 import './Centerblock.css';
 import { FilterButton } from '../../../components/FilterButton/FilterButton';
-import { TTrack } from '../../../types';
+import { TLanguages, TTrack } from '../../../types';
 import { lightenDarkenColor, secondsToHms } from '../../../utils/utils';
 import {
   Box,
@@ -15,7 +15,7 @@ import {
   Typography,
 } from '@mui/material';
 import { Search, AccessTime, FavoriteBorder } from '@mui/icons-material';
-import { text, lang } from '../../../constants';
+import { text } from '../../../constants';
 import { Profile } from '../Profile/Profile';
 import { useAppSelector } from '../../../hook';
 
@@ -28,6 +28,8 @@ export type PlayerProps = {
 };
 
 export const Centerblock: FC<PlayerProps> = ({ header, tracks }) => {
+  const lang = useAppSelector((state) => state.language.lang);
+
   const textColor = useAppSelector((state) => state.colorTheme.textColor);
   const textColorSecondary = lightenDarkenColor(textColor, -120);
 
