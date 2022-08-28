@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { FC } from 'react';
 import { cn } from '@bem-react/classname';
+import { Box, styled } from '@mui/material';
 
 import { NavMenu } from './NavMenu/NavMenu';
 import { Sidebar } from './SIdebar/Sidebar';
 import { Centerblock } from './Centerblock/Centerblock';
-
-import './Main.css';
 import { Player } from '../../components/Player/Player';
-import { text, TRACK, TRACKS } from '../../constants';
-import { Box, styled } from '@mui/material';
+import { text } from '../../constants';
 import { useAppSelector } from '../../hook';
-import { AlbumType, SongType, TLanguages } from '../../types';
+import { SongType } from '../../types';
 import { fetchTracks } from '../../fetchers/fetchTracks';
 
 const cnMain = cn('Main');

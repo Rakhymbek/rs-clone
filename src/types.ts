@@ -31,12 +31,6 @@ export type SongType = {
   duration?: string;
 };
 
-export type AlbumType = {
-  name?: string;
-  poster?: string;
-  songs?: SongType[];
-};
-
 // export type THeader =
 //   | 'Треки'
 //   | 'Плейлист дня'

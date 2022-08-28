@@ -36,9 +36,11 @@ export const Player: FC<PlayerProps> = ({ track }) => {
     JSON.parse(localStorage.getItem("currentTrack")!)?.url || ""
   );
   const currentTrack = useAppSelector((state) => state.tracks.currentTrack);
+
   useEffect(() => {
     setAudio(currentTrack.urlPlay);
   }, [currentTrack.urlPlay]);
+
   return (
     <Box className={cnPlayer()}>
       <AudioPlayer
@@ -74,7 +76,7 @@ export const Player: FC<PlayerProps> = ({ track }) => {
         ]}
         customAdditionalControls={[
           RHAP_UI.LOOP,
-          <IconButton sx={{ svg: { fontSize: "26px" }, padding: 0 }}>
+          <IconButton sx={{ svg: { fontSize: '26px' }, padding: 0 }}>
             <Shuffle className={cnPlayer('ControlsIcon')} />
           </IconButton>,
         ]}
