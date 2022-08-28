@@ -8,7 +8,8 @@ import { NavLink } from 'react-router-dom';
 import { Box, Card, Typography } from '@mui/material';
 import { SpanChangeColor } from '../../../components/SpanChangeColor/SpanChangeColor';
 import { AlbumCover } from '../../../components/AlbumCover/AlbumCover';
-import { COLOR, lang, text, USER } from '../../../constants';
+import { lang, text, USER } from '../../../constants';
+import { useAppSelector } from '../../../hook';
 const cnSidebar = cn('Sidebar');
 
 export type SidebarProps = {
@@ -20,6 +21,8 @@ export const Sidebar: FC<SidebarProps> = ({
   isVisible,
   isUserVisible = true,
 }) => {
+  const textColor = useAppSelector((state) => state.colorTheme.textColor);
+
   return (
     <Box className={cnSidebar()}>
       {isUserVisible && (
@@ -27,7 +30,7 @@ export const Sidebar: FC<SidebarProps> = ({
           <div className={cnSidebar('User')}>
             <Typography
               className={cnSidebar('User-Name')}
-              style={{ color: COLOR }}
+              style={{ color: textColor }}
             >
               <SpanChangeColor>{USER.name}</SpanChangeColor>
             </Typography>

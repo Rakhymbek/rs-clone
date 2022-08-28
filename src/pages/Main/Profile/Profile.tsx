@@ -5,47 +5,61 @@ import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
+import { useAppDispatch, useAppSelector } from '../../../hook';
 
 import './Profile.css';
 import { Typography } from '@mui/material';
+import { lang, text, USER } from '../../../constants';
 import {
-  BGCOLOR,
-  COLOR,
-  COLOR_EXTRADARK,
-  COLOR_SECONDARY,
-  lang,
-  text,
-  USER,
-} from '../../../constants';
+  changeBgColor,
+  changeDecorativeColor,
+  changeTextColor,
+} from '../../../store/colorThemeSlice';
+import { lightenDarkenColor } from '../../../utils/utils';
 
 const cnProfile = cn('Profile');
 
 export const Profile: FC = () => {
+  const dispatch = useAppDispatch();
+
+  const textColor = useAppSelector((state) => state.colorTheme.textColor);
+  const bgColor = useAppSelector((state) => state.colorTheme.bgColor);
+  const decorativeColor = useAppSelector(
+    (state) => state.colorTheme.decorativeColor,
+  );
+
+  const textColorSecondary = lightenDarkenColor(textColor, -120);
+
   const [language, setLanguage] = React.useState(lang);
-  const [bgColor, setBgColor] = React.useState(BGCOLOR);
-  const [textColor, setTextColor] = React.useState(COLOR);
-  const [decorativeColor, setDecorativeColor] = React.useState(COLOR_EXTRADARK);
+  const [bgColorInput, setBgColorInput] = React.useState(bgColor);
+  const [textColorInput, setTextColorInput] = React.useState(textColor);
+  const [decorativeColorInput, setDecorativeColorInput] =
+    React.useState(decorativeColor);
 
   const handleChange = (event: SelectChangeEvent) => {
     setLanguage(event.target.value);
+    localStorage.setItem('language', event.target.value);
   };
 
   const handleChangeBgColor = (event: {
     target: { value: React.SetStateAction<string> };
   }) => {
-    setBgColor(event.target.value);
+    setBgColorInput(event.target.value);
+    dispatch(changeBgColor(event.target.value));
   };
 
   const handleChangeTextColor = (event: {
     target: { value: React.SetStateAction<string> };
   }) => {
-    setDecorativeColor(event.target.value);
+    setTextColorInput(event.target.value);
+    dispatch(changeTextColor(event.target.value));
   };
 
   const handleChangeDecorativeColor = (event: {
     target: { value: React.SetStateAction<string> };
   }) => {
-    setTextColor(event.target.value);
+    setDecorativeColorInput(event.target.value);
+    dispatch(changeDecorativeColor(event.target.value));
   };
 
   return (
@@ -54,12 +68,15 @@ export const Profile: FC = () => {
         variant="h2"
         marginTop={11}
         marginBottom={6}
-        style={{ color: COLOR }}
+        style={{ color: textColor }}
       >
         {text.menu.profile[lang]}
       </Typography>
-      <div className={cnProfile('Data')} style={{ color: COLOR }}>
-        <h4 className={cnProfile('Header')} style={{ color: COLOR_SECONDARY }}>
+      <div className={cnProfile('Data')} style={{ color: textColor }}>
+        <h4
+          className={cnProfile('Header')}
+          style={{ color: textColorSecondary }}
+        >
           {text.profile.userData[lang]}
         </h4>
         <div className={cnProfile('UserData')}>
@@ -69,7 +86,10 @@ export const Profile: FC = () => {
           {text.profile.login[lang]} {USER.login}
         </div>
 
-        <h4 className={cnProfile('Header')} style={{ color: COLOR_SECONDARY }}>
+        <h4
+          className={cnProfile('Header')}
+          style={{ color: textColorSecondary }}
+        >
           {text.profile.custom[lang]}
         </h4>
         <div className={cnProfile('Custom')}>
@@ -109,7 +129,7 @@ export const Profile: FC = () => {
           <InputLabel
             id="demo-simple-select-standard-label"
             style={{
-              color: COLOR_SECONDARY,
+              color: textColorSecondary,
               fontWeight: 'bold',
               fontSize: '20px',
               fontFamily: 'inherit',
@@ -123,9 +143,9 @@ export const Profile: FC = () => {
             value={language}
             onChange={handleChange}
             label="Language"
-            style={{ color: COLOR }}
+            style={{ color: textColor }}
           >
-            <MenuItem value={'rus'}>Русский</MenuItem>
+            <MenuItem value={'ru'}>Русский</MenuItem>
             <MenuItem value={'en'}>English</MenuItem>
             <MenuItem value={'bel'}>Беларускі</MenuItem>
           </Select>

@@ -8,8 +8,9 @@ import { Centerblock } from './Centerblock/Centerblock';
 
 import './Main.css';
 import { Player } from '../../components/Player/Player';
-import { BGCOLOR, text, TRACK, TRACKS, lang } from '../../constants';
+import { text, TRACK, TRACKS, lang } from '../../constants';
 import { Box, styled } from '@mui/material';
+import { useAppSelector } from '../../hook';
 
 const cnMain = cn('Main');
 
@@ -22,8 +23,10 @@ const Wrapper = styled(Box)`
 `;
 
 export const Main: FC<MainProps> = ({ header }) => {
+  const bgColor = useAppSelector((state) => state.colorTheme.bgColor);
+
   return (
-    <Wrapper style={{ backgroundColor: BGCOLOR }} className={cnMain('Wrapper')}>
+    <Wrapper style={{ backgroundColor: bgColor }} className={cnMain('Wrapper')}>
       <Box sx={{ display: 'flex' }} className={cnMain()}>
         <NavMenu />
         <Centerblock tracks={TRACKS} header={header}></Centerblock>

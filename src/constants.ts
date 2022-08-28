@@ -5,9 +5,9 @@ import { createTheme } from '@mui/material';
 
 export const COLOR_DARK_DEFAULT = '#ad61ff';
 
-export const BGCOLOR = '#181818'; //'#0d3510';
-export const COLOR = '#ffffff'; //'#abcdef'
-export const COLOR_EXTRADARK = '#580ea2'; //'#696969'
+export const BGCOLOR = '#181818';
+export const COLOR = '#ffffff';
+export const COLOR_EXTRADARK = '#580ea2';
 
 export const BGCOLOR_LIGHT = lightenDarkenColor(BGCOLOR, 10); //'#1c1c1c';
 
