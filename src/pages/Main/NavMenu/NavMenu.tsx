@@ -1,0 +1,111 @@
+import React, { useState } from 'react';
+import { FC } from 'react';
+import { cn } from '@bem-react/classname';
+
+import { NavLink } from 'react-router-dom';
+import { IconButton } from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
+import Logo from '../../../components/Logo/Logo';
+import { text } from '../../../constants';
+import { SpanChangeColor } from '../../../components/changeColor/SpanChangeColor/SpanChangeColor';
+import { useAppSelector } from '../../../hook';
+import {
+  bgColorToBgColorLight,
+  extradarkToDark,
+  extradarkToHover,
+} from '../../../utils/utils';
+
+import './NavMenu.css';
+
+const cnNavMenu = cn('NavMenu');
+
+export const NavMenu: FC<{}> = () => {
+  const lang = useAppSelector((state) => state.language.lang);
+
+  const textColor = useAppSelector((state) => state.colorTheme.textColor);
+  const bgColor = useAppSelector((state) => state.colorTheme.bgColor);
+  const bgColorLight = bgColorToBgColorLight(bgColor);
+
+  const decorativeColor = useAppSelector(
+    (state) => state.colorTheme.decorativeColor,
+  );
+
+  const colorHover = extradarkToHover(decorativeColor);
+  const colorDark = extradarkToDark(decorativeColor);
+
+  const [isVisible, setIsVisible] = useState(false);
+
+  const handleClick = () => {
+    setIsVisible(!isVisible);
+  };
+
+  return (
+    <nav
+      className={cnNavMenu()}
+      style={
+        isVisible
+          ? { backgroundColor: bgColorLight }
+          : { backgroundColor: bgColor }
+      }
+    >
+      <NavLink to={'/main'}>
+        <Logo textColor={textColor} />
+      </NavLink>
+      <IconButton className={cnNavMenu('Burger')} onClick={handleClick}>
+        <MenuIcon
+          className={cnNavMenu('Burger-Icon')}
+          style={{ color: textColor }}
+          sx={{ mb: 3.5 }}
+        />
+      </IconButton>
+      {isVisible && (
+        <ul className={cnNavMenu('List')}>
+          <li>
+            <NavLink
+              className={cnNavMenu(null, ['List-Button'])}
+              style={{ color: textColor }}
+              to="/main"
+            >
+              <SpanChangeColor colorHover={colorHover} colorActive={colorDark}>
+                {text.menu.homepage[lang]}
+              </SpanChangeColor>
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              className={cnNavMenu(null, ['List-Button'])}
+              style={{ color: textColor }}
+              to="/mytracks"
+            >
+              <SpanChangeColor colorHover={colorHover} colorActive={colorDark}>
+                {text.menu.mytracks[lang]}
+              </SpanChangeColor>
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              className={cnNavMenu(null, ['List-Button'])}
+              style={{ color: textColor }}
+              to={'/profile'}
+            >
+              <SpanChangeColor colorHover={colorHover} colorActive={colorDark}>
+                {text.menu.profile[lang]}
+              </SpanChangeColor>
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              className={cnNavMenu(null, ['List-Button'])}
+              style={{ color: textColor }}
+              to={'/'}
+            >
+              <SpanChangeColor colorHover={colorHover} colorActive={colorDark}>
+                {text.menu.logout[lang]}
+              </SpanChangeColor>
+            </NavLink>
+          </li>
+        </ul>
+      )}
+    </nav>
+  );
+};
