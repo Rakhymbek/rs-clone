@@ -18,11 +18,29 @@ export type TData = {
   results: TTrack[];
 };
 
-export type THeader =
-  | 'Треки'
-  | 'Плейлист дня'
-  | '100 танцевальных хитов'
-  | 'Инди заряд'
-  | 'Мои треки';
+export type SongType = {
+  _id?: number;
+  album?: string;
+  artist?: string;
+  img?: string;
+  rank?: number;
+  title?: string;
+  url?: string;
+  urlPlay?: string;
+  year?: string;
+  duration?: string;
+};
 
-export type USER = { name: string; avatar: string };
+// export type THeader =
+//   | 'Треки'
+//   | 'Плейлист дня'
+//   | '100 танцевальных хитов'
+//   | 'Инди заряд'
+//   | 'Мои треки'
+//   | 'Личный кабинет';
+
+export type USER = { name: string; login: string; avatar: string };
+
+// export type TDictionary = { ru: string; en: string };
+
+export type TLanguages = 'ru' | 'en';
