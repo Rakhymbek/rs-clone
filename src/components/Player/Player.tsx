@@ -16,7 +16,7 @@ import {
 import { styled } from '@mui/system';
 import { Box, IconButton } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../hook';
-import { switchToNextTrack, switchToPreviousTrack } from '../../store/trackSlice';
+import { shuffleTracks, switchToNextTrack, switchToPreviousTrack } from '../../store/trackSlice';
 const cnPlayer = cn('Player');
 
 export type PlayerProps = {
@@ -54,8 +54,9 @@ export const Player: FC<PlayerProps> = ({ track }) => {
   }, [dispatch, alltracks]);
 
   const handleAudioEnded = useCallback(() => {
+    dispatch(shuffleTracks(isActive));
     dispatch(switchToNextTrack(alltracks));
-  }, [dispatch, alltracks]);
+  }, [dispatch, alltracks, isActive]);
 
   const handleClickShuffle = useCallback(() => {
     setIsActive(!isActive);

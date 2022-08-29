@@ -51,7 +51,11 @@ const trackSlice = createSlice({
       state.currentTrack = previousTrack;
     },
     shuffleTracks(state, action) {
-      
+      if (action.payload) {
+        let tracks = JSON.parse(JSON.stringify(state.allTracks));
+        let nextTrack = tracks?.[Math.floor(Math.random() * tracks.length)];
+        state.currentTrack = nextTrack;
+      }
     }
   },
 });
