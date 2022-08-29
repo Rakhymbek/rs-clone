@@ -39,6 +39,7 @@ export const Centerblock: FC<PlayerProps> = ({ header, tracks }) => {
 
   const lang = useAppSelector((state) => state.language.lang);
   const textColor = useAppSelector((state) => state.colorTheme.textColor);
+  const currentTrack = useAppSelector((state) => state.tracks.currentTrack);
   const textColorSecondary = colorToSecondary(textColor);
   const decorativeColor = useAppSelector(
     (state) => state.colorTheme.decorativeColor,
@@ -46,6 +47,10 @@ export const Centerblock: FC<PlayerProps> = ({ header, tracks }) => {
 
   const colorHover = extradarkToHover(decorativeColor);
   const colorDark = extradarkToDark(decorativeColor);
+  
+  const defineCurrentTrack = useCallback((track: SongType) => {
+    return currentTrack._id === track._id;
+  }, [currentTrack._id]);
 
   const handleChooseSong = useCallback((track: SongType) => {
     dispatch(changeCurrentSong(track))
@@ -122,7 +127,7 @@ export const Centerblock: FC<PlayerProps> = ({ header, tracks }) => {
 
           {tracks?.map((track) => (
             <DivChangeColor
-              color={textColor}
+              color={defineCurrentTrack(track) ? colorHover : textColor}
               colorHover={colorHover}
               colorActive={colorDark}
               className={cnContent('Track-Info')}
