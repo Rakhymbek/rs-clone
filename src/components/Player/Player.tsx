@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { FC } from 'react';
 import { cn } from '@bem-react/classname';
 import AudioPlayer, { RHAP_UI } from 'react-h5-audio-player';
 import 'react-h5-audio-player/lib/styles.css';
 import './Player.css';
-import { SongType, TTrack } from '../../types';
+import { SongType } from '../../types';
 import {
   PlayArrow,
   Pause,
@@ -15,7 +15,8 @@ import {
 } from '@mui/icons-material';
 import { styled } from '@mui/system';
 import { Box, IconButton } from '@mui/material';
-import { useAppSelector } from '../../hook';
+import { useAppDispatch, useAppSelector } from '../../hook';
+import { switchToNextTrack, switchToPreviousTrack } from '../../store/trackSlice';
 const cnPlayer = cn('Player');
 
 export type PlayerProps = {
@@ -32,18 +33,31 @@ const PlayerControlsWrapper = styled('div')`
 `;
 
 export const Player: FC<PlayerProps> = ({ track }) => {
+  const dispatch = useAppDispatch();
   const [audio, setAudio] = useState(
     JSON.parse(localStorage.getItem("currentTrack")!)?.url || ""
   );
   const currentTrack = useAppSelector((state) => state.tracks.currentTrack);
+  const alltracks = useAppSelector((state) => state.tracks.allTracks);
 
   useEffect(() => {
     setAudio(currentTrack.urlPlay);
   }, [currentTrack.urlPlay]);
 
+  const handleClickNext = useCallback(() => {
+    dispatch(switchToNextTrack(alltracks))
+  }, [dispatch, alltracks]);
+
+  const handleClickPrevious = useCallback(() => {
+    dispatch(switchToPreviousTrack(alltracks))
+  }, [dispatch, alltracks]);
+
+
   return (
     <Box className={cnPlayer()}>
       <AudioPlayer
+        onClickNext={handleClickNext}
+        onClickPrevious={handleClickPrevious}
         src={audio}
         defaultDuration={false}
         defaultCurrentTime={false}

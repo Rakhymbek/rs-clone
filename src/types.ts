@@ -43,4 +43,4 @@ export type USER = { name: string; login: string; avatar: string };
 
 // export type TDictionary = { ru: string; en: string };
 
-export type TLanguages = 'ru' | 'en';
+export type TLanguages = 'ru' | 'en' | 'bel';

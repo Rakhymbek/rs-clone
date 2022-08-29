@@ -3,12 +3,10 @@ import { FC } from 'react';
 import { cn } from '@bem-react/classname';
 import { NavLink } from 'react-router-dom';
 import {
-  autocompleteClasses,
   Box,
   Card,
   createTheme,
   FormControl,
-  InputLabel,
   MenuItem,
   Select,
   SelectChangeEvent,
@@ -24,7 +22,6 @@ import { useAppDispatch, useAppSelector } from '../../../hook';
 import './Sidebar.css';
 import {
   bgColorToBgColorLight,
-  colorToSecondary,
   extradarkToDark,
   extradarkToHover,
 } from '../../../utils/utils';
@@ -55,7 +52,7 @@ export const Sidebar: FC<SidebarProps> = ({
   const colorHover = extradarkToHover(decorativeColor);
   const colorDark = extradarkToDark(decorativeColor);
 
-  const [language, setLanguage] = React.useState(lang);
+  const [_, setLanguage] = React.useState(lang);
 
   const handleChange = (event: SelectChangeEvent) => {
     const newLanguage = event.target.value as TLanguages;
@@ -93,7 +90,7 @@ export const Sidebar: FC<SidebarProps> = ({
               variant="standard"
               sx={{
                 marginLeft: '25px',
-                width: '55px',
+                width: '60px',
                 backgroundColor: bgColorLight,
                 borderTopLeftRadius: '5px',
                 borderTopRightRadius: '5px',
@@ -113,7 +110,7 @@ export const Sidebar: FC<SidebarProps> = ({
               >
                 <MenuItem value={'ru'}>Ru</MenuItem>
                 <MenuItem value={'en'}>En</MenuItem>
-                {/* <MenuItem value={'bel'}>Беларускі</MenuItem> */}
+                <MenuItem value={'bel'}>Bel</MenuItem>
               </Select>
             </FormControl>
           </ThemeProvider>

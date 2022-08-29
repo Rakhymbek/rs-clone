@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { FC } from 'react';
 import { cn } from '@bem-react/classname';
 
-import { checkedItems, NumberOfCheckedItems } from '../../constants';
+import { NumberOfCheckedItems } from '../../constants';
 import { Popup } from '../Popup/Popup';
 import { useAppSelector } from '../../hook';
 import { extradarkToDark, extradarkToHover } from '../../utils/utils';
@@ -14,9 +14,13 @@ const cnFilterButton = cn('FilterButton');
 
 export type FilterButtonProps = {
   buttonText: string;
+  checkItems: string[];
 };
 
-export const FilterButton: FC<FilterButtonProps> = ({ buttonText }) => {
+export const FilterButton: FC<FilterButtonProps> = ({
+  buttonText,
+  checkItems,
+}) => {
   const textColor = useAppSelector((state) => state.colorTheme.textColor);
   const decorativeColor = useAppSelector(
     (state) => state.colorTheme.decorativeColor,
@@ -54,7 +58,7 @@ export const FilterButton: FC<FilterButtonProps> = ({ buttonText }) => {
           {NumberOfCheckedItems}
         </div>
       </ButtonChangeColor>
-      <Popup items={checkedItems} rows={2} isVisible={clicked}></Popup>
+      <Popup items={checkItems} rows={2} isVisible={clicked}></Popup>
     </div>
   );
 };
