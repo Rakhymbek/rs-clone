@@ -201,7 +201,7 @@ export const Profile: FC = () => {
             >
               <MenuItem value={'ru'}>Русский</MenuItem>
               <MenuItem value={'en'}>English</MenuItem>
-              {/* <MenuItem value={'bel'}>Беларускі</MenuItem> */}
+              <MenuItem value={'bel'}>Беларускі</MenuItem>
             </Select>
           </FormControl>
         </ThemeProvider>

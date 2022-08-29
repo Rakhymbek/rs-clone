@@ -26,28 +26,39 @@ const Wrapper = styled(Box)`
 export const Main: FC<MainProps> = ({ header }) => {
   const dispatch = useAppDispatch();
   const [tracks, setTracks] = useState<SongType[]>();
-  const currentTrack = useAppSelector((state) => state.tracks.currentTrack)
+  const currentTrack = useAppSelector((state) => state.tracks.currentTrack);
   const lang = useAppSelector((state) => state.language.lang);
   const bgColor = useAppSelector((state) => state.colorTheme.bgColor);
 
   useEffect(() => {
-    fetchTracks().then(data => {
+    fetchTracks().then((data) => {
       setTracks(data);
       dispatch(uploadAllTracks(data));
     });
   }, [dispatch]);
 
   return (
-    <Wrapper style={{ backgroundColor: bgColor }} className={cnMain('Wrapper')}>
-      <Box sx={{ display: 'flex' }} className={cnMain()}>
+    <Wrapper style={{ backgroundColor: bgColor }}>
+      <Box
+        sx={{
+          display: 'flex',
+          maxWidth: '1920px',
+          minHeight: '100vh',
+          margin: '0 auto',
+        }}
+        className={cnMain()}
+      >
         <NavMenu />
-        <Centerblock tracks={tracks as SongType[]} header={header}></Centerblock>
+        <Centerblock
+          tracks={tracks as SongType[]}
+          header={header}
+        ></Centerblock>
         <Sidebar
           isVisible={header === text.header.tracks[lang]}
           isUserVisible={header !== text.menu.profile[lang]}
         ></Sidebar>
-        <Player track={currentTrack}></Player>
       </Box>
+      <Player track={currentTrack}></Player>
     </Wrapper>
   );
 };

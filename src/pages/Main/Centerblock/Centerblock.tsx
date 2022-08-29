@@ -1,61 +1,43 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { FC } from 'react';
 import { cn } from '@bem-react/classname';
 import {
   Box,
-  IconButton,
   InputAdornment,
   SvgIcon,
   TextField,
   Typography,
 } from '@mui/material';
-import { Search, AccessTime, FavoriteBorder } from '@mui/icons-material';
+import { Search, AccessTime } from '@mui/icons-material';
 
 import { FilterButton } from '../../../components/FilterButton/FilterButton';
-import {
-  colorToSecondary,
-  extradarkToDark,
-  extradarkToHover,
-} from '../../../utils/utils';
+import { colorToSecondary } from '../../../utils/utils';
 import { SongType } from '../../../types';
-import { text } from '../../../constants';
+import {
+  filterItems1,
+  filterItems2,
+  filterItems3,
+  text,
+} from '../../../constants';
 import { Profile } from '../Profile/Profile';
-import { useAppDispatch, useAppSelector } from '../../../hook';
+import { useAppSelector } from '../../../hook';
+import { TrackList } from '../TrackList/TrackList';
 
 import './Centerblock.css';
-import { DivChangeColor } from '../../../components/changeColor/DivChangeColor/DivChangeColor';
-import { changeCurrentSong } from '../../../store/trackSlice';
 
 const cnCenterblock = cn('Centerblock');
 const cnContent = cn('Content');
 
-export type PlayerProps = {
+type PlayerProps = {
   tracks: SongType[];
   header: string;
 };
 
 export const Centerblock: FC<PlayerProps> = ({ header, tracks }) => {
-  const dispatch = useAppDispatch();
-
   const lang = useAppSelector((state) => state.language.lang);
   const textColor = useAppSelector((state) => state.colorTheme.textColor);
-  const currentTrack = useAppSelector((state) => state.tracks.currentTrack);
+
   const textColorSecondary = colorToSecondary(textColor);
-  const decorativeColor = useAppSelector(
-    (state) => state.colorTheme.decorativeColor,
-  );
-
-  const colorHover = extradarkToHover(decorativeColor);
-  const colorDark = extradarkToDark(decorativeColor);
-  
-  const defineCurrentTrack = useCallback((track: SongType) => {
-    return currentTrack._id === track._id;
-  }, [currentTrack._id]);
-
-  const handleChooseSong = useCallback((track: SongType) => {
-    dispatch(changeCurrentSong(track))
-  }, [dispatch]);
-
 
   if (header === text.menu.profile[lang]) {
     return <Profile />;
@@ -95,9 +77,18 @@ export const Centerblock: FC<PlayerProps> = ({ header, tracks }) => {
             <span className={cnCenterblock('Filters-Text')}>
               {text.search.searchBy[lang]}
             </span>
-            <FilterButton buttonText={text.search.artist[lang]}></FilterButton>
-            <FilterButton buttonText={text.search.release[lang]}></FilterButton>
-            <FilterButton buttonText={text.search.genre[lang]}></FilterButton>
+            <FilterButton
+              buttonText={text.search.artist[lang]}
+              checkItems={filterItems1}
+            ></FilterButton>
+            <FilterButton
+              buttonText={text.search.release[lang]}
+              checkItems={filterItems2}
+            ></FilterButton>
+            <FilterButton
+              buttonText={text.search.genre[lang]}
+              checkItems={filterItems3}
+            ></FilterButton>
           </Box>
         )}
         <Box className={cnCenterblock('Content')}>
@@ -124,47 +115,7 @@ export const Centerblock: FC<PlayerProps> = ({ header, tracks }) => {
               <AccessTime />
             </SvgIcon>
           </div>
-
-          {tracks?.map((track) => (
-            <DivChangeColor
-              color={defineCurrentTrack(track) ? colorHover : textColor}
-              colorHover={colorHover}
-              colorActive={colorDark}
-              className={cnContent('Track-Info')}
-              key={track._id}
-              onClick={() => handleChooseSong(track)}
-            >
-              <img
-                className={cnContent('Track-Icon')}
-                style={{ color: textColorSecondary }}
-                src="./icons/note.svg"
-                alt="note"
-              ></img>
-
-              <span className={cnContent('Track-Name')}>{track.title}</span>
-
-              <span className={cnContent('Track-Author')}>{track.artist}</span>
-              <span
-                className={cnContent('Track-Album')}
-                style={{ color: textColorSecondary }}
-              >
-                {track.album}
-              </span>
-              <IconButton
-                sx={{ width: '5%' }}
-                style={{ color: textColorSecondary }}
-              >
-                <FavoriteBorder fontSize="small" />
-              </IconButton>
-              <span
-                className={cnContent('Track-Duration')}
-                style={{ color: textColorSecondary }}
-              >
-                {/* {secondsToHms(track.duration_in_seconds)} */}
-                {track?.duration}
-              </span>
-            </DivChangeColor>
-          ))}
+          <TrackList tracks={tracks}></TrackList>
         </Box>
       </div>
     );
