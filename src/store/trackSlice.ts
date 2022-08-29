@@ -49,10 +49,13 @@ const trackSlice = createSlice({
         previousTrack = action.payload?.[currentIndex! - 1];
       }
       state.currentTrack = previousTrack;
+    },
+    shuffleTracks(state, action) {
+      
     }
   },
 });
 
-export const { changeCurrentSong, uploadAllTracks, switchToNextTrack, switchToPreviousTrack } = trackSlice.actions;
+export const { changeCurrentSong, uploadAllTracks, switchToNextTrack, switchToPreviousTrack, shuffleTracks } = trackSlice.actions;
 
 export default trackSlice.reducer;

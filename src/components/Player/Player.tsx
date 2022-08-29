@@ -37,6 +37,7 @@ export const Player: FC<PlayerProps> = ({ track }) => {
   const [audio, setAudio] = useState(
     JSON.parse(localStorage.getItem("currentTrack")!)?.url || ""
   );
+  const [isActive, setIsActive] = useState(false);
   const currentTrack = useAppSelector((state) => state.tracks.currentTrack);
   const alltracks = useAppSelector((state) => state.tracks.allTracks);
 
@@ -52,12 +53,22 @@ export const Player: FC<PlayerProps> = ({ track }) => {
     dispatch(switchToPreviousTrack(alltracks))
   }, [dispatch, alltracks]);
 
+  const handleAudioEnded = useCallback(() => {
+    dispatch(switchToNextTrack(alltracks));
+  }, [dispatch, alltracks]);
+
+  const handleClickShuffle = useCallback(() => {
+    setIsActive(!isActive);
+  },[isActive]);
+
+
 
   return (
     <Box className={cnPlayer()}>
       <AudioPlayer
         onClickNext={handleClickNext}
         onClickPrevious={handleClickPrevious}
+        onEnded={handleAudioEnded}
         src={audio}
         defaultDuration={false}
         defaultCurrentTime={false}
@@ -90,8 +101,8 @@ export const Player: FC<PlayerProps> = ({ track }) => {
         ]}
         customAdditionalControls={[
           RHAP_UI.LOOP,
-          <IconButton sx={{ svg: { fontSize: '26px' }, padding: 0 }}>
-            <Shuffle className={cnPlayer('ControlsIcon')} />
+          <IconButton onClick={handleClickShuffle} color='secondary' sx={{ svg: { fontSize: '26px' }, padding: 0 }}>
+            <Shuffle sx={{color: isActive ? "white" : "#acacac"}} className={cnPlayer('ControlsIcon')} />
           </IconButton>,
         ]}
         showSkipControls={true}
