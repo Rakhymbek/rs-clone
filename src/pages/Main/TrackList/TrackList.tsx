@@ -26,6 +26,7 @@ export const TrackList: FC<TrackListProps> = ({ tracks }) => {
   const dispatch = useAppDispatch();
 
   const textColor = useAppSelector((state) => state.colorTheme.textColor);
+  const currentTrack = useAppSelector((state) => state.tracks.currentTrack);
   const decorativeColor = useAppSelector(
     (state) => state.colorTheme.decorativeColor,
   );
@@ -41,6 +42,11 @@ export const TrackList: FC<TrackListProps> = ({ tracks }) => {
     },
     [dispatch],
   );
+
+  const defineCurrentTrack = useCallback((track: SongType) => {
+    return currentTrack._id === track._id;
+  }, [currentTrack._id]);
+
 
   const array = new Array(10).fill(0);
 
@@ -83,7 +89,7 @@ export const TrackList: FC<TrackListProps> = ({ tracks }) => {
           ))
         : tracks.map((track) => (
             <DivChangeColor
-              color={textColor}
+              color={defineCurrentTrack(track) ? colorHover : textColor}
               colorHover={colorHover}
               colorActive={colorDark}
               className={cnTrackList('Info')}

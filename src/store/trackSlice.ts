@@ -8,7 +8,7 @@ type TTrackState = {
 };
 
 const initialState: TTrackState = {
-  currentTrack: {},
+  currentTrack: JSON.parse(localStorage.getItem("currentTrack")!) || {},
   allTracks: [],
   autoplay: false,
 };
@@ -20,6 +20,7 @@ const trackSlice = createSlice({
     changeCurrentSong(state, action: PayloadAction<SongType>) {
       state.autoplay = true;
       state.currentTrack = action.payload;
+      localStorage.setItem("currentTrack", JSON.stringify(state.currentTrack));
     },
     uploadAllTracks(state, action: PayloadAction<SongType[]>) {
       state.allTracks = action.payload;
@@ -49,10 +50,23 @@ const trackSlice = createSlice({
         previousTrack = action.payload?.[currentIndex! - 1];
       }
       state.currentTrack = previousTrack;
-    }
+    },
+    shuffleTracks(state, action) {
+      if (action.payload) {
+        let tracks = JSON.parse(JSON.stringify(state.allTracks));
+        let nextTrack = tracks?.[Math.floor(Math.random() * tracks.length)];
+        state.currentTrack = nextTrack;
+      }
+    },
   },
 });
 
-export const { changeCurrentSong, uploadAllTracks, switchToNextTrack, switchToPreviousTrack } = trackSlice.actions;
+export const {
+  changeCurrentSong,
+  uploadAllTracks,
+  switchToNextTrack,
+  switchToPreviousTrack,
+  shuffleTracks,
+} = trackSlice.actions;
 
 export default trackSlice.reducer;
