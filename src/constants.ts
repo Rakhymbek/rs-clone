@@ -30,7 +30,7 @@ export const theme = createTheme({
   },
 });
 
-export const lang = 'ru';
+export const DEFAULT_LANG = 'ru';
 
 export const text = {
   menu: {
