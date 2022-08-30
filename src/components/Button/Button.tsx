@@ -6,6 +6,7 @@ export type ButtonProps = {
   buttonVariant: 'contained' | 'outlined';
   buttonText: string;
   buttonType?: 'button' | 'submit' | 'reset';
+  buttonDisabled?: boolean;
   buttonColor?:
     | 'inherit'
     | 'error'
@@ -22,9 +23,11 @@ export const Button: FC<ButtonProps> = ({
   buttonVariant,
   buttonColor = 'secondary',
   buttonType,
+  buttonDisabled,
 }) => {
   return (
     <MUIButton
+      disabled={buttonDisabled}
       type={buttonType}
       color={buttonColor}
       variant={buttonVariant}
