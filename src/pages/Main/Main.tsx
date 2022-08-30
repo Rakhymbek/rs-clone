@@ -29,6 +29,7 @@ export const Main: FC<MainProps> = ({ header }) => {
   const currentTrack = useAppSelector((state) => state.tracks.currentTrack);
   const lang = useAppSelector((state) => state.language.lang);
   const bgColor = useAppSelector((state) => state.colorTheme.bgColor);
+  const initTracks = tracks?.length ? tracks : [];
 
   useEffect(() => {
     fetchTracks().then((data) => {
@@ -50,7 +51,7 @@ export const Main: FC<MainProps> = ({ header }) => {
       >
         <NavMenu />
         <Centerblock
-          tracks={tracks as SongType[]}
+          tracks={initTracks as SongType[]}
           header={header}
         ></Centerblock>
         <Sidebar
