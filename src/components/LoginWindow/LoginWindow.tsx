@@ -35,7 +35,7 @@ export const LoginWindow: FC<{}> = () => {
   const onSubmit = async (val: any) => {
     const data = await dispatch(fetchAuth(val));
     if (!data.payload) {
-      return alert('Не удалось авторизоваться!');
+      return alert('Не верный логин или пароль!');
     }
     if ('token' in data.payload) {
       window.localStorage.setItem('token', data.payload.token);
