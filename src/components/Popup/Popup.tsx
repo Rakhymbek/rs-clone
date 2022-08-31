@@ -1,11 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { FC } from 'react';
 import { cn } from '@bem-react/classname';
 
-import { useAppSelector } from '../../hook';
+import { useAppDispatch, useAppSelector } from '../../hook';
 
 import './Popup.css';
 import { bgColorToBgColorLight } from '../../utils/colorUtils';
+import {
+  updateCheckedArtists,
+  updateCheckedGenres,
+  updateCheckedYears,
+} from '../../store/checkedItemsSlice';
 
 const cnPopup = cn('Popup');
 
@@ -31,6 +36,7 @@ export const Popup: FC<PopupProps> = ({ items, rows, buttonName }) => {
   if (rows === 3) {
     height = '184px';
   }
+  const dispatch = useAppDispatch();
 
   const isChecked = (item: string, buttonName: string) => {
     const localCheckedItemsArray = JSON.parse(
@@ -38,8 +44,6 @@ export const Popup: FC<PopupProps> = ({ items, rows, buttonName }) => {
     );
     return localCheckedItemsArray.includes(item);
   };
-
-  // const [buttonIsChecked, setButtonIsChecked] = useState();
 
   const handleChange = (item: string, buttonName: string) => {
     const localCheckedItemsArray: string[] = JSON.parse(
@@ -55,8 +59,11 @@ export const Popup: FC<PopupProps> = ({ items, rows, buttonName }) => {
       JSON.stringify(localCheckedItemsArray),
     );
 
+    dispatch(updateCheckedArtists(localCheckedItemsArray));
+    dispatch(updateCheckedYears(localCheckedItemsArray));
+    dispatch(updateCheckedGenres(localCheckedItemsArray));
+
     console.log(localCheckedItemsArray);
-    // console.log(localStorage[`${buttonName}`]);
   };
 
   return (

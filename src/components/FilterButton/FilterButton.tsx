@@ -14,7 +14,7 @@ const cnFilterButton = cn('FilterButton');
 
 export type FilterButtonProps = {
   buttonText: string;
-  buttonName: string;
+  buttonName: 'checkedArtists' | 'checkedYears' | 'checkedGenres';
   checkItems: string[];
   rows: 1 | 2 | 3;
 };
@@ -36,6 +36,12 @@ export const FilterButton: FC<FilterButtonProps> = ({
   const localCheckedItemsArray: string[] = JSON.parse(
     localStorage.getItem(`${buttonName}`) || '[]',
   );
+
+  const storeCheckedItemsArray = useAppSelector(
+    (state) => state.checkedItems[`${buttonName}`],
+  );
+
+  const checkedItems = localCheckedItemsArray || storeCheckedItemsArray;
 
   const ref = useRef(null);
   const [isPopupVisible, setIsPopupVisible] = useState(false);
@@ -67,7 +73,7 @@ export const FilterButton: FC<FilterButtonProps> = ({
             className={cnFilterButton('NumberOfCheckedItems')}
             style={{ backgroundColor: decorativeColor }}
           >
-            {localCheckedItemsArray.length}
+            {checkedItems.length}
           </div>
         )}
       </ButtonChangeColor>
