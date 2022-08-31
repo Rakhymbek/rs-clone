@@ -3,8 +3,6 @@ import { FC } from 'react';
 import { cn } from '@bem-react/classname';
 
 import { useAppDispatch, useAppSelector } from '../../hook';
-
-import './Popup.css';
 import { bgColorToBgColorLight } from '../../utils/colorUtils';
 import {
   updateCheckedArtists,
@@ -12,11 +10,13 @@ import {
   updateCheckedYears,
 } from '../../store/checkedItemsSlice';
 
+import './Popup.css';
+
 const cnPopup = cn('Popup');
 
 export type PopupProps = {
   items: string[];
-  buttonName: string;
+  buttonName: 'checkedArtists' | 'checkedYears' | 'checkedGenres';
   rows: 1 | 2 | 3;
 };
 
@@ -36,34 +36,54 @@ export const Popup: FC<PopupProps> = ({ items, rows, buttonName }) => {
   if (rows === 3) {
     height = '184px';
   }
+
   const dispatch = useAppDispatch();
 
-  const isChecked = (item: string, buttonName: string) => {
-    const localCheckedItemsArray = JSON.parse(
-      localStorage.getItem(`${buttonName}`) || '[]',
-    );
-    return localCheckedItemsArray.includes(item);
+  const localCheckedItems: {
+    checkedArtists: string[];
+    checkedYears: string[];
+    checkedGenres: string[];
+  } = {
+    checkedArtists: JSON.parse(localStorage.getItem('checkedArtists') || '[]'),
+    checkedYears: JSON.parse(localStorage.getItem('checkedYears') || '[]'),
+    checkedGenres: JSON.parse(localStorage.getItem('checkedGenres') || '[]'),
   };
 
-  const handleChange = (item: string, buttonName: string) => {
-    const localCheckedItemsArray: string[] = JSON.parse(
-      localStorage.getItem(`${buttonName}`) || '[]',
-    );
+  const isChecked = (
+    item: string,
+    buttonName: 'checkedArtists' | 'checkedYears' | 'checkedGenres',
+  ) => {
+    return localCheckedItems[`${buttonName}`].includes(item);
+  };
 
-    localCheckedItemsArray.includes(item)
-      ? localCheckedItemsArray.splice(localCheckedItemsArray.indexOf(item), 1)
-      : localCheckedItemsArray.push(item);
+  const handleChange = (
+    item: string,
+    buttonName: 'checkedArtists' | 'checkedYears' | 'checkedGenres',
+  ) => {
+    localCheckedItems[`${buttonName}`].includes(item)
+      ? localCheckedItems[`${buttonName}`].splice(
+          localCheckedItems[`${buttonName}`].indexOf(item),
+          1,
+        )
+      : localCheckedItems[`${buttonName}`].push(item);
 
     localStorage.setItem(
       `${buttonName}`,
-      JSON.stringify(localCheckedItemsArray),
+      JSON.stringify(localCheckedItems[`${buttonName}`]),
     );
 
-    dispatch(updateCheckedArtists(localCheckedItemsArray));
-    dispatch(updateCheckedYears(localCheckedItemsArray));
-    dispatch(updateCheckedGenres(localCheckedItemsArray));
+    if (buttonName === 'checkedArtists') {
+      dispatch(updateCheckedArtists(localCheckedItems['checkedArtists']));
+    }
+    if (buttonName === 'checkedYears') {
+      dispatch(updateCheckedYears(localCheckedItems['checkedYears']));
+    }
+    if (buttonName === 'checkedGenres') {
+      dispatch(updateCheckedGenres(localCheckedItems['checkedGenres']));
+    }
 
-    console.log(localCheckedItemsArray);
+    // console.log(localCheckedItems);
+    // console.log(localStorage);
   };
 
   return (
