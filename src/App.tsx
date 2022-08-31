@@ -9,6 +9,7 @@ import { Main } from './pages/Main/Main';
 import './App.css';
 import { text } from './constants';
 import { useAppSelector } from './hook';
+import Karaoke from './pages/Main/Karaoke/Karaoke';
 
 function App() {
   const lang = useAppSelector((state) => state.language.lang);
@@ -33,6 +34,10 @@ function App() {
         <Route
           path="/profile"
           element={<Main header={text.menu.profile[lang]} />}
+        ></Route>
+        <Route
+          path="/karaoke"
+          element={<Karaoke />}
         ></Route>
         <Route
           path="/dayplaylist"

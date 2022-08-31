@@ -97,6 +97,17 @@ export const NavMenu: FC<{}> = () => {
             <NavLink
               className={cnNavMenu(null, ['List-Button'])}
               style={{ color: textColor }}
+              to={'/karaoke'}
+            >
+              <SpanChangeColor colorHover={colorHover} colorActive={colorDark}>
+                Караоке
+              </SpanChangeColor>
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              className={cnNavMenu(null, ['List-Button'])}
+              style={{ color: textColor }}
               to={'/'}
             >
               <SpanChangeColor colorHover={colorHover} colorActive={colorDark}>

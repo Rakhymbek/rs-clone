@@ -31,6 +31,7 @@ export const Player: FC<PlayerProps> = ({ track }) => {
   );
   const [isActive, setIsActive] = useState(false);
   const currentTrack = useAppSelector((state) => state.tracks.currentTrack);
+  const autoplay = useAppSelector((state) => state.tracks.autoplay);
   const alltracks = useAppSelector((state) => state.tracks.allTracks);
   const decorativeColor = useAppSelector(
     (state) => state.colorTheme.decorativeColor,
@@ -69,6 +70,7 @@ export const Player: FC<PlayerProps> = ({ track }) => {
         src={audio}
         defaultDuration={false}
         defaultCurrentTime={false}
+        autoPlayAfterSrcChange={autoplay}
         customIcons={{
           play: (
             <PlayArrow fontSize="large" className={cnPlayer('ControlsIcon')} />
