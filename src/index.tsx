@@ -10,7 +10,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@mui/material';
 import { COLOR_DARK, COLOR_EXTRADARK } from './constants';
 import store from './store';
-import { extradarkToDark } from './utils/utils';
+import { extradarkToDark } from './utils/colorUtils';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,

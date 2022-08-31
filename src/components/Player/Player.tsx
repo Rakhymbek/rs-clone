@@ -20,7 +20,7 @@ import {
   switchToNextTrack,
   switchToPreviousTrack,
 } from '../../store/trackSlice';
-import { extradarkToHover } from '../../utils/utils';
+import { extradarkToHover } from '../../utils/colorUtils';
 import {
   PlayerControlsWrapper,
   PlayerWrapper,
@@ -46,8 +46,8 @@ export const Player: FC<PlayerProps> = ({ track }) => {
   const progressColor = extradarkToHover(decorativeColor);
 
   useEffect(() => {
-    setAudio(currentTrack.urlPlay);
-  }, [currentTrack.urlPlay]);
+    setAudio(currentTrack.url);
+  }, [currentTrack.url]);
 
   const handleClickNext = useCallback(() => {
     dispatch(switchToNextTrack(alltracks));
@@ -66,22 +66,21 @@ export const Player: FC<PlayerProps> = ({ track }) => {
     setIsActive(!isActive);
   }, [isActive]);
 
-  // const nameField = React.useRef(null);
-  // console.log(nameField.current);
-
-  // console.log('pl',audio);
+  // console.log('pl', audio);
+  // console.log(JSON.parse(localStorage.currentTrack).url);
 
   return (
     <PlayerWrapper progressсolor={progressColor} className={cnPlayer()}>
       <Canvas></Canvas>
+
       <AudioPlayer
         onClickNext={handleClickNext}
         onClickPrevious={handleClickPrevious}
         onEnded={handleAudioEnded}
         src={audio}
+        // ref={nameField}
         defaultDuration={false}
         defaultCurrentTime={false}
-        // ref={nameField}
         customIcons={{
           play: (
             <PlayArrow fontSize="large" className={cnPlayer('ControlsIcon')} />

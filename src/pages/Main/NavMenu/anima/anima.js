@@ -61,10 +61,16 @@ class Canvas extends Component {
   componentDidMount() {
     this.context = new (window.AudioContext || window.webkitAudioContext)();
     this.source = this.context.createMediaElementSource(this.audio);
+    // /////
+    // this.mediaElement = document.getElementById('player');
+    // this.source = this.context.createMediaElementSource(this.mediaElement);
+    // /////
+
     this.analyser = this.context.createAnalyser();
     this.source.connect(this.analyser);
     this.analyser.connect(this.context.destination);
     this.frequency_array = new Uint8Array(this.analyser.frequencyBinCount);
+    this.rafId = requestAnimationFrame(this.tick);
   }
 
   togglePlay = () => {

@@ -12,6 +12,9 @@ import { useAppDispatch, useAppSelector } from '../../hook';
 import { SongType } from '../../types';
 import { fetchTracks } from '../../fetchers/fetchTracks';
 import { uploadAllTracks } from '../../store/trackSlice';
+import { getSortedArtistsArray } from '../../utils/getSortedArtistsArray';
+import { getSortedGenreArray } from '../../utils/getSortedGenreArray';
+import { getSortedYearsArray } from '../../utils/getSortedYearsArray';
 
 const cnMain = cn('Main');
 
@@ -43,6 +46,18 @@ export const Main: FC<MainProps> = ({ header }) => {
     } else {
       fetchTracks().then((data) => {
         setTracks(data);
+        localStorage.setItem(
+          'sortedArtistsArray',
+          JSON.stringify(getSortedArtistsArray(data)),
+        );
+        localStorage.setItem(
+          'sortedGenreArray',
+          JSON.stringify(getSortedGenreArray(data)),
+        );
+        localStorage.setItem(
+          'sortedYearsArray',
+          JSON.stringify(getSortedYearsArray(data)),
+        );
         dispatch(uploadAllTracks(data));
       });
     }
