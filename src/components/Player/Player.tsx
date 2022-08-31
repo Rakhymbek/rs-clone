@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { FC } from 'react';
 import { cn } from '@bem-react/classname';
 import AudioPlayer, { RHAP_UI } from 'react-h5-audio-player';
@@ -15,9 +15,17 @@ import {
 } from '@mui/icons-material';
 import { IconButton } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../hook';
-import { shuffleTracks, switchToNextTrack, switchToPreviousTrack } from '../../store/trackSlice';
+import {
+  shuffleTracks,
+  switchToNextTrack,
+  switchToPreviousTrack,
+} from '../../store/trackSlice';
 import { extradarkToHover } from '../../utils/utils';
-import { PlayerControlsWrapper, PlayerWrapper } from '../changeColor/PlayerChangeColor/PlayerChangeColor';
+import {
+  PlayerControlsWrapper,
+  PlayerWrapper,
+} from '../changeColor/PlayerChangeColor/PlayerChangeColor';
+import Canvas from '../../pages/Main/NavMenu/anima/anima';
 const cnPlayer = cn('Player');
 
 export type PlayerProps = {
@@ -27,7 +35,7 @@ export type PlayerProps = {
 export const Player: FC<PlayerProps> = ({ track }) => {
   const dispatch = useAppDispatch();
   const [audio, setAudio] = useState(
-    JSON.parse(localStorage.getItem("currentTrack")!)?.url || ""
+    JSON.parse(localStorage.getItem('currentTrack')!)?.url || '',
   );
   const [isActive, setIsActive] = useState(false);
   const currentTrack = useAppSelector((state) => state.tracks.currentTrack);
@@ -42,11 +50,11 @@ export const Player: FC<PlayerProps> = ({ track }) => {
   }, [currentTrack.urlPlay]);
 
   const handleClickNext = useCallback(() => {
-    dispatch(switchToNextTrack(alltracks))
+    dispatch(switchToNextTrack(alltracks));
   }, [dispatch, alltracks]);
 
   const handleClickPrevious = useCallback(() => {
-    dispatch(switchToPreviousTrack(alltracks))
+    dispatch(switchToPreviousTrack(alltracks));
   }, [dispatch, alltracks]);
 
   const handleAudioEnded = useCallback(() => {
@@ -56,12 +64,16 @@ export const Player: FC<PlayerProps> = ({ track }) => {
 
   const handleClickShuffle = useCallback(() => {
     setIsActive(!isActive);
-  },[isActive]);
+  }, [isActive]);
 
+  // const nameField = React.useRef(null);
+  // console.log(nameField.current);
 
+  // console.log('pl',audio);
 
   return (
     <PlayerWrapper progressсolor={progressColor} className={cnPlayer()}>
+      <Canvas></Canvas>
       <AudioPlayer
         onClickNext={handleClickNext}
         onClickPrevious={handleClickPrevious}
@@ -69,6 +81,7 @@ export const Player: FC<PlayerProps> = ({ track }) => {
         src={audio}
         defaultDuration={false}
         defaultCurrentTime={false}
+        // ref={nameField}
         customIcons={{
           play: (
             <PlayArrow fontSize="large" className={cnPlayer('ControlsIcon')} />
@@ -84,7 +97,11 @@ export const Player: FC<PlayerProps> = ({ track }) => {
           RHAP_UI.ADDITIONAL_CONTROLS,
           <PlayerControlsWrapper>
             <div className={cnPlayer('TrackInfo')}>
-              <img src={track.img ? track.img : "./icons/note.svg"} alt="note" width={'52px'}></img>
+              <img
+                src={track.img ? track.img : './icons/note.svg'}
+                alt="note"
+                width={'52px'}
+              ></img>
               <div>
                 <p>{track.title}</p>
                 <p>{track.artist}</p>
@@ -98,8 +115,15 @@ export const Player: FC<PlayerProps> = ({ track }) => {
         ]}
         customAdditionalControls={[
           RHAP_UI.LOOP,
-          <IconButton onClick={handleClickShuffle} color='secondary' sx={{ svg: { fontSize: '26px' }, padding: 0 }}>
-            <Shuffle sx={{color: isActive ? "white" : "#acacac"}} className={cnPlayer('ControlsIcon')} />
+          <IconButton
+            onClick={handleClickShuffle}
+            color="secondary"
+            sx={{ svg: { fontSize: '26px' }, padding: 0 }}
+          >
+            <Shuffle
+              sx={{ color: isActive ? 'white' : '#acacac' }}
+              className={cnPlayer('ControlsIcon')}
+            />
           </IconButton>,
         ]}
         showSkipControls={true}

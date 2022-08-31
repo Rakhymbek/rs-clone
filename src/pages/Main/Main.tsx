@@ -27,18 +27,25 @@ export const Main: FC<MainProps> = ({ header }) => {
   const dispatch = useAppDispatch();
 
   const currentTrack = useAppSelector((state) => state.tracks.currentTrack);
-  const allTracks = useAppSelector((state) => state.tracks.allTracks);
+  const allTracksStore = useAppSelector((state) => state.tracks.allTracks);
+  const allTracksLocal = JSON.parse(localStorage.getItem('allTracks') || '[]');
+
+  const allTracks = allTracksLocal || allTracksStore;
+
   const [tracks, setTracks] = useState<SongType[]>(allTracks);
 
   const lang = useAppSelector((state) => state.language.lang);
   const bgColor = useAppSelector((state) => state.colorTheme.bgColor);
-  const initTracks = tracks?.length ? tracks : [];
 
   useEffect(() => {
-    fetchTracks().then((data) => {
-      setTracks(data);
-      dispatch(uploadAllTracks(data));
-    });
+    if (allTracksLocal?.length) {
+      dispatch(uploadAllTracks(allTracksLocal));
+    } else {
+      fetchTracks().then((data) => {
+        setTracks(data);
+        dispatch(uploadAllTracks(data));
+      });
+    }
   }, [dispatch]);
 
   return (
@@ -53,10 +60,7 @@ export const Main: FC<MainProps> = ({ header }) => {
         className={cnMain()}
       >
         <NavMenu />
-        <Centerblock
-          tracks={initTracks as SongType[]}
-          header={header}
-        ></Centerblock>
+        <Centerblock tracks={tracks} header={header}></Centerblock>
         <Sidebar
           isVisible={header === text.header.tracks[lang]}
           isUserVisible={header !== text.menu.profile[lang]}
