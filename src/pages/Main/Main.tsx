@@ -12,9 +12,12 @@ import { useAppDispatch, useAppSelector } from '../../hook';
 import { SongType } from '../../types';
 import { fetchTracks } from '../../fetchers/fetchTracks';
 import { uploadAllTracks } from '../../store/trackSlice';
-import { getSortedArtistsArray } from '../../utils/getSortedArtistsArray';
-import { getSortedGenreArray } from '../../utils/getSortedGenreArray';
-import { getSortedYearsArray } from '../../utils/getSortedYearsArray';
+import { getSortedByArtistsArray } from '../../utils/getSortedByArtistsArray';
+import { getSortedByGenresArray } from '../../utils/getSortedByGenresArray';
+import { getSortedByYearsArray } from '../../utils/getSortedByYearsArray';
+import { getArtistsArray } from '../../utils/getArtistsArray';
+import { getGenresArray } from '../../utils/getGenresArray';
+import { getYearsArray } from '../../utils/getYearsArray';
 
 const cnMain = cn('Main');
 
@@ -49,15 +52,15 @@ export const Main: FC<MainProps> = ({ header }) => {
         setTracks(data);
         localStorage.setItem(
           'sortedArtistsArray',
-          JSON.stringify(getSortedArtistsArray(data)),
+          JSON.stringify(getArtistsArray(getSortedByArtistsArray(data))),
         );
         localStorage.setItem(
           'sortedGenreArray',
-          JSON.stringify(getSortedGenreArray(data)),
+          JSON.stringify(getGenresArray(getSortedByGenresArray(data))),
         );
         localStorage.setItem(
           'sortedYearsArray',
-          JSON.stringify(getSortedYearsArray(data)),
+          JSON.stringify(getYearsArray(getSortedByYearsArray(data))),
         );
         dispatch(uploadAllTracks(data));
       });

@@ -12,6 +12,7 @@ import {
 import { TFilterButtonName } from '../../types';
 
 import './Popup.css';
+import { getFinalItems } from '../../utils/getFinalItems';
 
 const cnPopup = cn('Popup');
 
@@ -66,6 +67,7 @@ export const Popup: FC<PopupProps> = ({ items, rows, buttonName }) => {
 
     // console.log(localCheckedItems);
     // console.log(localStorage);
+    console.log(getFinalItems());
   };
 
   let display;
