@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { createRef, useCallback, useEffect, useRef, useState } from 'react';
 import { FC } from 'react';
 import { cn } from '@bem-react/classname';
 import AudioPlayer, { RHAP_UI } from 'react-h5-audio-player';
@@ -66,14 +66,12 @@ export const Player: FC<PlayerProps> = ({ track }) => {
     setIsActive(!isActive);
   }, [isActive]);
 
-  // const nameField = React.useRef(null);
-  // console.log(nameField.current);
+  const audioCtx: any = createRef();
 
-  // console.log('pl',audio);
 
   return (
     <PlayerWrapper progressсolor={progressColor} className={cnPlayer()}>
-      <Canvas></Canvas>
+      <Canvas ref={audioCtx.current?.audio?.current!}></Canvas>
       <AudioPlayer
         onClickNext={handleClickNext}
         onClickPrevious={handleClickPrevious}
@@ -81,7 +79,7 @@ export const Player: FC<PlayerProps> = ({ track }) => {
         src={audio}
         defaultDuration={false}
         defaultCurrentTime={false}
-        // ref={nameField}
+        ref={audioCtx}
         customIcons={{
           play: (
             <PlayArrow fontSize="large" className={cnPlayer('ControlsIcon')} />
