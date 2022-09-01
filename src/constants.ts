@@ -88,9 +88,9 @@ export const text = {
       bel: 'Каляровае афармленне:',
     },
     buttonText: {
-      ru: 'Сброс настроек',
-      en: 'Reset settings',
-      bel: 'Скід налад',
+      ru: 'Сброс цветовых настроек',
+      en: 'Reset color settings',
+      bel: 'Скід каляровых налад',
     },
     language: { ru: 'Язык', en: 'Language', bel: 'Мова' },
   },
