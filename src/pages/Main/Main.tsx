@@ -12,6 +12,12 @@ import { useAppDispatch, useAppSelector } from '../../hook';
 import { SongType } from '../../types';
 import { fetchTracks } from '../../fetchers/fetchTracks';
 import { uploadAllTracks } from '../../store/trackSlice';
+import { getSortedByArtistsArray } from '../../utils/getSortedByArtistsArray';
+import { getSortedByGenresArray } from '../../utils/getSortedByGenresArray';
+import { getSortedByYearsArray } from '../../utils/getSortedByYearsArray';
+import { getArtistsArray } from '../../utils/getArtistsArray';
+import { getGenresArray } from '../../utils/getGenresArray';
+import { getYearsArray } from '../../utils/getYearsArray';
 
 const cnMain = cn('Main');
 
@@ -27,9 +33,9 @@ export const Main: FC<MainProps> = ({ header }) => {
   const dispatch = useAppDispatch();
 
   const currentTrack = useAppSelector((state) => state.tracks.currentTrack);
+
   const allTracksStore = useAppSelector((state) => state.tracks.allTracks);
   const allTracksLocal = JSON.parse(localStorage.getItem('allTracks') || '[]');
-
   const allTracks = allTracksLocal || allTracksStore;
 
   const [tracks, setTracks] = useState<SongType[]>(allTracks);
@@ -40,9 +46,22 @@ export const Main: FC<MainProps> = ({ header }) => {
   useEffect(() => {
     if (allTracksLocal?.length) {
       dispatch(uploadAllTracks(allTracksLocal));
+      setTracks(allTracksLocal);
     } else {
       fetchTracks().then((data) => {
         setTracks(data);
+        localStorage.setItem(
+          'sortedArtistsArray',
+          JSON.stringify(getArtistsArray(getSortedByArtistsArray(data))),
+        );
+        localStorage.setItem(
+          'sortedGenreArray',
+          JSON.stringify(getGenresArray(getSortedByGenresArray(data))),
+        );
+        localStorage.setItem(
+          'sortedYearsArray',
+          JSON.stringify(getYearsArray(getSortedByYearsArray(data))),
+        );
         dispatch(uploadAllTracks(data));
       });
     }

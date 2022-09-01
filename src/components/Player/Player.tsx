@@ -20,7 +20,7 @@ import {
   switchToNextTrack,
   switchToPreviousTrack,
 } from '../../store/trackSlice';
-import { extradarkToHover } from '../../utils/utils';
+import { extradarkToHover } from '../../utils/colorUtils';
 import {
   PlayerControlsWrapper,
   PlayerWrapper,
@@ -46,8 +46,8 @@ export const Player: FC<PlayerProps> = ({ track }) => {
   const progressColor = extradarkToHover(decorativeColor);
 
   useEffect(() => {
-    setAudio(currentTrack.urlPlay);
-  }, [currentTrack.urlPlay]);
+    setAudio(currentTrack.url);
+  }, [currentTrack.url]);
 
   const handleClickNext = useCallback(() => {
     dispatch(switchToNextTrack(alltracks));
@@ -77,6 +77,7 @@ export const Player: FC<PlayerProps> = ({ track }) => {
         onClickPrevious={handleClickPrevious}
         onEnded={handleAudioEnded}
         src={audio}
+        // ref={nameField}
         defaultDuration={false}
         defaultCurrentTime={false}
         ref={audioCtx}

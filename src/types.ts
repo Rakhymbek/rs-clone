@@ -29,18 +29,14 @@ export type SongType = {
   urlPlay?: string;
   year?: string;
   duration?: string;
+  genre?: string;
 };
-
-// export type THeader =
-//   | 'Треки'
-//   | 'Плейлист дня'
-//   | '100 танцевальных хитов'
-//   | 'Инди заряд'
-//   | 'Мои треки'
-//   | 'Личный кабинет';
 
 export type USER = { name: string; login: string; avatar: string };
 
-// export type TDictionary = { ru: string; en: string };
-
 export type TLanguages = 'ru' | 'en' | 'bel';
+
+export type TFilterButtonName =
+  | 'checkedArtists'
+  | 'checkedYears'
+  | 'checkedGenres';

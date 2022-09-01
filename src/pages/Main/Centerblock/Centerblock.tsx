@@ -12,15 +12,12 @@ import { Search, AccessTime } from '@mui/icons-material';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
-import { FilterButton } from '../../../components/FilterButton/FilterButton';
-import { colorToSecondary, lightenDarkenColor } from '../../../utils/utils';
-import { SongType } from '../../../types';
 import {
-  filterItems1,
-  filterItems2,
-  filterItems3,
-  text,
-} from '../../../constants';
+  colorToSecondary,
+  lightenDarkenColor,
+} from '../../../utils/colorUtils';
+import { SongType } from '../../../types';
+import { text } from '../../../constants';
 import { Profile } from '../Profile/Profile';
 import { useAppSelector } from '../../../hook';
 
@@ -145,7 +142,8 @@ export const Centerblock: FC<PlayerProps> = ({ header, tracks }) => {
                 </div>
               ))
             ) : (
-              <TrackList allTracks={tracks}></TrackList>
+              <TrackList></TrackList>
+              // <TrackList allTracks={tracks}></TrackList>
             )}
           </Box>
         </div>
