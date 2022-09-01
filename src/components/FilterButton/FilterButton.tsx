@@ -2,19 +2,19 @@ import React, { useRef, useState } from 'react';
 import { FC } from 'react';
 import { cn } from '@bem-react/classname';
 
-import { NumberOfCheckedItems } from '../../constants';
 import { Popup } from '../Popup/Popup';
 import { useAppSelector, useOnClickOutside } from '../../hook';
 import { extradarkToDark, extradarkToHover } from '../../utils/colorUtils';
 
 import './FilterButton.css';
 import { ButtonChangeColor } from '../changeColor/ButtonChangeColor/ButtonChangeColor';
+import { TFilterButtonName } from '../../types';
 
 const cnFilterButton = cn('FilterButton');
 
 export type FilterButtonProps = {
   buttonText: string;
-  buttonName: 'checkedArtists' | 'checkedYears' | 'checkedGenres';
+  buttonName: TFilterButtonName;
   checkItems: string[];
   rows: 1 | 2 | 3;
 };

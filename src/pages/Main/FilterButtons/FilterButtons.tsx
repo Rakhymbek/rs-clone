@@ -21,25 +21,25 @@ export const FilterButtons: FC<FilterButtonsProps> = ({ lang, textColor }) => {
         buttonName="checkedArtists"
         buttonText={text.search.artist[lang]}
         rows={3}
-        checkItems={
-          JSON.parse(localStorage.getItem('sortedArtistsArray') || '[]') || []
-        }
+        checkItems={JSON.parse(
+          localStorage.getItem('sortedArtistsArray') || '[]',
+        )}
       ></FilterButton>
       <FilterButton
         buttonName="checkedYears"
         buttonText={text.search.release[lang]}
         rows={2}
-        checkItems={
-          JSON.parse(localStorage.getItem('sortedYearsArray') || '[]') || []
-        }
+        checkItems={JSON.parse(
+          localStorage.getItem('sortedYearsArray') || '[]',
+        )}
       ></FilterButton>
       <FilterButton
         buttonName="checkedGenres"
         buttonText={text.search.genre[lang]}
         rows={1}
-        checkItems={
-          JSON.parse(localStorage.getItem('sortedGenreArray') || '[]') || []
-        }
+        checkItems={JSON.parse(
+          localStorage.getItem('sortedGenreArray') || '[]',
+        )}
       ></FilterButton>
     </Box>
   );

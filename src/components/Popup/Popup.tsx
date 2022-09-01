@@ -9,6 +9,7 @@ import {
   updateCheckedGenres,
   updateCheckedYears,
 } from '../../store/checkedItemsSlice';
+import { TFilterButtonName } from '../../types';
 
 import './Popup.css';
 
@@ -16,28 +17,15 @@ const cnPopup = cn('Popup');
 
 export type PopupProps = {
   items: string[];
-  buttonName: 'checkedArtists' | 'checkedYears' | 'checkedGenres';
+  buttonName: TFilterButtonName;
   rows: 1 | 2 | 3;
 };
 
 export const Popup: FC<PopupProps> = ({ items, rows, buttonName }) => {
+  const dispatch = useAppDispatch();
+
   const bgColor = useAppSelector((state) => state.colorTheme.bgColor);
   const bgColorLight = bgColorToBgColorLight(bgColor);
-
-  let display;
-  let height;
-
-  if (rows === 1) {
-    height = '92px';
-  }
-  if (rows === 2) {
-    height = '138px';
-  }
-  if (rows === 3) {
-    height = '184px';
-  }
-
-  const dispatch = useAppDispatch();
 
   const localCheckedItems: {
     checkedArtists: string[];
@@ -49,17 +37,11 @@ export const Popup: FC<PopupProps> = ({ items, rows, buttonName }) => {
     checkedGenres: JSON.parse(localStorage.getItem('checkedGenres') || '[]'),
   };
 
-  const isChecked = (
-    item: string,
-    buttonName: 'checkedArtists' | 'checkedYears' | 'checkedGenres',
-  ) => {
+  const isChecked = (item: string, buttonName: TFilterButtonName) => {
     return localCheckedItems[`${buttonName}`].includes(item);
   };
 
-  const handleChange = (
-    item: string,
-    buttonName: 'checkedArtists' | 'checkedYears' | 'checkedGenres',
-  ) => {
+  const handleChange = (item: string, buttonName: TFilterButtonName) => {
     localCheckedItems[`${buttonName}`].includes(item)
       ? localCheckedItems[`${buttonName}`].splice(
           localCheckedItems[`${buttonName}`].indexOf(item),
@@ -85,6 +67,19 @@ export const Popup: FC<PopupProps> = ({ items, rows, buttonName }) => {
     // console.log(localCheckedItems);
     // console.log(localStorage);
   };
+
+  let display;
+  let height;
+
+  if (rows === 1) {
+    height = '92px';
+  }
+  if (rows === 2) {
+    height = '138px';
+  }
+  if (rows === 3) {
+    height = '184px';
+  }
 
   return (
     <div

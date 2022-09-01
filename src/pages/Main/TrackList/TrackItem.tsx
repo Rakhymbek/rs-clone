@@ -1,7 +1,6 @@
 import { cn } from '@bem-react/classname';
 import { FavoriteBorder } from '@mui/icons-material';
 import { IconButton } from '@mui/material';
-// import { trackForMutations } from '@reduxjs/toolkit/dist/immutableStateInvariantMiddleware';
 import type { Identifier, XYCoord } from 'dnd-core';
 import { FC, useCallback } from 'react';
 import { useRef } from 'react';
