@@ -27,7 +27,7 @@ import {
 } from '../changeColor/PlayerChangeColor/PlayerChangeColor';
 import Canvas from '../../pages/Main/NavMenu/anima/anima';
 const cnPlayer = cn('Player');
-
+const songFile = require('../../pages/Main/NavMenu/anima/m.mp3')
 export type PlayerProps = {
   track: SongType;
 };
@@ -44,10 +44,11 @@ export const Player: FC<PlayerProps> = ({ track }) => {
     (state) => state.colorTheme.decorativeColor,
   );
   const progressColor = extradarkToHover(decorativeColor);
+  let audioCtx: any = useRef();
 
   useEffect(() => {
     setAudio(currentTrack.url);
-  }, [currentTrack.url]);
+  }, []);
 
   const handleClickNext = useCallback(() => {
     dispatch(switchToNextTrack(alltracks));
@@ -66,18 +67,17 @@ export const Player: FC<PlayerProps> = ({ track }) => {
     setIsActive(!isActive);
   }, [isActive]);
 
-  const audioCtx: any = createRef();
-
+  
 
   return (
     <PlayerWrapper progressсolor={progressColor} className={cnPlayer()}>
-      <Canvas ref={audioCtx.current?.audio?.current!}></Canvas>
+      {/* <Canvas forwardRef={audioCtx}></Canvas> */}
       <AudioPlayer
+      // crossOrigin='anonymous'
         onClickNext={handleClickNext}
         onClickPrevious={handleClickPrevious}
         onEnded={handleAudioEnded}
         src={audio}
-        // ref={nameField}
         defaultDuration={false}
         defaultCurrentTime={false}
         ref={audioCtx}

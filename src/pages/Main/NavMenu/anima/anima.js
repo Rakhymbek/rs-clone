@@ -13,7 +13,7 @@ const radius = 0;
 const center_x = width / 2;
 const center_y = height / 2;
 
-const Canvas = (props, ref) => {
+const Canvas = ({forwardRef}) => {
   const audio = useRef(null);
   const frequency_array = useRef();
   const context = useRef(null);
@@ -70,9 +70,12 @@ const Canvas = (props, ref) => {
   }
 
   useEffect(() => {
+    audio.current = forwardRef.current.audio.current;
+    // audio.current.crossOrigin = "anonymous"; 
     context.current = new (window.AudioContext || window.webkitAudioContext)();
     source.current = context.current.createMediaElementSource(audio.current);
     analyser.current = context.current.createAnalyser();
+    source.current.connect(context.current.destination);
     source.current.connect(analyser.current);
     analyser.current.connect(context.current.destination);
     frequency_array.current = new Uint8Array(
@@ -82,6 +85,7 @@ const Canvas = (props, ref) => {
 
   const togglePlay = () => {
     console.log(rafId.current);
+    console.log(audio.current)
     if (audio.current.paused) {
       audio.current.play();
       rafId.current = requestAnimationFrame(tick);
@@ -111,12 +115,12 @@ const Canvas = (props, ref) => {
       <button onClick={togglePlay} style={{ color: "white" }}>
         Play/Pause
       </button>
-      <audio
+      {/* <audio
         onPlay={() => context.current.resume()}
         autoPlay={false}
         ref={audio}
         src={songFile}
-      ></audio>
+      ></audio> */}
       <canvas ref={canvas} />
     </>
   );
