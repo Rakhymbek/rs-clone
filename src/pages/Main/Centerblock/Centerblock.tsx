@@ -12,23 +12,20 @@ import { Search, AccessTime } from '@mui/icons-material';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
-import { FilterButton } from '../../../components/FilterButton/FilterButton';
-import { colorToSecondary, lightenDarkenColor } from '../../../utils/utils';
-import { SongType } from '../../../types';
 import {
-  filterItems1,
-  filterItems2,
-  filterItems3,
-  text,
-} from '../../../constants';
+  colorToSecondary,
+  lightenDarkenColor,
+} from '../../../utils/colorUtils';
+import { SongType } from '../../../types';
+import { TEXT } from '../../../constants';
 import { Profile } from '../Profile/Profile';
-import { useAppSelector } from '../../../hook';
+import { useAppDispatch, useAppSelector } from '../../../hook';
 
 import './Centerblock.css';
 
 import { TrackList } from '../TrackList/TrackList';
 import { SkeletonRect } from '../../../components/Skeleton/Skeleton';
-import { FilterButtons } from '../FilterButtons/FilterButtons';
+import { FilterButtons } from '../../../components/FilterButtons/FilterButtons';
 
 const cnCenterblock = cn('Centerblock');
 const cnContent = cn('Content');
@@ -46,7 +43,17 @@ export const Centerblock: FC<PlayerProps> = ({ header, tracks }) => {
 
   const array = new Array(10).fill(0);
 
-  if (header === text.menu.profile[lang]) {
+  const filteredTracksStore = useAppSelector(
+    (state) => state.checkedItems.filteredTracks,
+  );
+
+  const allTracksStore = useAppSelector((state) => state.tracks.allTracks);
+
+  const allTracks = filteredTracksStore.length
+    ? filteredTracksStore
+    : allTracksStore;
+
+  if (header === TEXT.menu.profile[lang]) {
     return <Profile />;
   } else {
     return (
@@ -55,7 +62,7 @@ export const Centerblock: FC<PlayerProps> = ({ header, tracks }) => {
           <form className={cnCenterblock('Input-Wrapper')}>
             <TextField
               InputLabelProps={{}}
-              placeholder={text.searchInput[lang]}
+              placeholder={TEXT.searchInput[lang]}
               fullWidth
               autoComplete="off"
               variant="standard"
@@ -81,7 +88,7 @@ export const Centerblock: FC<PlayerProps> = ({ header, tracks }) => {
           >
             {header}
           </Typography>
-          {header === text.header.tracks[lang] && (
+          {header === TEXT.header.tracks[lang] && (
             <FilterButtons lang={lang} textColor={textColor}></FilterButtons>
           )}
           <Box className={cnCenterblock('Content')}>
@@ -90,19 +97,19 @@ export const Centerblock: FC<PlayerProps> = ({ header, tracks }) => {
                 className={cnContent('Track')}
                 style={{ color: textColorSecondary }}
               >
-                {text.listHeader.track[lang]}
+                {TEXT.listHeader.track[lang]}
               </span>
               <span
                 className={cnContent('Singer')}
                 style={{ color: textColorSecondary }}
               >
-                {text.listHeader.artist[lang]}
+                {TEXT.listHeader.artist[lang]}
               </span>
               <span
                 className={cnContent('Album')}
                 style={{ color: textColorSecondary }}
               >
-                {text.listHeader.album[lang]}
+                {TEXT.listHeader.album[lang]}
               </span>
               <SvgIcon fontSize="small" sx={{ my: 'auto', ml: 'auto' }}>
                 <AccessTime />
@@ -145,7 +152,8 @@ export const Centerblock: FC<PlayerProps> = ({ header, tracks }) => {
                 </div>
               ))
             ) : (
-              <TrackList allTracks={tracks}></TrackList>
+              <TrackList></TrackList>
+              // <TrackList allTracks={tracks}></TrackList>
             )}
           </Box>
         </div>

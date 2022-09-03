@@ -1,21 +1,36 @@
 // import { TempleBuddhist } from '@mui/icons-material';
 import update from 'immutability-helper';
-import type { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { useCallback, useState } from 'react';
-// import { useAppDispatch } from '../../../hook';
-// import { uploadAllTracks } from '../../../store/trackSlice';
+import { useAppDispatch, useAppSelector } from '../../../hook';
+import { uploadMovedTracks } from '../../../store/trackSlice';
 import { SongType } from '../../../types';
 import { TrackItem } from './TrackItem';
 
-type ContainerProps = {
-  allTracks: SongType[];
-};
+export const TrackList: FC = () => {
+  const dispatch = useAppDispatch();
 
-export const TrackList: FC<ContainerProps> = ({ allTracks }) => {
-  // const dispatch = useAppDispatch();
+  const filteredTracksStore = useAppSelector(
+    (state) => state.checkedItems.filteredTracks,
+  );
+
+  const allTracksStore = useAppSelector((state) => state.tracks.allTracks);
+
+  const allTracks = filteredTracksStore.length
+    ? filteredTracksStore
+    : allTracksStore;
+
   const [trackItems, setTrackItems] = useState(allTracks);
-  // dispatch(uploadAllTracks(trackItems));
-  localStorage.setItem('allTracks', JSON.stringify(trackItems));
+
+  useEffect(() => {
+    setTrackItems(allTracks);
+  }, [allTracks]);
+
+  useEffect(() => {
+    dispatch(uploadMovedTracks(trackItems));
+  }, [dispatch, trackItems]);
+
+  // console.log('--> trackItems', trackItems);
 
   const moveTrackItem = useCallback((dragIndex: number, hoverIndex: number) => {
     setTrackItems((prevTrackItems: SongType[]) =>

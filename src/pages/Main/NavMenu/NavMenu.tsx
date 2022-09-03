@@ -6,20 +6,39 @@ import { NavLink } from 'react-router-dom';
 import { IconButton } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import Logo from '../../../components/Logo/Logo';
-import { text } from '../../../constants';
-import { SpanChangeColor } from '../../../components/changeColor/SpanChangeColor/SpanChangeColor';
-import { useAppSelector } from '../../../hook';
+import {
+  BGCOLOR,
+  COLOR,
+  COLOR_EXTRADARK,
+  DEFAULT_LANG,
+  TEXT,
+} from '../../../constants';
+import { SpanChangeColor } from '../../../components/changeColor/SpanChangeColor';
+import { useAppDispatch, useAppSelector } from '../../../hook';
 import {
   bgColorToBgColorLight,
   extradarkToDark,
   extradarkToHover,
-} from '../../../utils/utils';
+} from '../../../utils/colorUtils';
 
 import './NavMenu.css';
+import {
+  changeBgColor,
+  changeDecorativeColor,
+  changeTextColor,
+} from '../../../store/colorThemeSlice';
+import { changeLanguage } from '../../../store/languageSlice';
+import {
+  updateCheckedArtists,
+  updateCheckedYears,
+  updateCheckedGenres,
+  updateFilteredTracks,
+} from '../../../store/checkedItemsSlice';
 
 const cnNavMenu = cn('NavMenu');
 
 export const NavMenu: FC<{}> = () => {
+  const dispatch = useAppDispatch();
   const lang = useAppSelector((state) => state.language.lang);
 
   const textColor = useAppSelector((state) => state.colorTheme.textColor);
@@ -37,6 +56,23 @@ export const NavMenu: FC<{}> = () => {
 
   const handleClick = () => {
     setIsVisible(!isVisible);
+  };
+
+  // const currentTrack = useAppSelector((state) => state.tracks.currentTrack);
+  // console.log(currentTrack);
+
+  const handleLogOut = () => {
+    localStorage.clear();
+
+    dispatch(changeTextColor(COLOR));
+    dispatch(changeBgColor(BGCOLOR));
+    dispatch(changeDecorativeColor(COLOR_EXTRADARK));
+    dispatch(changeLanguage(DEFAULT_LANG));
+
+    dispatch(updateCheckedArtists([]));
+    dispatch(updateCheckedYears([]));
+    dispatch(updateCheckedGenres([]));
+    dispatch(updateFilteredTracks([]));
   };
 
   return (
@@ -67,7 +103,7 @@ export const NavMenu: FC<{}> = () => {
               to="/main"
             >
               <SpanChangeColor colorHover={colorHover} colorActive={colorDark}>
-                {text.menu.homepage[lang]}
+                {TEXT.menu.homepage[lang]}
               </SpanChangeColor>
             </NavLink>
           </li>
@@ -78,7 +114,7 @@ export const NavMenu: FC<{}> = () => {
               to="/mytracks"
             >
               <SpanChangeColor colorHover={colorHover} colorActive={colorDark}>
-                {text.menu.mytracks[lang]}
+                {TEXT.menu.mytracks[lang]}
               </SpanChangeColor>
             </NavLink>
           </li>
@@ -89,7 +125,7 @@ export const NavMenu: FC<{}> = () => {
               to={'/profile'}
             >
               <SpanChangeColor colorHover={colorHover} colorActive={colorDark}>
-                {text.menu.profile[lang]}
+                {TEXT.menu.profile[lang]}
               </SpanChangeColor>
             </NavLink>
           </li>
@@ -99,13 +135,24 @@ export const NavMenu: FC<{}> = () => {
               style={{ color: textColor }}
               to={'/'}
             >
-              <SpanChangeColor colorHover={colorHover} colorActive={colorDark}>
-                {text.menu.logout[lang]}
+              <SpanChangeColor
+                colorHover={colorHover}
+                colorActive={colorDark}
+                onClick={handleLogOut}
+              >
+                {TEXT.menu.logout[lang]}
               </SpanChangeColor>
             </NavLink>
           </li>
         </ul>
       )}
+
+      {/* <audio
+        src={currentTrack.urlPlay}
+        id="player"
+        controls
+        loop
+      ></audio> */}
     </nav>
   );
 };

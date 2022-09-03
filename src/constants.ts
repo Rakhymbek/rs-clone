@@ -1,10 +1,9 @@
-import { TData } from './types';
 import {
   bgColorToBgColorLight,
   colorToSecondary,
   extradarkToDark,
   extradarkToHover,
-} from './utils/utils';
+} from './utils/colorUtils';
 
 import { createTheme } from '@mui/material';
 
@@ -32,7 +31,7 @@ export const theme = createTheme({
 
 export const DEFAULT_LANG = 'ru';
 
-export const text = {
+export const TEXT = {
   menu: {
     homepage: { ru: 'Главная', en: 'Homepage', bel: 'Галоўны' },
     mytracks: { ru: 'Мои треки', en: 'My tracks', bel: 'Мае трэкі' },
@@ -89,227 +88,227 @@ export const text = {
       bel: 'Каляровае афармленне:',
     },
     buttonText: {
-      ru: 'Сброс настроек',
-      en: 'Reset settings',
-      bel: 'Скід налад',
+      ru: 'Сброс цветовых настроек',
+      en: 'Reset color settings',
+      bel: 'Скід каляровых налад',
     },
     language: { ru: 'Язык', en: 'Language', bel: 'Мова' },
   },
+  empty_results: {
+    ru: 'Извините, Ваш запрос не дал результатов',
+    en: 'Sorry, nothing was found',
+    bel: 'Выбачайце, нічога не знайшлося',
+  },
 };
+
+export const EMPTY_RESULTS = [
+  {
+    _id: 'empty_results',
+    artist: 'empty_results',
+  },
+];
 
 ////////////////////////// TEMP ///////////////////
 
-export const tempList = [
-  {
-    _id: '630b66201fbf6ac07322c952',
-    album: 'Highway 61 Revisited',
-    artist: 'Bob Dylan',
-    img: 'https://i.scdn.co/image/ab67616d0000b27341720ef0ae31e10d39e43ca2',
-    rank: 1,
-    title: 'Like a Rolling Stone',
-    url: 'https://drive.google.com/uc?id=1JBVMklPFvwJldKEA8O8SipDuVX6wxIWO\u0026export=download',
-    urlPlay:
-      'https://docs.google.com/uc?export=open\u0026id=1JBVMklPFvwJldKEA8O8SipDuVX6wxIWO',
-    year: '1965',
-    duration: '6:10',
-  },
-  {
-    _id: '630b66871fbf6ac07323f99e',
-    album: 'Out of Our Heads',
-    artist: 'The Rolling Stones',
-    img: 'https://i.scdn.co/image/ab67616d0000b27305c5be85b64eaff732f7cb0b',
-    rank: 2,
-    title: "(I Can't Get No) Satisfaction",
-    url: 'https://drive.google.com/uc?id=1M5QfxXmrf29-uLR590PpLJrfwxy5dxmN\u0026export=download',
-    urlPlay:
-      'https://docs.google.com/uc?export=open\u0026id=1M5QfxXmrf29-uLR590PpLJrfwxy5dxmN',
-    year: '1965',
-    duration: '3:44',
-  },
-  {
-    _id: '630b66b31fbf6ac0732484c5',
-    album: 'Imagine',
-    artist: 'John Lennon',
-    img: 'https://i.scdn.co/image/ab67616d0000b27399581550ef9746ca582bb3cc',
-    rank: 3,
-    title: 'Imagine',
-    url: 'https://drive.google.com/uc?id=1KGRAk5rV5-fwz2xJo6LTanRIfnh3oeSl\u0026export=download',
-    urlPlay:
-      'https://docs.google.com/uc?export=open\u0026id=1KGRAk5rV5-fwz2xJo6LTanRIfnh3oeSl',
-    year: '1971',
-    duration: '3:03',
-    genre: 'indie',
-  },
-  {
-    _id: '630b66de1fbf6ac07324fae8',
-    album: "What's Going On",
-    artist: 'Marvin Gaye',
-    img: 'https://i.scdn.co/image/ab67616d0000b273b36949bee43217351961ffbc',
-    rank: 4,
-    title: "What's Going On",
-    url: 'https://drive.google.com/uc?id=1ubmf-JxEZcKmMUtAj5dUtY75RXBM27J6\u0026export=download',
-    urlPlay:
-      'https://docs.google.com/uc?export=open\u0026id=1ubmf-JxEZcKmMUtAj5dUtY75RXBM27J6',
-    year: '1971',
-    duration: '3:58',
-  },
-  {
-    _id: '630b66f21fbf6ac073253d0d',
-    album: 'I Never Loved a Man the Way I Love You',
-    artist: 'Aretha Franklin',
-    img: 'https://i.scdn.co/image/ab67616d0000b2736aa9314b7ddfbd8f036ba3ac',
-    rank: 5,
-    title: 'Respect',
-    url: 'https://drive.google.com/uc?id=1w4Z0bUFP7xp7lAgCKMjUc0KODscQprq5\u0026export=download',
-    urlPlay:
-      'https://docs.google.com/uc?export=open\u0026id=1w4Z0bUFP7xp7lAgCKMjUc0KODscQprq5',
-    year: '1967',
-    duration: '2:29',
-  },
-];
+// export const tempList = [
+//   {
+//     _id: '630b66201fbf6ac07322c952',
+//     album: 'Highway 61 Revisited',
+//     artist: 'Bob Dylan',
+//     img: 'https://i.scdn.co/image/ab67616d0000b27341720ef0ae31e10d39e43ca2',
+//     rank: 1,
+//     title: 'Like a Rolling Stone',
+//     url: 'https://drive.google.com/uc?id=1JBVMklPFvwJldKEA8O8SipDuVX6wxIWO\u0026export=download',
+//     urlPlay:
+//       'https://docs.google.com/uc?export=open\u0026id=1JBVMklPFvwJldKEA8O8SipDuVX6wxIWO',
+//     year: '1965',
+//     duration: '6:10',
+//   },
+//   {
+//     _id: '630b66871fbf6ac07323f99e',
+//     album: 'Out of Our Heads',
+//     artist: 'The Rolling Stones',
+//     img: 'https://i.scdn.co/image/ab67616d0000b27305c5be85b64eaff732f7cb0b',
+//     rank: 2,
+//     title: "(I Can't Get No) Satisfaction",
+//     url: 'https://drive.google.com/uc?id=1M5QfxXmrf29-uLR590PpLJrfwxy5dxmN\u0026export=download',
+//     urlPlay:
+//       'https://docs.google.com/uc?export=open\u0026id=1M5QfxXmrf29-uLR590PpLJrfwxy5dxmN',
+//     year: '1965',
+//     duration: '3:44',
+//   },
+//   {
+//     _id: '630b66b31fbf6ac0732484c5',
+//     album: 'Imagine',
+//     artist: 'John Lennon',
+//     img: 'https://i.scdn.co/image/ab67616d0000b27399581550ef9746ca582bb3cc',
+//     rank: 3,
+//     title: 'Imagine',
+//     url: 'https://drive.google.com/uc?id=1KGRAk5rV5-fwz2xJo6LTanRIfnh3oeSl\u0026export=download',
+//     urlPlay:
+//       'https://docs.google.com/uc?export=open\u0026id=1KGRAk5rV5-fwz2xJo6LTanRIfnh3oeSl',
+//     year: '1971',
+//     duration: '3:03',
+//     genre: 'indie',
+//   },
+//   {
+//     _id: '630b66de1fbf6ac07324fae8',
+//     album: "What's Going On",
+//     artist: 'Marvin Gaye',
+//     img: 'https://i.scdn.co/image/ab67616d0000b273b36949bee43217351961ffbc',
+//     rank: 4,
+//     title: "What's Going On",
+//     url: 'https://drive.google.com/uc?id=1ubmf-JxEZcKmMUtAj5dUtY75RXBM27J6\u0026export=download',
+//     urlPlay:
+//       'https://docs.google.com/uc?export=open\u0026id=1ubmf-JxEZcKmMUtAj5dUtY75RXBM27J6',
+//     year: '1971',
+//     duration: '3:58',
+//   },
+//   {
+//     _id: '630b66f21fbf6ac073253d0d',
+//     album: 'I Never Loved a Man the Way I Love You',
+//     artist: 'Aretha Franklin',
+//     img: 'https://i.scdn.co/image/ab67616d0000b2736aa9314b7ddfbd8f036ba3ac',
+//     rank: 5,
+//     title: 'Respect',
+//     url: 'https://drive.google.com/uc?id=1w4Z0bUFP7xp7lAgCKMjUc0KODscQprq5\u0026export=download',
+//     urlPlay:
+//       'https://docs.google.com/uc?export=open\u0026id=1w4Z0bUFP7xp7lAgCKMjUc0KODscQprq5',
+//     year: '1967',
+//     duration: '2:29',
+//   },
+// ];
 
 export const USER = { name: 'Evgenia Leleo', login: 'Leleo', avatar: '' };
 
-export const NumberOfCheckedItems = 3;
+// export const DATA: TData = {
+//   count: 29,
+//   next: null,
+//   previous: 'http://84.201.139.95:8000/catalog/track/all/?page=2',
+//   results: [
+//     {
+//       id: 28,
+//       name: 'Carol Of The Bells',
+//       author: 'Alexander Nakarada',
+//       release_date: '2022-04-16',
+//       genre: 'Рок музыка',
+//       duration_in_seconds: 205,
+//       album: 'Carol Of The Bells',
+//       logo: null,
+//       track_file:
+//         'http://84.201.139.95:8000/django_media/music_files/Alexander_Nakarada_-_Carol_Of_The_Bells.mp3',
+//       stared_user: [],
+//     },
+//     {
+//       id: 29,
+//       name: 'Feel Good Rock',
+//       author: 'Audionautix',
+//       release_date: '2020-02-12',
+//       genre: 'Рок музыка',
+//       duration_in_seconds: 312,
+//       album: 'FAST',
+//       logo: null,
+//       track_file:
+//         'http://84.201.139.95:8000/django_media/music_files/Audionautix_-_Feel_Good_Rock.mp3',
+//       stared_user: [],
+//     },
+//     {
+//       id: 30,
+//       name: 'The World Waltz',
+//       author: 'Kevin Macleodburn',
+//       release_date: null,
+//       genre: 'Рок музыка',
+//       duration_in_seconds: 305,
+//       album: 'The Waltzer',
+//       logo: null,
+//       track_file:
+//         'http://84.201.139.95:8000/django_media/music_files/Kevin_Macleodburn_-_The_World_Waltz.mp3',
+//       stared_user: [],
+//     },
+// {
+//   id: 31,
+//   name: '5 cents back',
+//   author: 'MED',
+//   release_date: '2005-03-03',
+//   genre: 'Рок музыка',
+//   duration_in_seconds: 345,
+//   album: '5 cents back',
+//   logo: null,
+//   track_file:
+//     'http://84.201.139.95:8000/django_media/music_files/MED_-_5_Cents_Back.mp3',
+//   stared_user: [],
+// },
+// {
+//   id: 32,
+//   name: 'Essence2',
+//   author: 'MED',
+//   release_date: '1920-05-03',
+//   genre: 'Электронная музыка',
+//   duration_in_seconds: 205,
+//   album: 'Essence2',
+//   logo: null,
+//   track_file:
+//     'http://84.201.139.95:8000/django_media/music_files/MED_-_Essence2.mp3',
+//   stared_user: [],
+// },
+// {
+//   id: 33,
+//   name: 'Classical Metal Workout',
+//   author: '-',
+//   release_date: '1991-09-06',
+//   genre: 'Рок музыка',
+//   duration_in_seconds: 246,
+//   album: 'Workout',
+//   logo: null,
+//   track_file:
+//     'http://84.201.139.95:8000/django_media/music_files/Musiclfiles_-_Classical_Metal_Workout.mp3',
+//   stared_user: [],
+// },
+//     {
+//       id: 34,
+//       name: 'Adrenelynne',
+//       author: 'Tim Kulig',
+//       release_date: '2007-05-14',
+//       genre: 'Рок музыка',
+//       duration_in_seconds: 285,
+//       album: 'Adrenelynne',
+//       logo: null,
+//       track_file:
+//         'http://84.201.139.95:8000/django_media/music_files/Tim_Kulig_-_Adrenelynne.mp3',
+//       stared_user: [],
+//     },
+//     {
+//       id: 35,
+//       name: 'Hard Metal Intro',
+//       author: 'Winniethemoog',
+//       release_date: '1991-09-06',
+//       genre: 'Рок музыка',
+//       duration_in_seconds: 255,
+//       album: 'Hard Metal',
+//       logo: null,
+//       track_file:
+//         'http://84.201.139.95:8000/django_media/music_files/Winniethemoog__-_Hard_Metal_Intro.mp3',
+//       stared_user: [],
+//     },
+//     {
+//       id: 36,
+//       name: 'Action Sport Breakbeat',
+//       author: 'Winniethemoog',
+//       release_date: '1991-09-07',
+//       genre: 'Рок музыка',
+//       duration_in_seconds: 234,
+//       album: 'Workout',
+//       logo: null,
+//       track_file:
+//         'http://84.201.139.95:8000/django_media/music_files/Winniethemoog_-_Action_Sport_Breakbeat.mp3',
+//       stared_user: [],
+//     },
+//   ],
+// };
 
-export const filterItems2 = ['2022', '2021', '2020', '2019', '2018'];
-export const filterItems1 = [
-  'Alexander Nakarada',
-  'Tim Kulig',
-  'Kevin Macleodburn',
-  'Winniethemoog',
-  'Mixkit',
-];
-export const filterItems3 = ['Rock', 'Indie', 'Country'];
+// export const TRACKS = DATA.results;
 
-export const DATA: TData = {
-  count: 29,
-  next: null,
-  previous: 'http://84.201.139.95:8000/catalog/track/all/?page=2',
-  results: [
-    {
-      id: 28,
-      name: 'Carol Of The Bells',
-      author: 'Alexander Nakarada',
-      release_date: '2022-04-16',
-      genre: 'Рок музыка',
-      duration_in_seconds: 205,
-      album: 'Carol Of The Bells',
-      logo: null,
-      track_file:
-        'http://84.201.139.95:8000/django_media/music_files/Alexander_Nakarada_-_Carol_Of_The_Bells.mp3',
-      stared_user: [],
-    },
-    {
-      id: 29,
-      name: 'Feel Good Rock',
-      author: 'Audionautix',
-      release_date: '2020-02-12',
-      genre: 'Рок музыка',
-      duration_in_seconds: 312,
-      album: 'FAST',
-      logo: null,
-      track_file:
-        'http://84.201.139.95:8000/django_media/music_files/Audionautix_-_Feel_Good_Rock.mp3',
-      stared_user: [],
-    },
-    {
-      id: 30,
-      name: 'The World Waltz',
-      author: 'Kevin Macleodburn',
-      release_date: null,
-      genre: 'Рок музыка',
-      duration_in_seconds: 305,
-      album: 'The Waltzer',
-      logo: null,
-      track_file:
-        'http://84.201.139.95:8000/django_media/music_files/Kevin_Macleodburn_-_The_World_Waltz.mp3',
-      stared_user: [],
-    },
-    // {
-    //   id: 31,
-    //   name: '5 cents back',
-    //   author: 'MED',
-    //   release_date: '2005-03-03',
-    //   genre: 'Рок музыка',
-    //   duration_in_seconds: 345,
-    //   album: '5 cents back',
-    //   logo: null,
-    //   track_file:
-    //     'http://84.201.139.95:8000/django_media/music_files/MED_-_5_Cents_Back.mp3',
-    //   stared_user: [],
-    // },
-    // {
-    //   id: 32,
-    //   name: 'Essence2',
-    //   author: 'MED',
-    //   release_date: '1920-05-03',
-    //   genre: 'Электронная музыка',
-    //   duration_in_seconds: 205,
-    //   album: 'Essence2',
-    //   logo: null,
-    //   track_file:
-    //     'http://84.201.139.95:8000/django_media/music_files/MED_-_Essence2.mp3',
-    //   stared_user: [],
-    // },
-    // {
-    //   id: 33,
-    //   name: 'Classical Metal Workout',
-    //   author: '-',
-    //   release_date: '1991-09-06',
-    //   genre: 'Рок музыка',
-    //   duration_in_seconds: 246,
-    //   album: 'Workout',
-    //   logo: null,
-    //   track_file:
-    //     'http://84.201.139.95:8000/django_media/music_files/Musiclfiles_-_Classical_Metal_Workout.mp3',
-    //   stared_user: [],
-    // },
-    {
-      id: 34,
-      name: 'Adrenelynne',
-      author: 'Tim Kulig',
-      release_date: '2007-05-14',
-      genre: 'Рок музыка',
-      duration_in_seconds: 285,
-      album: 'Adrenelynne',
-      logo: null,
-      track_file:
-        'http://84.201.139.95:8000/django_media/music_files/Tim_Kulig_-_Adrenelynne.mp3',
-      stared_user: [],
-    },
-    {
-      id: 35,
-      name: 'Hard Metal Intro',
-      author: 'Winniethemoog',
-      release_date: '1991-09-06',
-      genre: 'Рок музыка',
-      duration_in_seconds: 255,
-      album: 'Hard Metal',
-      logo: null,
-      track_file:
-        'http://84.201.139.95:8000/django_media/music_files/Winniethemoog__-_Hard_Metal_Intro.mp3',
-      stared_user: [],
-    },
-    {
-      id: 36,
-      name: 'Action Sport Breakbeat',
-      author: 'Winniethemoog',
-      release_date: '1991-09-07',
-      genre: 'Рок музыка',
-      duration_in_seconds: 234,
-      album: 'Workout',
-      logo: null,
-      track_file:
-        'http://84.201.139.95:8000/django_media/music_files/Winniethemoog_-_Action_Sport_Breakbeat.mp3',
-      stared_user: [],
-    },
-  ],
-};
-
-export const TRACKS = DATA.results;
-
-export const TRACK = DATA.results[0];
+// export const TRACK = DATA.results[0];
 
 // export const DATA: TData = {
 //   count: 29,

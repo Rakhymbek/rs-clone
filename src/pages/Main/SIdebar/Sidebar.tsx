@@ -14,9 +14,9 @@ import {
   Typography,
 } from '@mui/material';
 
-import { SpanChangeColor } from '../../../components/changeColor/SpanChangeColor/SpanChangeColor';
+import { SpanChangeColor } from '../../../components/changeColor/SpanChangeColor';
 import { AlbumCover } from '../../../components/AlbumCover/AlbumCover';
-import { text, USER } from '../../../constants';
+import { TEXT, USER } from '../../../constants';
 import { useAppDispatch, useAppSelector } from '../../../hook';
 
 import './Sidebar.css';
@@ -24,7 +24,7 @@ import {
   bgColorToBgColorLight,
   extradarkToDark,
   extradarkToHover,
-} from '../../../utils/utils';
+} from '../../../utils/colorUtils';
 import { TLanguages } from '../../../types';
 import { changeLanguage } from '../../../store/languageSlice';
 // import './Animation.css';
@@ -128,23 +128,10 @@ export const Sidebar: FC<SidebarProps> = ({
       >
         {/* <canvas id="myCanvas" width="1200" height="250"></canvas> */}
         <NavLink to={'/dayplaylist'}>
-          {/* <CardMedia
-            component="img"
-            className={cnSidebar('Button')}
-            image="./playlist/playlist-day.png"
-            alt="Playlist of the day"
-          /> */}
-
-          <AlbumCover text={text.albums.dayplaylist[lang]}></AlbumCover>
+          <AlbumCover text={TEXT.albums.dayplaylist[lang]}></AlbumCover>
         </NavLink>
         <NavLink to={'/hits'}>
-          {/* <CardMedia
-            component="img"
-            className={cnSidebar('Button')}
-            image="./playlist/playlist-hits.png"
-            alt="Playlist of hits"
-          /> */}
-          <AlbumCover text={text.albums.hits[lang]}></AlbumCover>
+          <AlbumCover text={TEXT.albums.hits[lang]}></AlbumCover>
         </NavLink>
         {/* <NavLink to={'/indie'}>
           <CardMedia
