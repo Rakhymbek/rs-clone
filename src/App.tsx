@@ -13,7 +13,8 @@ import Karaoke from './pages/Main/Karaoke/Karaoke';
 
 function App() {
   const lang = useAppSelector((state) => state.language.lang);
-
+  // const tracks = useAppSelector((state) => state.tracks.currentTrack);
+  // console.log(tracks);
   return (
     <>
       <Routes>

@@ -1,0 +1,26 @@
+.Karaoke {
+    display: flex;
+    height: 100vh;
+    flex: 1 1 auto;
+}
+
+.Karaoke-Content {
+    padding-top: 30px;
+}
+
+.Karaoke-Line {
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    border: 1px solid #ffffff8c;
+    height: 150px;
+    margin: 0;
+    text-align: center;
+    width: 80%;
+    margin: auto;
+}
+
+.Karaoke-Controls {
+    margin: auto;
+    max-width: 80%;
+}
