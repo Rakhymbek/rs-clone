@@ -1,4 +1,10 @@
-import React, { createRef, useCallback, useEffect, useRef, useState } from 'react';
+import React, {
+  createRef,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { FC } from 'react';
 import { cn } from '@bem-react/classname';
 import AudioPlayer, { RHAP_UI } from 'react-h5-audio-player';
@@ -24,8 +30,8 @@ import { extradarkToHover } from '../../utils/colorUtils';
 import {
   PlayerControlsWrapper,
   PlayerWrapper,
-} from '../changeColor/PlayerChangeColor/PlayerChangeColor';
-import Canvas from '../../pages/Main/NavMenu/anima/anima';
+} from '../changeColor/PlayerChangeColor';
+// import Canvas from '../../pages/Main/NavMenu/anima/anima';
 const cnPlayer = cn('Player');
 
 export type PlayerProps = {
@@ -68,10 +74,9 @@ export const Player: FC<PlayerProps> = ({ track }) => {
 
   const audioCtx: any = createRef();
 
-
   return (
     <PlayerWrapper progressсolor={progressColor} className={cnPlayer()}>
-      <Canvas ref={audioCtx.current?.audio?.current!}></Canvas>
+      {/* <Canvas ref={audioCtx.current?.audio?.current!}></Canvas> */}
       <AudioPlayer
         onClickNext={handleClickNext}
         onClickPrevious={handleClickPrevious}
