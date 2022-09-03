@@ -42,7 +42,11 @@ export const TEXT = {
     }, //Асабісты кабінет
     logout: { ru: 'Выйти', en: 'Logout', bel: 'Выйсці' },
   },
-  searchInput: { ru: 'Поиск', en: 'Search', bel: 'Пошук' },
+  searchInput: {
+    ru: 'Поиск по исполнителю / названию песни',
+    en: 'Search by artist or song title',
+    bel: 'Пошук па артысту або назве песні',
+  },
   header: { tracks: { ru: 'Треки', en: 'Tracks', bel: 'Трэк' } },
   albums: {
     dayplaylist: {
@@ -57,7 +61,8 @@ export const TEXT = {
     },
   },
   search: {
-    searchBy: { ru: 'Искать по:', en: 'Search by', bel: 'Шукаць па:' },
+    // searchBy: { ru: 'Искать по:', en: 'Search by', bel: 'Шукаць па:' },
+    searchBy: { ru: 'Фильтр по:', en: 'Filter by:', bel: 'Фільтр па:' },
     artist: { ru: 'исполнителю', en: 'artist', bel: 'выканаўца' },
     release: { ru: 'году выпуска', en: 'release date', bel: 'годзе выпуску' },
     genre: { ru: 'жанру', en: 'genre', bel: 'жанр' },
@@ -101,10 +106,12 @@ export const TEXT = {
   },
 };
 
+export const EMPTY_ARTIST = 'sorry_empty_artist';
+
 export const EMPTY_RESULTS = [
   {
     _id: 'empty_results',
-    artist: 'empty_results',
+    artist: EMPTY_ARTIST,
   },
 ];
 

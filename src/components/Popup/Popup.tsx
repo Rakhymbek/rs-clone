@@ -4,16 +4,16 @@ import { cn } from '@bem-react/classname';
 
 import { useAppDispatch, useAppSelector } from '../../hook';
 import { bgColorToBgColorLight } from '../../utils/colorUtils';
+import { TCheckedItems, TFilterButtonName } from '../../types';
+import { getFinalItems } from '../../utils/getFinalItems';
 import {
   updateCheckedArtists,
   updateCheckedGenres,
   updateCheckedYears,
   updateFilteredTracks,
-} from '../../store/checkedItemsSlice';
-import { TCheckedItems, TFilterButtonName } from '../../types';
+} from '../../store/filteredItemsSlice';
 
 import './Popup.css';
-import { getFinalItems } from '../../utils/getFinalItems';
 
 const cnPopup = cn('Popup');
 
@@ -42,16 +42,20 @@ export const Popup: FC<PopupProps> = ({ items, rows, buttonName }) => {
 
   const allTracksStore = useAppSelector((state) => state.tracks.allTracks);
 
-  const checkedItems = useAppSelector((state) => state.checkedItems);
+  const checkedItems = useAppSelector((state) => state.filteredItems);
 
   // console.log('--> checkedItems', checkedItems);
 
   newFilter[`${buttonName}`] = [...checkedItems[`${buttonName}`]];
   // console.log('--> newFilter', newFilter);
 
-  const isChecked = (item: string, buttonName: TFilterButtonName) => {
-    return newFilter[`${buttonName}`].includes(item);
-  };
+  const searchedItems = useAppSelector(
+    (state) => state.filteredItems.searchedTracks,
+  );
+
+  const searchedItemsCurrent = searchedItems.length
+    ? searchedItems
+    : allTracksStore;
 
   const handleChange = (item: string, buttonName: TFilterButtonName) => {
     newFilter[`${buttonName}`] = [...checkedItems[`${buttonName}`]];
@@ -84,7 +88,11 @@ export const Popup: FC<PopupProps> = ({ items, rows, buttonName }) => {
     //   getFinalItems(allTracksStore, newFilter[`${buttonName}`]),
     // );
 
-    const finalFilteredTracks = getFinalItems(allTracksStore, newFilter);
+    const finalFilteredTracks = getFinalItems(
+      allTracksStore,
+      newFilter,
+      searchedItemsCurrent,
+    );
 
     dispatch(updateFilteredTracks(finalFilteredTracks));
 
@@ -104,6 +112,10 @@ export const Popup: FC<PopupProps> = ({ items, rows, buttonName }) => {
   if (rows === 3) {
     height = '184px';
   }
+
+  const isChecked = (item: string, buttonName: TFilterButtonName) => {
+    return newFilter[`${buttonName}`].includes(item);
+  };
 
   return (
     <div

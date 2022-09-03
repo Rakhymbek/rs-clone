@@ -33,7 +33,7 @@ import {
   updateCheckedYears,
   updateCheckedGenres,
   updateFilteredTracks,
-} from '../../../store/checkedItemsSlice';
+} from '../../../store/filteredItemsSlice';
 
 const cnNavMenu = cn('NavMenu');
 

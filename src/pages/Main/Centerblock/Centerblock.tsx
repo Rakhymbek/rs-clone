@@ -26,6 +26,13 @@ import './Centerblock.css';
 import { TrackList } from '../TrackList/TrackList';
 import { SkeletonRect } from '../../../components/Skeleton/Skeleton';
 import { FilterButtons } from '../../../components/FilterButtons/FilterButtons';
+import { getSearchQueryArray } from '../../../utils/getSearchQueryArray';
+import {
+  updateFilteredTracks,
+  updateSearchedTracks,
+} from '../../../store/filteredItemsSlice';
+import { commonItems } from '../../../utils/commonItems';
+import { getFinalItems } from '../../../utils/getFinalItems';
 
 const cnCenterblock = cn('Centerblock');
 const cnContent = cn('Content');
@@ -36,6 +43,8 @@ type PlayerProps = {
 };
 
 export const Centerblock: FC<PlayerProps> = ({ header, tracks }) => {
+  const dispatch = useAppDispatch();
+
   const lang = useAppSelector((state) => state.language.lang);
   const textColor = useAppSelector((state) => state.colorTheme.textColor);
   const skeletonColor = lightenDarkenColor(textColor, -10);
@@ -44,14 +53,37 @@ export const Centerblock: FC<PlayerProps> = ({ header, tracks }) => {
   const array = new Array(10).fill(0);
 
   const filteredTracksStore = useAppSelector(
-    (state) => state.checkedItems.filteredTracks,
+    (state) => state.filteredItems.filteredTracks,
   );
 
   const allTracksStore = useAppSelector((state) => state.tracks.allTracks);
+  const checkedItems = useAppSelector((state) => state.filteredItems);
 
   const allTracks = filteredTracksStore.length
     ? filteredTracksStore
     : allTracksStore;
+
+  const handleSearch = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    const searchedTracks = getSearchQueryArray(
+      e.currentTarget.value,
+      allTracksStore,
+    );
+
+    dispatch(updateSearchedTracks(searchedTracks));
+
+    const finalItems = getFinalItems(
+      allTracksStore,
+      checkedItems,
+      searchedTracks,
+    );
+
+    // console.log('--> searchedTracks', searchedTracks);
+    // console.log('--> finalItems', finalItems);
+
+    dispatch(updateFilteredTracks(finalItems));
+  };
 
   if (header === TEXT.menu.profile[lang]) {
     return <Profile />;
@@ -61,6 +93,7 @@ export const Centerblock: FC<PlayerProps> = ({ header, tracks }) => {
         <div className={cnCenterblock()}>
           <form className={cnCenterblock('Input-Wrapper')}>
             <TextField
+              onChange={(e) => handleSearch(e)}
               InputLabelProps={{}}
               placeholder={TEXT.searchInput[lang]}
               fullWidth

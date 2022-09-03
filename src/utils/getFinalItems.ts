@@ -12,7 +12,8 @@ import { commonItems } from './commonItems';
 export const getFinalItems: (
   allTracks: SongType[],
   checkedItemsObj: TCheckedItems,
-) => SongType[] = (allTracks, checkedItemsObj) => {
+  searchedItems: SongType[],
+) => SongType[] = (allTracks, checkedItemsObj, searchedItems) => {
   // console.log('--> checkedItems', checkedItemsObj);
   // console.log('--> allTracks', allTracks);
 
@@ -35,12 +36,11 @@ export const getFinalItems: (
     commonItems(checkedArtistsArray, checkedYearsArray),
     checkedGenresArray,
   );
-
-  const empty_result: SongType[] = EMPTY_RESULTS;
-
   // console.log('--> commonArtistsYearsGenres', commonArtistsYearsGenres);
+  // console.log('--> searchedItems', searchedItems);
 
-  return commonArtistsYearsGenres.length
-    ? commonArtistsYearsGenres
-    : empty_result;
+  const finalItems = commonItems(commonArtistsYearsGenres, searchedItems);
+  // console.log('--> finalItems', finalItems);
+
+  return finalItems.length ? finalItems : EMPTY_RESULTS;
 };
