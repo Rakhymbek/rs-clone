@@ -16,15 +16,11 @@ import {
 
 import { SpanChangeColor } from '../../../components/changeColor/SpanChangeColor/SpanChangeColor';
 import { AlbumCover } from '../../../components/AlbumCover/AlbumCover';
-import { text, USER } from '../../../constants';
+import { text } from '../../../constants';
 import { useAppDispatch, useAppSelector } from '../../../hook';
 
 import './Sidebar.css';
-import {
-  bgColorToBgColorLight,
-  extradarkToDark,
-  extradarkToHover,
-} from '../../../utils/utils';
+import { bgColorToBgColorLight, extradarkToDark, extradarkToHover } from '../../../utils/utils';
 import { TLanguages } from '../../../types';
 import { changeLanguage } from '../../../store/languageSlice';
 // import './Animation.css';
@@ -36,18 +32,14 @@ export type SidebarProps = {
   isUserVisible?: boolean;
 };
 
-export const Sidebar: FC<SidebarProps> = ({
-  isVisible,
-  isUserVisible = true,
-}) => {
+export const Sidebar: FC<SidebarProps> = ({ isVisible, isUserVisible = true }) => {
   const dispatch = useAppDispatch();
 
+  const dataUser = useAppSelector((state) => state.auth.data);
   const lang = useAppSelector((state) => state.language.lang);
   const textColor = useAppSelector((state) => state.colorTheme.textColor);
   const bgColor = useAppSelector((state) => state.colorTheme.bgColor);
-  const decorativeColor = useAppSelector(
-    (state) => state.colorTheme.decorativeColor,
-  );
+  const decorativeColor = useAppSelector((state) => state.colorTheme.decorativeColor);
   const bgColorLight = bgColorToBgColorLight(bgColor);
   const colorHover = extradarkToHover(decorativeColor);
   const colorDark = extradarkToDark(decorativeColor);
@@ -74,12 +66,9 @@ export const Sidebar: FC<SidebarProps> = ({
       {isUserVisible && (
         <div className={cnSidebar('User')}>
           <NavLink to={'/profile'}>
-            <Typography
-              className={cnSidebar('User-Name')}
-              style={{ color: textColor }}
-            >
+            <Typography className={cnSidebar('User-Name')} style={{ color: textColor }}>
               <SpanChangeColor colorHover={colorHover} colorActive={colorDark}>
-                {USER.name}
+                {dataUser?.fullName}
               </SpanChangeColor>
             </Typography>
           </NavLink>
@@ -94,8 +83,7 @@ export const Sidebar: FC<SidebarProps> = ({
                 backgroundColor: bgColorLight,
                 borderTopLeftRadius: '5px',
                 borderTopRightRadius: '5px',
-              }}
-            >
+              }}>
               <Select
                 labelId="demo-simple-select-standard-label"
                 id="demo-simple-select-standard"
@@ -106,8 +94,7 @@ export const Sidebar: FC<SidebarProps> = ({
                   color: textColor,
                   fontSize: '15px',
                   padding: '0 5px',
-                }}
-              >
+                }}>
                 <MenuItem value={'ru'}>Ru</MenuItem>
                 <MenuItem value={'en'}>En</MenuItem>
                 <MenuItem value={'bel'}>Bel</MenuItem>
@@ -119,13 +106,8 @@ export const Sidebar: FC<SidebarProps> = ({
 
       <Card
         className={cnSidebar('List')}
-        sx={
-          isVisible
-            ? { display: 'block', backgroundColor: 'transparent' }
-            : { display: 'none' }
-        }
-        style={{ border: 'none', boxShadow: 'none' }}
-      >
+        sx={isVisible ? { display: 'block', backgroundColor: 'transparent' } : { display: 'none' }}
+        style={{ border: 'none', boxShadow: 'none' }}>
         {/* <canvas id="myCanvas" width="1200" height="250"></canvas> */}
         <NavLink to={'/dayplaylist'}>
           {/* <CardMedia
