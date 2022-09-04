@@ -8,9 +8,10 @@ import { Main } from './pages/Main/Main';
 
 import './App.css';
 import { TEXT } from './constants';
-import { AlertDialog } from './components/AlertDialog/AlertDialog';
 import { useAppDispatch, useAppSelector } from './hook';
+import { AlertDialog } from './components/AlertDialog/AlertDialog';
 import { fetchAuthMe } from './store/auth/auth';
+import { WelcomePage } from './pages/WelcomePage/WelcomePage';
 
 function App() {
   const lang = useAppSelector((state) => state.language.lang);
@@ -25,15 +26,16 @@ function App() {
     <>
       {isOpen && <AlertDialog />}
       <Routes>
-        <Route path="/" element={<Login />}></Route>
+        <Route path="/" element={<WelcomePage />}></Route>
+        <Route path="/login" element={<Login />}></Route>
         <Route path="/register" element={<Register />}></Route>
         <Route
           path="/main"
           element={<Main header={TEXT.header.tracks[lang]} />}
         ></Route>
         <Route
-          path="/hits"
-          element={<Main header={TEXT.albums.hits[lang]} />}
+          path="/dance"
+          element={<Main header={TEXT.albums.dance[lang]} />}
         ></Route>
         <Route
           path="/mytracks"
@@ -44,7 +46,7 @@ function App() {
           element={<Main header={TEXT.menu.profile[lang]} />}
         ></Route>
         <Route
-          path="/dayplaylist"
+          path="/random"
           element={<Main header={TEXT.albums.dayplaylist[lang]} />}
         ></Route>
       </Routes>

@@ -7,11 +7,15 @@ import { NavMenu } from './NavMenu/NavMenu';
 import { Sidebar } from './SIdebar/Sidebar';
 import { Centerblock } from './Centerblock/Centerblock';
 import { Player } from '../../components/Player/Player';
-import { TEXT } from '../../constants';
+import { ALBUM_DANCE, NUMBER_OF_RANDOM_ITEMS, TEXT } from '../../constants';
 import { useAppDispatch, useAppSelector } from '../../hook';
 import { SongType } from '../../types';
 import { fetchTracks } from '../../fetchers/fetchTracks';
-import { uploadAllTracks } from '../../store/trackSlice';
+import {
+  uploadDanceTracks,
+  uploadRandomTracks,
+  uploadAllTracks,
+} from '../../store/trackSlice';
 import { getSortedByArtistsArray } from '../../utils/getSortedByArtistsArray';
 import { getSortedByGenresArray } from '../../utils/getSortedByGenresArray';
 import { getSortedByYearsArray } from '../../utils/getSortedByYearsArray';
@@ -19,10 +23,14 @@ import { getArtistsArray } from '../../utils/getArtistsArray';
 import { getGenresArray } from '../../utils/getGenresArray';
 import { getYearsArray } from '../../utils/getYearsArray';
 import {
+  updateSearchQuery,
   updateSortedArtists,
   updateSortedGenres,
   updateSortedYears,
-} from '../../store/sortedArraysSlice';
+} from '../../store/sortingSettingsSlice';
+import { checkedGenresFilterArray } from '../../utils/checkedGenresFilterArray';
+import getRandomTracks from '../../utils/getRandomTracks';
+import dataTracks from './data.json';
 
 const cnMain = cn('Main');
 
@@ -44,11 +52,12 @@ export const Main: FC<MainProps> = ({ header }) => {
 
   const lang = useAppSelector((state) => state.language.lang);
   const bgColor = useAppSelector((state) => state.colorTheme.bgColor);
+  const isVpnEnabled = useAppSelector((state) => state.vpn.isEnabled);
 
   useEffect(() => {
     if (allTracks.length) {
       setTracks(allTracks);
-    } else {
+    } else if (isVpnEnabled) {
       fetchTracks().then((data) => {
         setTracks(data);
         dispatch(uploadAllTracks(data));
@@ -59,9 +68,39 @@ export const Main: FC<MainProps> = ({ header }) => {
         dispatch(
           updateSortedGenres(getGenresArray(getSortedByGenresArray(data))),
         );
+        dispatch(
+          uploadDanceTracks(checkedGenresFilterArray([ALBUM_DANCE], data)),
+        );
+        dispatch(
+          uploadRandomTracks(getRandomTracks(NUMBER_OF_RANDOM_ITEMS, data)),
+        );
+        // console.log(getRandomTracks(NUMBER_OF_RANDOM_ITEMS, data));
+        dispatch(updateSearchQuery(''));
       });
+    } else {
+      setTracks(dataTracks);
+      dispatch(uploadAllTracks(dataTracks));
+      dispatch(
+        updateSortedArtists(
+          getArtistsArray(getSortedByArtistsArray(dataTracks)),
+        ),
+      );
+      dispatch(
+        updateSortedYears(getYearsArray(getSortedByYearsArray(dataTracks))),
+      );
+      dispatch(
+        updateSortedGenres(getGenresArray(getSortedByGenresArray(dataTracks))),
+      );
+      dispatch(
+        uploadDanceTracks(checkedGenresFilterArray([ALBUM_DANCE], dataTracks)),
+      );
+      dispatch(
+        uploadRandomTracks(getRandomTracks(NUMBER_OF_RANDOM_ITEMS, dataTracks)),
+      );
+      // console.log(getRandomTracks(NUMBER_OF_RANDOM_ITEMS, dataTracks));
+      dispatch(updateSearchQuery(''));
     }
-  }, [allTracks, dispatch]);
+  }, [allTracks]);
 
   return (
     <Wrapper style={{ backgroundColor: bgColor }}>
@@ -75,7 +114,11 @@ export const Main: FC<MainProps> = ({ header }) => {
         className={cnMain()}
       >
         <NavMenu />
-        <Centerblock tracks={tracks} header={header}></Centerblock>
+        <Centerblock
+          tracks={tracks}
+          header={header}
+          // query={query}
+        ></Centerblock>
         <Sidebar
           isVisible={header === TEXT.header.tracks[lang]}
           isUserVisible={header !== TEXT.menu.profile[lang]}

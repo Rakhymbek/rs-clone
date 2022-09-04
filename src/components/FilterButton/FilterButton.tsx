@@ -34,10 +34,8 @@ export const FilterButton: FC<FilterButtonProps> = ({
   const colorDark = extradarkToDark(decorativeColor);
 
   const checkedItems = useAppSelector(
-    (state) => state.checkedItems[`${buttonName}`],
+    (state) => state.filteredItems[`${buttonName}`],
   );
-
-  // console.log('checkedItems', checkedItems);
 
   const ref = useRef(null);
   const [isPopupVisible, setIsPopupVisible] = useState(false);

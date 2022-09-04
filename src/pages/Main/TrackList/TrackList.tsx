@@ -1,30 +1,55 @@
-// import { TempleBuddhist } from '@mui/icons-material';
 import update from 'immutability-helper';
 import { FC, useEffect } from 'react';
 import { useCallback, useState } from 'react';
+import {
+  ALBUM_DANCE,
+  ALBUM_RANDOM,
+  EMPTY_ARTIST,
+  TEXT,
+} from '../../../constants';
 import { useAppDispatch, useAppSelector } from '../../../hook';
 import { uploadMovedTracks } from '../../../store/trackSlice';
 import { SongType } from '../../../types';
 import { TrackItem } from './TrackItem';
 
-export const TrackList: FC = () => {
+export const TrackList: FC<{ header: string }> = ({ header }) => {
   const dispatch = useAppDispatch();
 
-  const filteredTracksStore = useAppSelector(
-    (state) => state.checkedItems.filteredTracks,
+  const lang = useAppSelector((state) => state.language.lang);
+
+  const tracksAll = useAppSelector((state) => state.tracks.allTracks);
+  const tracksDance = useAppSelector((state) => state.tracks.danceTracks);
+  const tracksRandom = useAppSelector((state) => state.tracks.randomTracks);
+
+  const filteredTracks = useAppSelector(
+    (state) => state.filteredItems.filteredTracks,
+  );
+  const filteredTracksDance = useAppSelector(
+    (state) => state.filteredItems.filteredDanceTracks,
+  );
+  const filteredTracks_Random = useAppSelector(
+    (state) => state.filteredItems.filteredRandomTracks,
   );
 
-  const allTracksStore = useAppSelector((state) => state.tracks.allTracks);
+  let allTracks = filteredTracks.length ? filteredTracks : tracksAll;
 
-  const allTracks = filteredTracksStore.length
-    ? filteredTracksStore
-    : allTracksStore;
+  if (header === TEXT.albums[ALBUM_DANCE][lang]) {
+    allTracks = filteredTracksDance.length ? filteredTracksDance : tracksDance;
+  }
+
+  if (header === TEXT.albums[ALBUM_RANDOM][lang]) {
+    allTracks = filteredTracks_Random.length
+      ? filteredTracks_Random
+      : tracksRandom;
+  }
+
+  // console.log('--> allTracks', allTracks);
 
   const [trackItems, setTrackItems] = useState(allTracks);
 
   useEffect(() => {
     setTrackItems(allTracks);
-  }, [allTracks]);
+  }, [allTracks, header]);
 
   useEffect(() => {
     dispatch(uploadMovedTracks(trackItems));
@@ -57,11 +82,16 @@ export const TrackList: FC = () => {
 
   return (
     <>
-      <div>
-        {trackItems.map((track: SongType, i: number) =>
-          renderTrackItem(track, i),
-        )}
-      </div>
+      {trackItems[0].artist === EMPTY_ARTIST && (
+        <div>{TEXT.empty_results[lang]}</div>
+      )}
+      {trackItems[0].artist !== EMPTY_ARTIST && (
+        <div>
+          {trackItems.map((track: SongType, i: number) =>
+            renderTrackItem(track, i),
+          )}
+        </div>
+      )}
     </>
   );
 };

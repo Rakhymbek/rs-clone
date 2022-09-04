@@ -1,14 +1,14 @@
-import * as React from 'react';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogTitle from '@mui/material/DialogTitle';
+import * as React from "react";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogTitle from "@mui/material/DialogTitle";
 
-import { useAppSelector, useAppDispatch } from '../../hook';
-import { closeModal } from '../../store/modalSlice';
-import { logout } from '../../store/auth/auth';
-import { useNavigate } from 'react-router-dom';
-import { FC } from 'react';
+import { useAppSelector, useAppDispatch } from "../../hook";
+import { closeModal } from "../../store/modalSlice";
+import { logout } from "../../store/auth/auth";
+import { useNavigate } from "react-router-dom";
+import { FC } from "react";
 
 export const AlertDialog: FC<{}> = () => {
   const dispatch = useAppDispatch();
@@ -17,9 +17,9 @@ export const AlertDialog: FC<{}> = () => {
 
   const onClickLogout = () => {
     dispatch(logout());
-    window.localStorage.removeItem('token');
+    window.localStorage.removeItem("token");
     dispatch(closeModal());
-    navigate('/');
+    navigate("/");
   };
 
   const handleClose = () => {
@@ -31,9 +31,12 @@ export const AlertDialog: FC<{}> = () => {
       <Dialog
         open={isOpen}
         onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description">
-        <DialogTitle id="alert-dialog-title">{'Вы действительно хотите выйти?'}</DialogTitle>
+        aria-labelledby='alert-dialog-title'
+        aria-describedby='alert-dialog-description'
+      >
+        <DialogTitle id='alert-dialog-title'>
+          {"Вы действительно хотите выйти?"}
+        </DialogTitle>
         <DialogActions>
           <Button onClick={handleClose}>Отмена</Button>
           <Button onClick={onClickLogout} autoFocus>
