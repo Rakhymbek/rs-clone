@@ -8,13 +8,22 @@ import { Main } from './pages/Main/Main';
 
 import './App.css';
 import { TEXT } from './constants';
-import { useAppSelector } from './hook';
+import { AlertDialog } from './components/AlertDialog/AlertDialog';
+import { useAppDispatch, useAppSelector } from './hook';
+import { fetchAuthMe } from './store/auth/auth';
 
 function App() {
   const lang = useAppSelector((state) => state.language.lang);
+  const { isOpen } = useAppSelector((state) => state.modal);
+  const dispatch = useAppDispatch();
+
+  React.useEffect(() => {
+    dispatch(fetchAuthMe());
+  }, [dispatch]);
 
   return (
     <>
+      {isOpen && <AlertDialog />}
       <Routes>
         <Route path="/" element={<Login />}></Route>
         <Route path="/register" element={<Register />}></Route>

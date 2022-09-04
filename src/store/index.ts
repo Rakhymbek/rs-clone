@@ -2,6 +2,8 @@ import { configureStore } from '@reduxjs/toolkit';
 import colorThemeReducer from './colorThemeSlice';
 import languageReducer from './languageSlice';
 import trackReducer from './trackSlice';
+import { authReducer } from './auth/auth';
+import modalReducer from './modalSlice';
 import checkedItemsReducer from './checkedItemsSlice';
 import sortedArraysReducer from './sortedArraysSlice';
 
@@ -10,6 +12,8 @@ const store = configureStore({
     colorTheme: colorThemeReducer,
     language: languageReducer,
     tracks: trackReducer,
+    auth: authReducer,
+    modal: modalReducer,
     checkedItems: checkedItemsReducer,
     sortedArrays: sortedArraysReducer,
   },
