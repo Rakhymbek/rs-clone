@@ -16,7 +16,7 @@ import {
 
 import { SpanChangeColor } from '../../../components/changeColor/SpanChangeColor';
 import { AlbumCover } from '../../../components/AlbumCover/AlbumCover';
-import { ALBUM_DANCE, TEXT, USER } from '../../../constants';
+import { ALBUM_DANCE, TEXT } from '../../../constants';
 import { useAppDispatch, useAppSelector } from '../../../hook';
 import {
   bgColorToBgColorLight,
@@ -44,7 +44,6 @@ import {
   uploadRandomTracks,
 } from '../../../store/trackSlice';
 import { updateSearchQuery } from '../../../store/sortingSettingsSlice';
-// import './Animation.css';
 
 const cnSidebar = cn('Sidebar');
 
@@ -53,14 +52,19 @@ type SidebarProps = {
   isUserVisible?: boolean;
 };
 
-export const Sidebar: FC<SidebarProps> = ({ isVisible, isUserVisible = true }) => {
+export const Sidebar: FC<SidebarProps> = ({
+  isVisible,
+  isUserVisible = true,
+}) => {
   const dispatch = useAppDispatch();
 
   const dataUser = useAppSelector((state) => state.auth.data);
   const lang = useAppSelector((state) => state.language.lang);
   const textColor = useAppSelector((state) => state.colorTheme.textColor);
   const bgColor = useAppSelector((state) => state.colorTheme.bgColor);
-  const decorativeColor = useAppSelector((state) => state.colorTheme.decorativeColor);
+  const decorativeColor = useAppSelector(
+    (state) => state.colorTheme.decorativeColor,
+  );
   const bgColorLight = bgColorToBgColorLight(bgColor);
   const colorHover = extradarkToHover(decorativeColor);
   const colorDark = extradarkToDark(decorativeColor);
@@ -163,13 +167,15 @@ export const Sidebar: FC<SidebarProps> = ({ isVisible, isUserVisible = true }) =
       {isUserVisible && (
         <div className={cnSidebar('User')}>
           <NavLink to={'/profile'}>
-            <Typography className={cnSidebar('User-Name')} style={{ color: textColor }}>
+            <Typography
+              className={cnSidebar('User-Name')}
+              style={{ color: textColor }}
+            >
               <SpanChangeColor colorHover={colorHover} colorActive={colorDark}>
                 {dataUser?.fullName}
               </SpanChangeColor>
             </Typography>
           </NavLink>
-          {/* <div className={cnSidebar('User-Avatar')}></div> */}
 
           <ThemeProvider theme={buttonTheme}>
             <FormControl
@@ -180,7 +186,8 @@ export const Sidebar: FC<SidebarProps> = ({ isVisible, isUserVisible = true }) =
                 backgroundColor: bgColorLight,
                 borderTopLeftRadius: '5px',
                 borderTopRightRadius: '5px',
-              }}>
+              }}
+            >
               <Select
                 labelId="demo-simple-select-standard-label"
                 id="demo-simple-select-standard"
@@ -191,7 +198,8 @@ export const Sidebar: FC<SidebarProps> = ({ isVisible, isUserVisible = true }) =
                   color: textColor,
                   fontSize: '15px',
                   padding: '0 5px',
-                }}>
+                }}
+              >
                 <MenuItem value={'ru'}>Ru</MenuItem>
                 <MenuItem value={'en'}>En</MenuItem>
                 <MenuItem value={'bel'}>Bel</MenuItem>
@@ -203,8 +211,13 @@ export const Sidebar: FC<SidebarProps> = ({ isVisible, isUserVisible = true }) =
 
       <Card
         className={cnSidebar('List')}
-        sx={isVisible ? { display: 'block', backgroundColor: 'transparent' } : { display: 'none' }}
-        style={{ border: 'none', boxShadow: 'none' }}>
+        sx={
+          isVisible
+            ? { display: 'block', backgroundColor: 'transparent' }
+            : { display: 'none' }
+        }
+        style={{ border: 'none', boxShadow: 'none' }}
+      >
         {/* <canvas id="myCanvas" width="1200" height="250"></canvas> */}
 
         <div onClick={handleClickRandom}>
