@@ -3,6 +3,7 @@ import colorThemeReducer from './colorThemeSlice';
 import languageReducer from './languageSlice';
 import trackReducer from './trackSlice';
 import { authReducer } from './auth/auth';
+import modalReducer from './modalSlice';
 
 const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
     language: languageReducer,
     tracks: trackReducer,
     auth: authReducer,
+    modal: modalReducer,
   },
 });
 
