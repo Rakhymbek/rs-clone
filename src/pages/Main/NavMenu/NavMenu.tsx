@@ -108,11 +108,6 @@ export const NavMenu: FC<{}> = () => {
   const order = useAppSelector((state) => state.sortingSettings.order);
 
   const handleClickToMain = () => {
-    // const searchedItemsCurrent = searchedItems.length
-    //   ? searchedItems
-    //   : allTracksStore;
-    // newFilter.checkedGenres = [ALBUM_DANCE];
-    // const searchedItemsCurrent: SongType[] = [];
     const searchedItemsCurrent = allTracks;
 
     dispatch(updateCheckedGenres([]));
@@ -147,11 +142,9 @@ export const NavMenu: FC<{}> = () => {
           : { backgroundColor: bgColor }
       }
     >
-      <div onClick={handleClickToMain}>
-        <NavLink to={'/main'}>
-          <Logo textColor={textColor} />
-        </NavLink>
-      </div>
+      <NavLink to={'/main'} onClick={handleClickToMain}>
+        <Logo textColor={textColor} />
+      </NavLink>
 
       <IconButton className={cnNavMenu('Burger')} onClick={handleClick}>
         <MenuIcon
@@ -175,6 +168,7 @@ export const NavMenu: FC<{}> = () => {
           </li>
           <li>
             <NavLink
+              onClick={handleClickToMain}
               className={cnNavMenu(null, ['List-Button'])}
               style={{ color: textColor }}
               to="/mytracks"

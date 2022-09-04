@@ -39,7 +39,10 @@ import {
   updateSearchedTracksRandom,
 } from '../../../store/filteredItemsSlice';
 import { getFinalItems } from '../../../utils/getFinalItems';
-import { uploadDanceTracks } from '../../../store/trackSlice';
+import {
+  uploadDanceTracks,
+  uploadRandomTracks,
+} from '../../../store/trackSlice';
 import { updateSearchQuery } from '../../../store/sortingSettingsSlice';
 // import './Animation.css';
 
@@ -89,7 +92,9 @@ export const Sidebar: FC<SidebarProps> = ({
   const allTracksDance: SongType[] = useAppSelector(
     (state) => state.tracks.danceTracks,
   );
-  const allTracksRandom = useAppSelector((state) => state.tracks.randomTracks);
+  const allTracksRandom: SongType[] = useAppSelector(
+    (state) => state.tracks.randomTracks,
+  );
 
   const order = useAppSelector((state) => state.sortingSettings.order);
 
@@ -124,10 +129,7 @@ export const Sidebar: FC<SidebarProps> = ({
     );
 
     dispatch(uploadDanceTracks(finalFilteredTracks));
-    // dispatch(updateSelectedAlbum(ALBUM_DANCE));
   };
-
-  //////////
 
   const handleClickRandom = () => {
     const searchedItemsCurrent = allTracksRandom;
@@ -151,13 +153,13 @@ export const Sidebar: FC<SidebarProps> = ({
     dispatch(updateSearchedTracksRandom(allTracksRandom));
 
     const finalFilteredTracks = getFinalItems(
-      allTracksDance,
+      allTracksRandom,
       newFilter,
       searchedItemsCurrent,
       order,
     );
 
-    dispatch(uploadDanceTracks(finalFilteredTracks));
+    dispatch(uploadRandomTracks(finalFilteredTracks));
   };
 
   return (
