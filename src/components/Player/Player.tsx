@@ -1,5 +1,4 @@
 import React, {
-  createRef,
   useCallback,
   useEffect,
   useRef,
@@ -22,6 +21,7 @@ import {
 import { IconButton } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../hook';
 import {
+  setShuffleStatus,
   shuffleTracks,
   switchToNextTrack,
   switchToPreviousTrack,
@@ -31,9 +31,9 @@ import {
   PlayerControlsWrapper,
   PlayerWrapper,
 } from '../changeColor/PlayerChangeColor';
-// import Canvas from '../../pages/Main/NavMenu/anima/anima';
 const cnPlayer = cn('Player');
-const songFile = require('../../pages/Main/NavMenu/anima/m.mp3')
+
+
 export type PlayerProps = {
   track: SongType;
 };
@@ -43,8 +43,10 @@ export const Player: FC<PlayerProps> = ({ track }) => {
   const [audio, setAudio] = useState(
     JSON.parse(localStorage.getItem('currentTrack')!)?.url || '',
   );
-  const [isActive, setIsActive] = useState(false);
+  // const [isActive, setIsActive] = useState(false);
+  const isActive = useAppSelector((state) => state.tracks.isShuffleActive);
   const currentTrack = useAppSelector((state) => state.tracks.currentTrack);
+  const autoplay = useAppSelector((state) => state.tracks.autoplay);
   const alltracks = useAppSelector((state) => state.tracks.allTracks);
   const decorativeColor = useAppSelector(
     (state) => state.colorTheme.decorativeColor,
@@ -54,7 +56,7 @@ export const Player: FC<PlayerProps> = ({ track }) => {
 
   useEffect(() => {
     setAudio(currentTrack.url);
-  }, []);
+  }, [currentTrack.url]);
 
   const handleClickNext = useCallback(() => {
     dispatch(switchToNextTrack(alltracks));
@@ -70,20 +72,17 @@ export const Player: FC<PlayerProps> = ({ track }) => {
   }, [dispatch, alltracks, isActive]);
 
   const handleClickShuffle = useCallback(() => {
-    setIsActive(!isActive);
-  }, [isActive]);
-
-  const audioCtx: any = createRef();
+    dispatch(setShuffleStatus(isActive));
+  }, [dispatch, isActive]);
 
   return (
     <PlayerWrapper progressсolor={progressColor} className={cnPlayer()}>
-      {/* <Canvas ref={audioCtx.current?.audio?.current!}></Canvas> */}
       <AudioPlayer
-      // crossOrigin='anonymous'
         onClickNext={handleClickNext}
         onClickPrevious={handleClickPrevious}
         onEnded={handleAudioEnded}
         src={audio}
+        autoPlay={autoplay}
         defaultDuration={false}
         defaultCurrentTime={false}
         ref={audioCtx}

@@ -20,6 +20,7 @@ import {
   extradarkToDark,
   extradarkToHover,
 } from '../../../utils/colorUtils';
+import { openModal } from '../../../store/modalSlice';
 
 import './NavMenu.css';
 import {
@@ -33,10 +34,24 @@ import {
   updateCheckedYears,
   updateCheckedGenres,
   updateFilteredTracks,
-} from '../../../store/checkedItemsSlice';
-import { openModal } from '../../../store/modalSlice';
+  updateSearchedTracks,
+  updateFilteredDanceTracks,
+  updateSearchedTracksDance,
+  updateFilteredRandomTracks,
+  updateSearchedTracksRandom,
+} from '../../../store/filteredItemsSlice';
+import { uploadAllTracks, uploadDanceTracks } from '../../../store/trackSlice';
+import { getFinalItems } from '../../../utils/getFinalItems';
+import { SongType, TCheckedItems } from '../../../types';
+import { updateSearchQuery } from '../../../store/sortingSettingsSlice';
 
 const cnNavMenu = cn('NavMenu');
+
+const newFilter: TCheckedItems = {
+  checkedArtists: [],
+  checkedYears: [],
+  checkedGenres: [],
+};
 
 export const NavMenu: FC<{}> = () => {
   const dispatch = useAppDispatch();
@@ -46,10 +61,19 @@ export const NavMenu: FC<{}> = () => {
   const bgColor = useAppSelector((state) => state.colorTheme.bgColor);
   const bgColorLight = bgColorToBgColorLight(bgColor);
 
-  const decorativeColor = useAppSelector((state) => state.colorTheme.decorativeColor);
-
+  const decorativeColor = useAppSelector(
+    (state) => state.colorTheme.decorativeColor,
+  );
   const colorHover = extradarkToHover(decorativeColor);
   const colorDark = extradarkToDark(decorativeColor);
+
+  const allTracks: SongType[] = useAppSelector(
+    (state) => state.tracks.allTracks,
+  );
+  const allTracksDance: SongType[] = useAppSelector(
+    (state) => state.tracks.danceTracks,
+  );
+  const allTracksRandom = useAppSelector((state) => state.tracks.randomTracks);
 
   const [isVisible, setIsVisible] = useState(false);
 
@@ -71,16 +95,59 @@ export const NavMenu: FC<{}> = () => {
     dispatch(updateCheckedArtists([]));
     dispatch(updateCheckedYears([]));
     dispatch(updateCheckedGenres([]));
+
     dispatch(updateFilteredTracks([]));
+    dispatch(updateFilteredDanceTracks([]));
+    dispatch(updateFilteredRandomTracks([]));
+
+    dispatch(updateSearchQuery(''));
+    dispatch(uploadAllTracks([]));
+    dispatch(updateSearchedTracks(allTracks));
+    dispatch(updateSearchedTracksDance(allTracksDance));
+    dispatch(updateSearchedTracksRandom(allTracksRandom));
+  };
+
+  const order = useAppSelector((state) => state.sortingSettings.order);
+
+  const handleClickToMain = () => {
+    const searchedItemsCurrent = allTracks;
+
+    dispatch(updateCheckedGenres([]));
+    dispatch(updateCheckedArtists([]));
+    dispatch(updateCheckedYears([]));
+
+    dispatch(updateFilteredTracks([]));
+    dispatch(updateFilteredDanceTracks([]));
+    dispatch(updateFilteredRandomTracks([]));
+
+    dispatch(updateSearchQuery(''));
+    dispatch(updateSearchedTracks(allTracks));
+    dispatch(updateSearchedTracksDance(allTracksDance));
+    dispatch(updateSearchedTracksRandom(allTracksRandom));
+
+    const finalFilteredTracks = getFinalItems(
+      allTracks,
+      newFilter,
+      searchedItemsCurrent,
+      order,
+    );
+
+    dispatch(uploadDanceTracks(finalFilteredTracks));
   };
 
   return (
     <nav
       className={cnNavMenu()}
-      style={isVisible ? { backgroundColor: bgColorLight } : { backgroundColor: bgColor }}>
-      <NavLink to={'/main'}>
+      style={
+        isVisible
+          ? { backgroundColor: bgColorLight }
+          : { backgroundColor: bgColor }
+      }
+    >
+      <NavLink to={'/main'} onClick={handleClickToMain}>
         <Logo textColor={textColor} />
       </NavLink>
+
       <IconButton className={cnNavMenu('Burger')} onClick={handleClick}>
         <MenuIcon
           className={cnNavMenu('Burger-Icon')}
@@ -102,6 +169,7 @@ export const NavMenu: FC<{}> = () => {
           </li>
           <li>
             <NavLink
+              onClick={handleClickToMain}
               className={cnNavMenu(null, ['List-Button'])}
               style={{ color: textColor }}
               to="/mytracks">
@@ -121,9 +189,10 @@ export const NavMenu: FC<{}> = () => {
             </NavLink>
           </li>
           <li>
-            <button
+            <NavLink
               onClick={() => dispatch(openModal())}
               style={{ color: textColor }}
+              to={''}
             >
               <SpanChangeColor
                 colorHover={colorHover}
@@ -132,7 +201,7 @@ export const NavMenu: FC<{}> = () => {
               >
                 {TEXT.menu.logout[lang]}
               </SpanChangeColor>
-            </button>
+            </NavLink>
           </li>
         </ul>
       )}

@@ -31,6 +31,26 @@ export const theme = createTheme({
 
 export const DEFAULT_LANG = 'ru';
 
+export const NUMBER_OF_RANDOM_ITEMS = 10;
+
+export const ORDER = { notSelected: 'notSelected', asc: 'ASC', desc: 'DESC' };
+
+export const ALBUM_RANDOM = 'dayplaylist';
+export const ALBUM_DANCE = 'dance';
+
+export const ALBUMS = {
+  [ALBUM_RANDOM]: {
+    ru: 'Плейлист дня',
+    en: 'Playlist of the day',
+    bel: 'Плэйліст дня',
+  },
+  [ALBUM_DANCE]: {
+    ru: 'Танцевальные хиты',
+    en: 'Dance hits',
+    bel: 'Танцавальныя хіты',
+  },
+};
+
 export const TEXT = {
   menu: {
     homepage: { ru: 'Главная', en: 'Homepage', bel: 'Галоўны' },
@@ -42,25 +62,39 @@ export const TEXT = {
     }, //Асабісты кабінет
     logout: { ru: 'Выйти', en: 'Logout', bel: 'Выйсці' },
   },
-  searchInput: { ru: 'Поиск', en: 'Search', bel: 'Пошук' },
-  header: { tracks: { ru: 'Треки', en: 'Tracks', bel: 'Трэк' } },
-  albums: {
-    dayplaylist: {
-      ru: 'Плейлист дня',
-      en: 'Playlist of the day',
-      bel: 'Плэйліст дня',
-    },
-    hits: {
-      ru: '100 танцевальных хитов',
-      en: '100 dance hits',
-      bel: '100 танцавальных хітоў',
-    },
+  searchInput: {
+    ru: 'Поиск по исполнителю / названию песни',
+    en: 'Search by artist or song title',
+    bel: 'Пошук па артысту або назве песні',
   },
+  header: { tracks: { ru: 'Треки', en: 'Tracks', bel: 'Трэк' } },
+  albums: ALBUMS,
   search: {
-    searchBy: { ru: 'Искать по:', en: 'Search by', bel: 'Шукаць па:' },
+    // searchBy: { ru: 'Искать по:', en: 'Search by', bel: 'Шукаць па:' },
+    searchBy: { ru: 'Фильтр по:', en: 'Filter by:', bel: 'Фільтр па:' },
     artist: { ru: 'исполнителю', en: 'artist', bel: 'выканаўца' },
     release: { ru: 'году выпуска', en: 'release date', bel: 'годзе выпуску' },
     genre: { ru: 'жанру', en: 'genre', bel: 'жанр' },
+    order: {
+      ru: 'Порядок',
+      en: 'Order',
+      bel: 'Парадак',
+      default: {
+        ru: 'по умолчанию',
+        en: 'by default',
+        bel: 'безумоўна',
+      },
+      oldToNew: {
+        ru: 'от старых к новым',
+        en: 'old to new',
+        bel: 'ад старых да новых',
+      },
+      newToOld: {
+        ru: 'от новых к старым',
+        en: 'new to old',
+        bel: 'ад новых да старых',
+      },
+    },
   },
   listHeader: {
     track: { ru: 'ТРЕК', en: 'TRACK', bel: 'ТРЭК' },
@@ -101,10 +135,12 @@ export const TEXT = {
   },
 };
 
+export const EMPTY_ARTIST = 'sorry_empty_artist';
+
 export const EMPTY_RESULTS = [
   {
     _id: 'empty_results',
-    artist: 'empty_results',
+    artist: EMPTY_ARTIST,
   },
 ];
 

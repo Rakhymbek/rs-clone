@@ -4,18 +4,22 @@ import languageReducer from './languageSlice';
 import trackReducer from './trackSlice';
 import { authReducer } from './auth/auth';
 import modalReducer from './modalSlice';
-import checkedItemsReducer from './checkedItemsSlice';
-import sortedArraysReducer from './sortedArraysSlice';
+import filteredItemsReducer from './filteredItemsSlice';
+import sortingSettingsReducer from './sortingSettingsSlice';
+import headerReducer from './headerSlice';
+import vpnReducer from './vpnSlice';
 
 const store = configureStore({
   reducer: {
+    vpn: vpnReducer,
     colorTheme: colorThemeReducer,
     language: languageReducer,
-    tracks: trackReducer,
     auth: authReducer,
     modal: modalReducer,
-    checkedItems: checkedItemsReducer,
-    sortedArrays: sortedArraysReducer,
+    tracks: trackReducer,
+    filteredItems: filteredItemsReducer,
+    sortingSettings: sortingSettingsReducer,
+    header: headerReducer,
   },
 });
 
