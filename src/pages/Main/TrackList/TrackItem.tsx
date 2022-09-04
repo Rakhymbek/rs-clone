@@ -6,7 +6,7 @@ import { FC, useCallback } from 'react';
 import { useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 
-import { DivChangeColor } from '../../../components/changeColor/DivChangeColor/DivChangeColor';
+import { DivChangeColor } from '../../../components/changeColor/DivChangeColor';
 import { useAppDispatch, useAppSelector } from '../../../hook';
 import { changeCurrentSong } from '../../../store/trackSlice';
 import { SongType } from '../../../types';
@@ -150,6 +150,9 @@ export const TrackItem: FC<TrackItemProps> = ({
         ></img>
 
         <span className={cnTrackItem('Name')}>{track.title}</span>
+        {/* <span className={cnTrackItem('Author')}>{track.genre}</span> */}
+        {/* <span className={cnTrackItem('Author')}>{track.year}</span> */}
+        {/*  */}
         <span className={cnTrackItem('Author')}>{track.artist}</span>
         <span
           className={cnTrackItem('Album')}

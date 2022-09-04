@@ -3,7 +3,7 @@ import { FC } from 'react';
 import { cn } from '@bem-react/classname';
 
 import { NavLink } from 'react-router-dom';
-import { IconButton } from '@mui/material';
+import { Button, IconButton } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import Logo from '../../../components/Logo/Logo';
 import {
@@ -11,9 +11,9 @@ import {
   COLOR,
   COLOR_EXTRADARK,
   DEFAULT_LANG,
-  text,
+  TEXT,
 } from '../../../constants';
-import { SpanChangeColor } from '../../../components/changeColor/SpanChangeColor/SpanChangeColor';
+import { SpanChangeColor } from '../../../components/changeColor/SpanChangeColor';
 import { useAppDispatch, useAppSelector } from '../../../hook';
 import {
   bgColorToBgColorLight,
@@ -28,6 +28,13 @@ import {
   changeTextColor,
 } from '../../../store/colorThemeSlice';
 import { changeLanguage } from '../../../store/languageSlice';
+import {
+  updateCheckedArtists,
+  updateCheckedYears,
+  updateCheckedGenres,
+  updateFilteredTracks,
+} from '../../../store/checkedItemsSlice';
+import { openModal } from '../../../store/modalSlice';
 
 const cnNavMenu = cn('NavMenu');
 
@@ -39,9 +46,7 @@ export const NavMenu: FC<{}> = () => {
   const bgColor = useAppSelector((state) => state.colorTheme.bgColor);
   const bgColorLight = bgColorToBgColorLight(bgColor);
 
-  const decorativeColor = useAppSelector(
-    (state) => state.colorTheme.decorativeColor,
-  );
+  const decorativeColor = useAppSelector((state) => state.colorTheme.decorativeColor);
 
   const colorHover = extradarkToHover(decorativeColor);
   const colorDark = extradarkToDark(decorativeColor);
@@ -62,17 +67,17 @@ export const NavMenu: FC<{}> = () => {
     dispatch(changeBgColor(BGCOLOR));
     dispatch(changeDecorativeColor(COLOR_EXTRADARK));
     dispatch(changeLanguage(DEFAULT_LANG));
+
+    dispatch(updateCheckedArtists([]));
+    dispatch(updateCheckedYears([]));
+    dispatch(updateCheckedGenres([]));
+    dispatch(updateFilteredTracks([]));
   };
 
   return (
     <nav
       className={cnNavMenu()}
-      style={
-        isVisible
-          ? { backgroundColor: bgColorLight }
-          : { backgroundColor: bgColor }
-      }
-    >
+      style={isVisible ? { backgroundColor: bgColorLight } : { backgroundColor: bgColor }}>
       <NavLink to={'/main'}>
         <Logo textColor={textColor} />
       </NavLink>
@@ -89,10 +94,9 @@ export const NavMenu: FC<{}> = () => {
             <NavLink
               className={cnNavMenu(null, ['List-Button'])}
               style={{ color: textColor }}
-              to="/main"
-            >
+              to="/main">
               <SpanChangeColor colorHover={colorHover} colorActive={colorDark}>
-                {text.menu.homepage[lang]}
+                {TEXT.menu.homepage[lang]}
               </SpanChangeColor>
             </NavLink>
           </li>
@@ -100,10 +104,9 @@ export const NavMenu: FC<{}> = () => {
             <NavLink
               className={cnNavMenu(null, ['List-Button'])}
               style={{ color: textColor }}
-              to="/mytracks"
-            >
+              to="/mytracks">
               <SpanChangeColor colorHover={colorHover} colorActive={colorDark}>
-                {text.menu.mytracks[lang]}
+                {TEXT.menu.mytracks[lang]}
               </SpanChangeColor>
             </NavLink>
           </li>
@@ -111,27 +114,25 @@ export const NavMenu: FC<{}> = () => {
             <NavLink
               className={cnNavMenu(null, ['List-Button'])}
               style={{ color: textColor }}
-              to={'/profile'}
-            >
+              to={'/profile'}>
               <SpanChangeColor colorHover={colorHover} colorActive={colorDark}>
-                {text.menu.profile[lang]}
+                {TEXT.menu.profile[lang]}
               </SpanChangeColor>
             </NavLink>
           </li>
           <li>
-            <NavLink
-              className={cnNavMenu(null, ['List-Button'])}
+            <button
+              onClick={() => dispatch(openModal())}
               style={{ color: textColor }}
-              to={'/'}
             >
               <SpanChangeColor
                 colorHover={colorHover}
                 colorActive={colorDark}
                 onClick={handleLogOut}
               >
-                {text.menu.logout[lang]}
+                {TEXT.menu.logout[lang]}
               </SpanChangeColor>
-            </NavLink>
+            </button>
           </li>
         </ul>
       )}
