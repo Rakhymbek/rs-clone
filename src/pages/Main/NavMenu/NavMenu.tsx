@@ -39,7 +39,7 @@ import {
   updateFilteredRandomTracks,
   updateSearchedTracksRandom,
 } from '../../../store/filteredItemsSlice';
-import { uploadDanceTracks } from '../../../store/trackSlice';
+import { uploadAllTracks, uploadDanceTracks } from '../../../store/trackSlice';
 import { getFinalItems } from '../../../utils/getFinalItems';
 import { SongType, TCheckedItems } from '../../../types';
 import { updateSearchQuery } from '../../../store/sortingSettingsSlice';
@@ -100,6 +100,7 @@ export const NavMenu: FC<{}> = () => {
     dispatch(updateFilteredRandomTracks([]));
 
     dispatch(updateSearchQuery(''));
+    dispatch(uploadAllTracks([]));
     dispatch(updateSearchedTracks(allTracks));
     dispatch(updateSearchedTracksDance(allTracksDance));
     dispatch(updateSearchedTracksRandom(allTracksRandom));
