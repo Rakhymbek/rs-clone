@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { SongType } from "../types";
+const firstSong = require('../firstSong.mp3')
 
 type TTrackState = {
   currentTrack: SongType;
@@ -8,7 +9,7 @@ type TTrackState = {
 };
 
 const initialState: TTrackState = {
-  currentTrack: JSON.parse(localStorage.getItem("currentTrack")!) || {},
+  currentTrack: JSON.parse(localStorage.getItem("currentTrack")!) || firstSong || {},
   allTracks: [],
   autoplay: false,
 };

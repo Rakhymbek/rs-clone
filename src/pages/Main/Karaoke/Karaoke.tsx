@@ -1,15 +1,14 @@
 import { Box, styled, Typography } from "@mui/material";
-import React, { useEffect, useRef, useState } from "react";
-import { useTimer } from "use-timer";
+import React, { useEffect, useState } from "react";
 import { fetchTracks } from "../../../fetchers/fetchTracks";
 import { useAppDispatch, useAppSelector } from "../../../hook";
 import { uploadAllTracks } from "../../../store/trackSlice";
 import { SongType } from "../../../types";
 import { TrackList } from "../TrackList/TrackList";
-import Line from "./Line";
 import "./Karaoke.css";
 import { NavMenu } from "../NavMenu/NavMenu";
-import AudioPlayer from "react-h5-audio-player";
+const { MuseDOM } = require("muse-player");
+
 
 const KaraokeWrapper = styled(Box)`
   max-height: 300px;
@@ -39,69 +38,71 @@ const KaraokeWrapper = styled(Box)`
 
 const Karaoke = () => {
   const dispatch = useAppDispatch();
-  const audioRef = useRef<AudioPlayer>();
-  const [audio, setAudio] = useState("");
-  const [message, setMessage] = useState("Выберите песню и запустите плеер");
   const tracks = useAppSelector((state) => state.tracks.allTracks);
   const currentTrack = useAppSelector((state) => state.tracks.currentTrack);
+  const txt = currentTrack.lyrics;
+  const [msg, setMsg] = useState("");
 
-  const { time, start, pause, reset } = useTimer();
-  const [line, setLine] = useState("");
 
-  const removeMS = (timing: string) => {
-    let clean = timing.substring(1);
-    clean = clean.substring(0, clean.length - 4);
-    return clean;
+  const data = {
+    title: "",
+    artist: "",
+    cover: "",
+    src: currentTrack.urlPlay,
+    lyric: txt,
   };
 
-  useEffect(() => {
-    setAudio(currentTrack.urlPlay as string);
-    const ctx = audioRef.current as AudioPlayer;
-    if (!(ctx.audio.current as HTMLMediaElement).paused) {
-      setMessage("Запустите плеер");
-    }
-  }, [currentTrack.lyrics, currentTrack.urlPlay]);
+  function changeLyrics(lyrics: string[]) {
+    return lyrics
+      .map(
+        (text, i) => `
+              <li class="muse-lyric__item" data-lyric-item-id="${i}">
+                <span class="muse-lyric__text">${text}</span>
+              </li>`
+      )
+      .join("");
+  }
 
   useEffect(() => {
+    setMsg("Lyrics")
+    const player = document.querySelector(
+      ".muse-controller audio"
+    ) as HTMLAudioElement;
+    if (player) {
+      const lyricsContainer = document.querySelector(
+        ".muse-drawer__lyric-container"
+      ) as HTMLElement;
+      const lyrics = txt?.replace(/\[(.*)\]/g, "").split(/\n/) as string[];
+
+      lyricsContainer.innerHTML = "";
+      if (lyrics) {
+        lyricsContainer.innerHTML = `
+        ${changeLyrics(lyrics)}
+        `;
+      }
+      player.src = currentTrack.urlPlay as string;
+      player.pause();
+    }
+  }, [currentTrack.urlPlay, txt]);
+
+  useEffect(() => {
+    MuseDOM.render([data, {}], document.getElementById("player"));
     fetchTracks().then((data) => {
       dispatch(uploadAllTracks(data));
     });
-  }, []);
-
-  const txt = currentTrack.lyrics;
-
-  useEffect(() => {
-    if (lyrics) {
-      lyrics[
-        (timers as string[]).indexOf(
-          new Date(time * 1000).toISOString().substr(14, 5)
-        )
-      ] &&
-        setLine(
-          lyrics![
-            (timers as string[]).indexOf(
-              new Date(time * 1000).toISOString().substr(14, 5)
-            )
-          ]
-        );
-    } else {
-      setLine("");
-      reset();
+    const firstLyricsContainer = document.querySelector(
+      ".muse-drawer__lyric-container"
+    ) as HTMLElement;
+    const firstLine = document.querySelector(
+      ".muse-lyric__text"
+    ) as HTMLElement;
+    if (firstLine) {
+      if (firstLine.innerHTML.includes("这首歌没有歌词~")) {
+        firstLyricsContainer.innerHTML = "";
+        setMsg("Если вы вошли на страницу Караоке 'впервые', то пожалуйста выберите песню\n и обновите страницу!")
+      }
     }
-  }, [time]);
-
-  const timers = txt?.match(/\[(.*)\]/g)?.map((t) => removeMS(t));
-  const lyrics = txt?.replace(/\[(.*)\]/g, "").split(/\n/);
-
-  const handleOnPlay = () => {
-    start();
-    setMessage("Начинается...");
-  };
-
-  const handleOnPause = () => {
-    pause();
-    setMessage("Запустите плеер");
-  };
+  }, []);
 
   return (
     <div className='Karaoke'>
@@ -113,18 +114,9 @@ const Karaoke = () => {
           marginBottom={1}
           textAlign={"center"}
         >
-          Lyrics
+          {msg}
         </Typography>
-        <div className='Karaoke-Line'>
-          {line && currentTrack.lyrics ? (
-            <Line text={line} />
-          ) : (
-            <Typography variant='h2' fontSize={"2vw"}>
-              {message}
-            </Typography>
-          )}
-        </div>
-
+        <div id='player' className='Karaoke-Line'></div>
         <div className='Karaoke-Controls'>
           <Typography
             variant='h2'
@@ -138,17 +130,7 @@ const Karaoke = () => {
           <KaraokeWrapper className='Karaoke-Wrapper'>
             <TrackList tracks={tracks as SongType[]}></TrackList>
           </KaraokeWrapper>
-          <div className='Karaoke-Player'>
-            <AudioPlayer
-              ref={audioRef as unknown as null}
-              showSkipControls={true}
-              showJumpControls={false}
-              onPlay={handleOnPlay}
-              onPause={handleOnPause}
-              src={audio}
-              autoPlayAfterSrcChange={false}
-            />
-          </div>
+          <div className='Karaoke-Player'></div>
         </div>
       </div>
     </div>
@@ -156,3 +138,5 @@ const Karaoke = () => {
 };
 
 export default Karaoke;
+if (document.getElementById("player")) {
+}

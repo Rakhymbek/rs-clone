@@ -5,6 +5,7 @@
 }
 
 .Karaoke-Content {
+    flex: 1 1 auto;
     padding-top: 30px;
 }
 
@@ -13,11 +14,35 @@
     display: flex;
     align-items: center;
     border: 1px solid #ffffff8c;
-    height: 150px;
+    /* height: 150px; */
     margin: 0;
     text-align: center;
     width: 80%;
     margin: auto;
+}
+
+.muse-menu {
+    display: none;
+}
+
+.muse-drawer__panel-toggler {
+    display: none;
+}
+
+.muse-player.muse-layout-default {
+    width: 100%!important;
+}
+
+.muse-drawer.muse-drawer__state-close {
+    padding: 10% 15px 10px 15px!important;
+}
+
+.muse-drawer .muse-drawer__lyric .muse-lyric__text {
+    font-size: 2vw!important;
+}
+
+.muse-selector {
+    display: none;
 }
 
 .Karaoke-Controls {
