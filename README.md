@@ -29,22 +29,6 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
 ### Приложение Music Player музыкальный сервис
 
 #### Работа приложения
@@ -54,28 +38,41 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 - [ ] Встроенный в приложение плеер:
   - [x] прослушивание музыки,
   - [x] постановка на паузу и снятие с нее,
-  - [ ] перемотка,
+  - [x] перемотка,
   - [x] повтор трека,
   - [ ] shuffle плейлиста
   - [ ] статистика, которая отображает прогресс работы приложения (время проигрывания трека/время, оставшееся до конца)
 - [ ] Функция караоке
 - [x] Витрина с доступными треками
-- [ ] Добавление трека в избранное: зарегистрированные пользователи могут ставить лайки на песни, которые сохраняются в отдельную вкладку "Коллекция"
+- [ ] Добавление трека в избранное: зарегистрированные пользователи могут ставить лайки на песни, которые сохраняются в отдельную вкладку "Мои треки"
 - [ ] Сортировка и фильтрация музыки (по жанру, годам, артистам)
 - [ ] Поиск треков с фильтрацией по названию
-- [ ] Выделение треков и возможность их перемещения (dnd)
-- [ ] Текущая песня и текущий плейлист сохраняются. После повторного входа на страницу можно продолжить прослушивание песни, проигрывавшейся перед выходом.
+- [x] Выделение треков и возможность их перемещения (dnd)
+- [x] Текущий плейлист сохраняется.
+- [x] Текущая песня сохраняются. После повторного входа на страницу можно продолжить прослушивание песни, проигрывавшейся перед выходом.
 - [ ] Список подборок/альбомов (хиты недели, hot100 и т.п.)
 - [ ] В каждой подборке отображается список треков, которые в нее входят
 - [x] Страница профиля пользователя с возможностью изменить настройки/кастомизировать приложение/разлогиниться
 
 #### UI
 
-- [ ] Есть возможность управления приложением/игрой с клавиатуры, наличие hot keys
+- [x] Есть возможность управления приложением/игрой с клавиатуры, наличие hot keys:
+  - [x] Управление плеером (когда на нем находится фокус)
+    - [x] Пробел Play/Pause
+    - [x] ← Перемотка назад
+    - [x] → Перемотка вперед
+    - [x] ↑ Увеличить громкость
+    - [x] ↓ Уменьшить громкость
+    - [x] L Переключение loop
+    - [x] M Выключить/включить звук
 - [x] Есть возможность переключения нескольких языков
 - [ ] Есть модальный диалог
 - [x] Реализация routing (без перезагрузки страницы приложения)
-- [x] Возможность кастомизации приложения, настроек пользователя (выбор цвета фона, кнопок, текста и анимации) пользователем
+- [x] Возможность кастомизации приложения пользователем:
+  - [x] Выбор цвета текста
+  - [x] Выбор цвета фона
+  - [x] Выбор цвета кнопок и оформления
+  - [x] Выбор одного из трех языков (русский, английский, белорусский)
 - [ ] Реализация анимации при проигрывании музыки, для создания которой используются ключевые кадры или svg-анимация
 - [x] Приложение выполнено в едином стиле
 - [ ] Приложение работает на телефоне/планшете/PC
@@ -84,6 +81,15 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 
 - [x] Работа с Audio API
 - [ ] Реализация Unit тестов (фреймворк Jest)
-- [ ] Сохранение и загрузка данных пользователя и информации о сохраненных коллекциях с использованием Local storage
-- [x] Использование React + Redux(thunk), React Router DOM, MaterialUI, TypeScript
+- [ ] Сохранение и загрузка данных с использованием Local storage:
+  - [ ] информации об избранных треках
+  - [x] порядок треков в плейлисте
+  - [x] сохранение текущей песни
+  - [x] При нажатии на кнопку "Выход" данные из LocalStorage стираются
+  - [ ] При повторном входе того же пользователя настройки цвета, языка и избранные треки восстанавливаются с использованием бекенда
+- [x] Использование React + Redux
+- [x] Использование React Router DOM
+- [x] Использование MaterialUI
+- [x] Использование react-DnD
+- [x] Использование TypeScript
 - [x] Использование MongoDB

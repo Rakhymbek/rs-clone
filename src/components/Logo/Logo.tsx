@@ -2,8 +2,8 @@ import { Typography } from '@mui/material';
 import React, { FC } from 'react';
 import { COLOR_DARK_DEFAULT } from '../../constants';
 import { useAppSelector } from '../../hook';
-import { extradarkToDark, extradarkToHover } from '../../utils/utils';
-import { SpanChangeColor } from '../changeColor/SpanChangeColor/SpanChangeColor';
+import { extradarkToDark, extradarkToHover } from '../../utils/colorUtils';
+import { SpanChangeColor } from '../changeColor/SpanChangeColor';
 
 type typeLogoProps = {
   textColor: string;

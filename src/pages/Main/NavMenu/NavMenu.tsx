@@ -6,22 +6,40 @@ import { NavLink } from 'react-router-dom';
 import { Button, IconButton } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import Logo from '../../../components/Logo/Logo';
-import { text } from '../../../constants';
-import { SpanChangeColor } from '../../../components/changeColor/SpanChangeColor/SpanChangeColor';
-import { useAppSelector, useAppDispatch } from '../../../hook';
-import { bgColorToBgColorLight, extradarkToDark, extradarkToHover } from '../../../utils/utils';
-import { AlertDialog } from '../../../components/AlertDialog/AlertDialog';
-import './NavMenu.css';
-import { openModal } from '../../../store/modalSlice';
+import {
+  BGCOLOR,
+  COLOR,
+  COLOR_EXTRADARK,
+  DEFAULT_LANG,
+  TEXT,
+} from '../../../constants';
+import { SpanChangeColor } from '../../../components/changeColor/SpanChangeColor';
+import { useAppDispatch, useAppSelector } from '../../../hook';
+import {
+  bgColorToBgColorLight,
+  extradarkToDark,
+  extradarkToHover,
+} from '../../../utils/colorUtils';
 
-import { selectIsAuth, logout } from '../../../store/auth/auth';
+import './NavMenu.css';
+import {
+  changeBgColor,
+  changeDecorativeColor,
+  changeTextColor,
+} from '../../../store/colorThemeSlice';
+import { changeLanguage } from '../../../store/languageSlice';
+import {
+  updateCheckedArtists,
+  updateCheckedYears,
+  updateCheckedGenres,
+  updateFilteredTracks,
+} from '../../../store/checkedItemsSlice';
+import { openModal } from '../../../store/modalSlice';
 
 const cnNavMenu = cn('NavMenu');
 
 export const NavMenu: FC<{}> = () => {
   const dispatch = useAppDispatch();
-  // const isAuth = useSelector(selectIsAuth);
-
   const lang = useAppSelector((state) => state.language.lang);
 
   const textColor = useAppSelector((state) => state.colorTheme.textColor);
@@ -39,12 +57,22 @@ export const NavMenu: FC<{}> = () => {
     setIsVisible(!isVisible);
   };
 
-  // const onClickLogout = () => {
-  // if (window.confirm('Вы действительно хотите выйти?')) {
-  //     dispatch(logout());
-  //     window.localStorage.removeItem('token');
-  //   }
-  // };
+  // const currentTrack = useAppSelector((state) => state.tracks.currentTrack);
+  // console.log(currentTrack);
+
+  const handleLogOut = () => {
+    localStorage.clear();
+
+    dispatch(changeTextColor(COLOR));
+    dispatch(changeBgColor(BGCOLOR));
+    dispatch(changeDecorativeColor(COLOR_EXTRADARK));
+    dispatch(changeLanguage(DEFAULT_LANG));
+
+    dispatch(updateCheckedArtists([]));
+    dispatch(updateCheckedYears([]));
+    dispatch(updateCheckedGenres([]));
+    dispatch(updateFilteredTracks([]));
+  };
 
   return (
     <nav
@@ -68,7 +96,7 @@ export const NavMenu: FC<{}> = () => {
               style={{ color: textColor }}
               to="/main">
               <SpanChangeColor colorHover={colorHover} colorActive={colorDark}>
-                {text.menu.homepage[lang]}
+                {TEXT.menu.homepage[lang]}
               </SpanChangeColor>
             </NavLink>
           </li>
@@ -78,7 +106,7 @@ export const NavMenu: FC<{}> = () => {
               style={{ color: textColor }}
               to="/mytracks">
               <SpanChangeColor colorHover={colorHover} colorActive={colorDark}>
-                {text.menu.mytracks[lang]}
+                {TEXT.menu.mytracks[lang]}
               </SpanChangeColor>
             </NavLink>
           </li>
@@ -88,7 +116,7 @@ export const NavMenu: FC<{}> = () => {
               style={{ color: textColor }}
               to={'/profile'}>
               <SpanChangeColor colorHover={colorHover} colorActive={colorDark}>
-                {text.menu.profile[lang]}
+                {TEXT.menu.profile[lang]}
               </SpanChangeColor>
             </NavLink>
           </li>
@@ -96,14 +124,25 @@ export const NavMenu: FC<{}> = () => {
             <button
               onClick={() => dispatch(openModal())}
               style={{ color: textColor }}
-              className={cnNavMenu(null, ['List-Button'])}>
-              <SpanChangeColor colorHover={colorHover} colorActive={colorDark}>
-                {text.menu.logout[lang]}
+            >
+              <SpanChangeColor
+                colorHover={colorHover}
+                colorActive={colorDark}
+                onClick={handleLogOut}
+              >
+                {TEXT.menu.logout[lang]}
               </SpanChangeColor>
             </button>
           </li>
         </ul>
       )}
+
+      {/* <audio
+        src={currentTrack.urlPlay}
+        id="player"
+        controls
+        loop
+      ></audio> */}
     </nav>
   );
 };

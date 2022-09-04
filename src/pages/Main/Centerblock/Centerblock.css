@@ -30,19 +30,6 @@
   top: 6px;
 }
 
-.Centerblock-Filters {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 10px;
-
-  margin-bottom: 51px;
-}
-
-.Centerblock-Filters-Text {
-  margin-right: 15px;
-}
-
 .Content-Header {
   display: flex;
 
@@ -66,4 +53,19 @@
 
 .Content-Album {
   width: 30%;
+}
+
+.Content-Skeleton {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+
+  width: 100%;
+  min-height: 51px;
+  margin-bottom: 6px;
 }

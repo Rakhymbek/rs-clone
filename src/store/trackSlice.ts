@@ -1,35 +1,40 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { SongType } from "../types";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { SongType } from '../types';
 
 type TTrackState = {
   currentTrack: SongType;
   allTracks: SongType[];
+  movedTracks: SongType[];
   autoplay: boolean;
 };
 
 const initialState: TTrackState = {
-  currentTrack: JSON.parse(localStorage.getItem("currentTrack")!) || {},
+  currentTrack: JSON.parse(localStorage.getItem('currentTrack')!) || {},
   allTracks: [],
+  movedTracks: [],
   autoplay: false,
 };
 
 const trackSlice = createSlice({
-  name: "tracks",
+  name: 'tracks',
   initialState,
   reducers: {
     changeCurrentSong(state, action: PayloadAction<SongType>) {
       state.autoplay = true;
       state.currentTrack = action.payload;
-      localStorage.setItem("currentTrack", JSON.stringify(state.currentTrack));
+      localStorage.setItem('currentTrack', JSON.stringify(state.currentTrack));
     },
     uploadAllTracks(state, action: PayloadAction<SongType[]>) {
       state.allTracks = action.payload;
+    },
+    uploadMovedTracks(state, action: PayloadAction<SongType[]>) {
+      state.movedTracks = action.payload;
     },
     switchToNextTrack(state, action: PayloadAction<SongType[]>) {
       state.autoplay = true;
       let nextTrack;
       let currentIndex = action.payload?.findIndex(
-        (track) => track.url === state.currentTrack.url
+        (track) => track.url === state.currentTrack.url,
       );
       if (currentIndex! >= action.payload?.length! - 1) {
         nextTrack = action.payload?.[0];
@@ -42,7 +47,7 @@ const trackSlice = createSlice({
       state.autoplay = true;
       let previousTrack;
       let currentIndex = action.payload?.findIndex(
-        (track) => track.url === state.currentTrack.url
+        (track) => track.url === state.currentTrack.url,
       );
       if (currentIndex! <= 0) {
         previousTrack = action.payload?.[action.payload?.length! - 1];
@@ -64,6 +69,7 @@ const trackSlice = createSlice({
 export const {
   changeCurrentSong,
   uploadAllTracks,
+  uploadMovedTracks,
   switchToNextTrack,
   switchToPreviousTrack,
   shuffleTracks,

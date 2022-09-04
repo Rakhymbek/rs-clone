@@ -1,0 +1,55 @@
+.TrackItem-Info {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+
+  width: 100%;
+  min-height: 51px;
+  margin-bottom: 6px;
+}
+
+.TrackItem-Icon {
+  width: 5%;
+
+  cursor: pointer;
+}
+
+.TrackItem-Name {
+  width: 30%;
+  padding-left: 2%;
+
+  cursor: pointer;
+}
+
+.TrackItem-Author {
+  width: 25%;
+
+  cursor: pointer;
+}
+
+.TrackItem-Album {
+  color: #696969;
+
+  width: 30%;
+
+  cursor: pointer;
+}
+
+.TrackItem-Like {
+  width: 5%;
+}
+
+.TrackItem-Like-Icon {
+  color: #696969;
+}
+
+.TrackItem-Duration {
+  color: #696969;
+  width: 5%;
+  text-align: right;
+}

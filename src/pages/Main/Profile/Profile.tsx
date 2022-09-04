@@ -11,13 +11,19 @@ import './Profile.css';
 
 import { useAppDispatch, useAppSelector } from '../../../hook';
 import { Typography } from '@mui/material';
-import { BGCOLOR, COLOR, COLOR_EXTRADARK, text, USER } from '../../../constants';
+import {
+  BGCOLOR,
+  COLOR,
+  COLOR_EXTRADARK,
+  TEXT,
+  USER,
+} from '../../../constants';
 import {
   changeBgColor,
   changeDecorativeColor,
   changeTextColor,
 } from '../../../store/colorThemeSlice';
-import { colorToSecondary } from '../../../utils/utils';
+import { colorToSecondary } from '../../../utils/colorUtils';
 import { changeLanguage } from '../../../store/languageSlice';
 import { TLanguages } from '../../../types';
 
@@ -86,26 +92,31 @@ export const Profile: FC = () => {
 
   return (
     <div className={cnProfile()}>
-      <Typography variant="h2" marginTop={11} marginBottom={6} style={{ color: textColor }}>
-        {text.menu.profile[lang]}
+      <Typography
+        variant="h2"
+        marginTop={11}
+        marginBottom={6}
+        style={{ color: textColor }}
+      >
+        {TEXT.menu.profile[lang]}
       </Typography>
       <div className={cnProfile('Data')} style={{ color: textColor }}>
         <h4 className={cnProfile('Header')} style={{ color: textColorSecondary }}>
-          {text.profile.userData[lang]}
+          {TEXT.profile.userData[lang]}
         </h4>
         <div className={cnProfile('UserData')}>
-          {text.profile.userName[lang]} {dataUser?.fullName}
+          {TEXT.profile.userName[lang]} {dataUser?.fullName}
         </div>
         <div className={cnProfile('UserData')}>
-          {text.profile.login[lang]} {dataUser?.email}
+          {TEXT.profile.login[lang]} {dataUser?.email}
         </div>
 
         <h4 className={cnProfile('Header')} style={{ color: textColorSecondary }}>
-          {text.profile.custom[lang]}
+          {TEXT.profile.custom[lang]}
         </h4>
         <div className={cnProfile('Custom')}>
           <div className={cnProfile('CustomBgColor')}>
-            <div>{text.profile.bgcolor[lang]}</div>
+            <div>{TEXT.profile.bgcolor[lang]}</div>
             <input
               className={cnProfile('InputBgColor')}
               type="color"
@@ -113,7 +124,7 @@ export const Profile: FC = () => {
               onChange={handleChangeBgColor}></input>
           </div>
           <div className={cnProfile('CustomTextColor')}>
-            <div>{text.profile.textColor[lang]}</div>
+            <div>{TEXT.profile.textColor[lang]}</div>
             <input
               className={cnProfile('InputTextColor')}
               type="color"
@@ -121,7 +132,7 @@ export const Profile: FC = () => {
               onChange={handleChangeTextColor}></input>
           </div>
           <div className={cnProfile('CustomDecorativeColor')}>
-            <div>{text.profile.designColor[lang]}</div>
+            <div>{TEXT.profile.designColor[lang]}</div>
             <input
               className={cnProfile('InputDecorativeColor')}
               type="color"
@@ -135,7 +146,7 @@ export const Profile: FC = () => {
             color={'primary'}
             variant={'contained'}
             sx={{
-              width: '200px',
+              width: '280px',
               height: '52px',
               padding: '10px 15px',
               mb: 2.5,
@@ -144,8 +155,9 @@ export const Profile: FC = () => {
               textTransform: 'none',
               color: textColor,
             }}
-            onClick={handleResetSettings}>
-            {text.profile.buttonText[lang]}
+            onClick={handleResetSettings}
+          >
+            {TEXT.profile.buttonText[lang]}
           </MUIButton>
           <FormControl variant="standard" sx={{ m: 1, width: 110, margin: 0, marginTop: 3 }}>
             <InputLabel
@@ -155,8 +167,9 @@ export const Profile: FC = () => {
                 fontWeight: 'bold',
                 fontSize: '20px',
                 fontFamily: 'inherit',
-              }}>
-              {text.profile.language[lang]}
+              }}
+            >
+              {TEXT.profile.language[lang]}
             </InputLabel>
             <Select
               labelId="demo-simple-select-standard-label"
