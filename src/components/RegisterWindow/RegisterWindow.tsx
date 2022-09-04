@@ -1,31 +1,30 @@
 import React from 'react';
 import { FC } from 'react';
 import { cn } from '@bem-react/classname';
-// import { NavLink } from 'react-router-dom';
-import { Box, FormControl, TextField } from '@mui/material';
+import { Box, TextField } from '@mui/material';
 
-// import { Input } from '../Input/Input';
 import { Button } from '../Button/Button';
 import Logo from '../Logo/Logo';
 
 import { useForm } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '../../hook';
 import { fetchRegister, selectIsAuth } from '../../store/auth/auth';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 import './RegisterWindow.css';
+import { Login } from '../../store/auth/types';
 
 const cnRegisterWindow = cn('RegisterWindow');
 
 export const RegisterWindow: FC<{}> = () => {
-  const isAuth = useSelector(selectIsAuth);
-  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const isAuth = useAppSelector(selectIsAuth);
+  const dispatch = useAppDispatch();
   const {
-    setError,
     reset,
     register,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm({
     defaultValues: {
       fullName: '',
@@ -35,10 +34,11 @@ export const RegisterWindow: FC<{}> = () => {
     mode: 'onChange',
   });
 
-  const onSubmit = async (val: any) => {
-    const data = await dispatch(fetchRegister(val));
+  const onSubmit = async (val: Login) => {
+    const data: any = await dispatch(fetchRegister(val));
     if (!data.payload) {
-      return alert('Не удалось зарегистривроваться!');
+      alert('У вас уже есть активная музыкальная подписка');
+      navigate('/');
     }
     if ('token' in data.payload) {
       window.localStorage.setItem('token', data.payload.token);
@@ -55,6 +55,8 @@ export const RegisterWindow: FC<{}> = () => {
       <Logo textColor="default" />
       <form onSubmit={handleSubmit(onSubmit)}>
         <TextField
+          sx={{ height: '70px' }}
+          autoComplete="off"
           fullWidth
           variant="standard"
           label="Имя аккаунта *"
@@ -65,32 +67,44 @@ export const RegisterWindow: FC<{}> = () => {
             required: 'Укажите полное имя',
             minLength: {
               value: 3,
-              message: 'Введите имя аккаунта состоящее как минимум из 3 символов',
+              message: 'Минимум из 3 символов',
             },
           })}
         />
         <TextField
+          sx={{ height: '70px' }}
+          autoComplete="off"
           fullWidth
           variant="standard"
           label="E-Mail *"
           error={Boolean(errors.email?.message)}
-          // type="email"
           helperText={errors.email?.message}
           {...register('email', {
             required: 'Укажите почту',
-            pattern: { value: /\S+@\S+\.\S+/, message: 'Не верный формат e-mail' },
+            pattern: {
+              value: /^([\w.*-]+@([\w-]+\.)+[\w-]{2,3})?$/,
+              message: 'Не верный формат e-mail',
+            },
           })}
         />
         <TextField
+          sx={{ height: '70px', marginBottom: '30px' }}
+          autoComplete="off"
           fullWidth
           variant="standard"
           label="Пароль *"
-          {...register('password', { required: 'Укажите пароль' })}
+          type="password"
+          {...register('password', {
+            required: 'Укажите пароль',
+            pattern: {
+              value: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,}$/,
+              message: 'Не менее 6 символов, цифры, латинские буквы в верхнем и нижнем регистре',
+            },
+          })}
           helperText={errors.password?.message}
           error={Boolean(errors.password?.message)}
         />
         <Button
-          buttonDisabled={!isValid}
           buttonType="submit"
           buttonVariant="contained"
           buttonText="Зарегистрироваться"></Button>
