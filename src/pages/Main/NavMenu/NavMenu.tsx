@@ -189,10 +189,10 @@ export const NavMenu: FC<{}> = () => {
             </NavLink>
           </li>
           <li>
-            <NavLink
+            <button
               onClick={() => dispatch(openModal())}
               style={{ color: textColor }}
-              to={''}
+              className={'Logout-Button'}
             >
               <SpanChangeColor
                 colorHover={colorHover}
@@ -201,7 +201,7 @@ export const NavMenu: FC<{}> = () => {
               >
                 {TEXT.menu.logout[lang]}
               </SpanChangeColor>
-            </NavLink>
+            </button>
           </li>
         </ul>
       )}
