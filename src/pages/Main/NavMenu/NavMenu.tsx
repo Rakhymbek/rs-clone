@@ -33,9 +33,24 @@ import {
   updateCheckedYears,
   updateCheckedGenres,
   updateFilteredTracks,
+  updateSearchedTracks,
+  updateFilteredDanceTracks,
+  updateSearchedTracksDance,
+  updateFilteredRandomTracks,
+  updateSearchedTracksRandom,
 } from '../../../store/filteredItemsSlice';
+import { uploadDanceTracks } from '../../../store/trackSlice';
+import { getFinalItems } from '../../../utils/getFinalItems';
+import { SongType, TCheckedItems } from '../../../types';
+import { updateSearchQuery } from '../../../store/sortingSettingsSlice';
 
 const cnNavMenu = cn('NavMenu');
+
+const newFilter: TCheckedItems = {
+  checkedArtists: [],
+  checkedYears: [],
+  checkedGenres: [],
+};
 
 export const NavMenu: FC<{}> = () => {
   const dispatch = useAppDispatch();
@@ -48,9 +63,16 @@ export const NavMenu: FC<{}> = () => {
   const decorativeColor = useAppSelector(
     (state) => state.colorTheme.decorativeColor,
   );
-
   const colorHover = extradarkToHover(decorativeColor);
   const colorDark = extradarkToDark(decorativeColor);
+
+  const allTracks: SongType[] = useAppSelector(
+    (state) => state.tracks.allTracks,
+  );
+  const allTracksDance: SongType[] = useAppSelector(
+    (state) => state.tracks.danceTracks,
+  );
+  const allTracksRandom = useAppSelector((state) => state.tracks.randomTracks);
 
   const [isVisible, setIsVisible] = useState(false);
 
@@ -72,7 +94,48 @@ export const NavMenu: FC<{}> = () => {
     dispatch(updateCheckedArtists([]));
     dispatch(updateCheckedYears([]));
     dispatch(updateCheckedGenres([]));
+
     dispatch(updateFilteredTracks([]));
+    dispatch(updateFilteredDanceTracks([]));
+    dispatch(updateFilteredRandomTracks([]));
+
+    dispatch(updateSearchQuery(''));
+    dispatch(updateSearchedTracks(allTracks));
+    dispatch(updateSearchedTracksDance(allTracksDance));
+    dispatch(updateSearchedTracksRandom(allTracksRandom));
+  };
+
+  const order = useAppSelector((state) => state.sortingSettings.order);
+
+  const handleClickToMain = () => {
+    // const searchedItemsCurrent = searchedItems.length
+    //   ? searchedItems
+    //   : allTracksStore;
+    // newFilter.checkedGenres = [ALBUM_DANCE];
+    // const searchedItemsCurrent: SongType[] = [];
+    const searchedItemsCurrent = allTracks;
+
+    dispatch(updateCheckedGenres([]));
+    dispatch(updateCheckedArtists([]));
+    dispatch(updateCheckedYears([]));
+
+    dispatch(updateFilteredTracks([]));
+    dispatch(updateFilteredDanceTracks([]));
+    dispatch(updateFilteredRandomTracks([]));
+
+    dispatch(updateSearchQuery(''));
+    dispatch(updateSearchedTracks(allTracks));
+    dispatch(updateSearchedTracksDance(allTracksDance));
+    dispatch(updateSearchedTracksRandom(allTracksRandom));
+
+    const finalFilteredTracks = getFinalItems(
+      allTracks,
+      newFilter,
+      searchedItemsCurrent,
+      order,
+    );
+
+    dispatch(uploadDanceTracks(finalFilteredTracks));
   };
 
   return (
@@ -84,9 +147,12 @@ export const NavMenu: FC<{}> = () => {
           : { backgroundColor: bgColor }
       }
     >
-      <NavLink to={'/main'}>
-        <Logo textColor={textColor} />
-      </NavLink>
+      <div onClick={handleClickToMain}>
+        <NavLink to={'/main'}>
+          <Logo textColor={textColor} />
+        </NavLink>
+      </div>
+
       <IconButton className={cnNavMenu('Burger')} onClick={handleClick}>
         <MenuIcon
           className={cnNavMenu('Burger-Icon')}
