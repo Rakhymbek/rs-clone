@@ -21,6 +21,7 @@ import {
 import { IconButton } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../hook';
 import {
+  setAutoplayStatus,
   setShuffleStatus,
   shuffleTracks,
   switchToNextTrack,
@@ -43,7 +44,6 @@ export const Player: FC<PlayerProps> = ({ track }) => {
   const [audio, setAudio] = useState(
     JSON.parse(localStorage.getItem('currentTrack')!)?.url || '',
   );
-  // const [isActive, setIsActive] = useState(false);
   const isActive = useAppSelector((state) => state.tracks.isShuffleActive);
   const currentTrack = useAppSelector((state) => state.tracks.currentTrack);
   const autoplay = useAppSelector((state) => state.tracks.autoplay);
@@ -75,6 +75,14 @@ export const Player: FC<PlayerProps> = ({ track }) => {
     dispatch(setShuffleStatus(isActive));
   }, [dispatch, isActive]);
 
+  const handleClickOnPause = useCallback(() => {
+    dispatch(setAutoplayStatus(false));
+  }, [dispatch]);
+
+  const handleClickOnPlay = useCallback(() => {
+    dispatch(setAutoplayStatus(true));
+  }, [dispatch]);
+
   return (
     <PlayerWrapper progressсolor={progressColor} className={cnPlayer()}>
       <AudioPlayer
@@ -83,6 +91,8 @@ export const Player: FC<PlayerProps> = ({ track }) => {
         onEnded={handleAudioEnded}
         src={audio}
         autoPlay={autoplay}
+        onPlay={handleClickOnPlay}
+        onPause={handleClickOnPause}
         defaultDuration={false}
         defaultCurrentTime={false}
         ref={audioCtx}

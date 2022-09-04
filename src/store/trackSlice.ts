@@ -92,6 +92,9 @@ const trackSlice = createSlice({
     setShuffleStatus(state, action) {
       state.isShuffleActive = !action.payload;
     },
+    setAutoplayStatus(state, action) {
+      state.autoplay = action.payload;
+    },
   },
 });
 
@@ -105,6 +108,7 @@ export const {
   switchToPreviousTrack,
   shuffleTracks,
   setShuffleStatus,
+  setAutoplayStatus,
 } = trackSlice.actions;
 
 export default trackSlice.reducer;
