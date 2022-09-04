@@ -3,7 +3,7 @@ import { FC } from 'react';
 import { cn } from '@bem-react/classname';
 
 import { NavLink } from 'react-router-dom';
-import { Button, IconButton } from '@mui/material';
+import { IconButton } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import Logo from '../../../components/Logo/Logo';
 import {
@@ -56,9 +56,6 @@ export const NavMenu: FC<{}> = () => {
   const handleClick = () => {
     setIsVisible(!isVisible);
   };
-
-  // const currentTrack = useAppSelector((state) => state.tracks.currentTrack);
-  // console.log(currentTrack);
 
   const handleLogOut = () => {
     localStorage.clear();
@@ -136,13 +133,6 @@ export const NavMenu: FC<{}> = () => {
           </li>
         </ul>
       )}
-
-      {/* <audio
-        src={currentTrack.urlPlay}
-        id="player"
-        controls
-        loop
-      ></audio> */}
     </nav>
   );
 };

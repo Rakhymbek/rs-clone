@@ -16,7 +16,6 @@ import {
   COLOR,
   COLOR_EXTRADARK,
   TEXT,
-  USER,
 } from '../../../constants';
 import {
   changeBgColor,
