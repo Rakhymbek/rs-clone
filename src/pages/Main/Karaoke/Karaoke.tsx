@@ -9,7 +9,6 @@ import "./Karaoke.css";
 import { NavMenu } from "../NavMenu/NavMenu";
 const { MuseDOM } = require("muse-player");
 
-
 const KaraokeWrapper = styled(Box)`
   max-height: 300px;
   overflow-y: scroll;
@@ -39,10 +38,10 @@ const KaraokeWrapper = styled(Box)`
 const Karaoke = () => {
   const dispatch = useAppDispatch();
   const tracks = useAppSelector((state) => state.tracks.allTracks);
-  const currentTrack = useAppSelector((state) => state.tracks.currentTrack);
-  const txt = currentTrack.lyrics;
+  const currentTrack = useAppSelector<SongType>((state) => state.tracks.currentTrack);
+  // const txt = currentTrack.lyrics;
+  const [txt, setTxt] = useState("");
   const [msg, setMsg] = useState("");
-
 
   const data = {
     title: "",
@@ -64,7 +63,8 @@ const Karaoke = () => {
   }
 
   useEffect(() => {
-    setMsg("Lyrics")
+    setTxt(currentTrack.lyrics as string);
+    setMsg("Lyrics");
     const player = document.querySelector(
       ".muse-controller audio"
     ) as HTMLAudioElement;
@@ -83,7 +83,7 @@ const Karaoke = () => {
       player.src = currentTrack.urlPlay as string;
       player.pause();
     }
-  }, [currentTrack.urlPlay, txt]);
+  }, [currentTrack.lyrics, currentTrack.urlPlay, txt]);
 
   useEffect(() => {
     MuseDOM.render([data, {}], document.getElementById("player"));
@@ -99,7 +99,9 @@ const Karaoke = () => {
     if (firstLine) {
       if (firstLine.innerHTML.includes("这首歌没有歌词~")) {
         firstLyricsContainer.innerHTML = "";
-        setMsg("Если вы вошли на страницу Караоке 'впервые', то пожалуйста выберите песню\n и обновите страницу!")
+        setMsg(
+          "Если вы вошли на страницу Караоке 'впервые', то пожалуйста выберите песню\n и обновите страницу!"
+        );
       }
     }
   }, []);
