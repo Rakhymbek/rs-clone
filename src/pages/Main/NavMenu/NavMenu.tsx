@@ -3,23 +3,23 @@ import { FC } from 'react';
 import { cn } from '@bem-react/classname';
 
 import { NavLink } from 'react-router-dom';
-import { IconButton } from '@mui/material';
+import { Button, IconButton } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import Logo from '../../../components/Logo/Logo';
 import { text } from '../../../constants';
 import { SpanChangeColor } from '../../../components/changeColor/SpanChangeColor/SpanChangeColor';
-import { useAppSelector } from '../../../hook';
+import { useAppSelector, useAppDispatch } from '../../../hook';
 import { bgColorToBgColorLight, extradarkToDark, extradarkToHover } from '../../../utils/utils';
-
+import { AlertDialog } from '../../../components/AlertDialog/AlertDialog';
 import './NavMenu.css';
+import { openModal } from '../../../store/modalSlice';
 
-import { useDispatch, useSelector } from 'react-redux';
 import { selectIsAuth, logout } from '../../../store/auth/auth';
 
 const cnNavMenu = cn('NavMenu');
 
 export const NavMenu: FC<{}> = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   // const isAuth = useSelector(selectIsAuth);
 
   const lang = useAppSelector((state) => state.language.lang);
@@ -39,12 +39,12 @@ export const NavMenu: FC<{}> = () => {
     setIsVisible(!isVisible);
   };
 
-  const onClickLogout = () => {
-    if (window.confirm('Вы действительно хотите выйти?')) {
-      dispatch(logout());
-      window.localStorage.removeItem('token');
-    }
-  };
+  // const onClickLogout = () => {
+  // if (window.confirm('Вы действительно хотите выйти?')) {
+  //     dispatch(logout());
+  //     window.localStorage.removeItem('token');
+  //   }
+  // };
 
   return (
     <nav
@@ -93,15 +93,14 @@ export const NavMenu: FC<{}> = () => {
             </NavLink>
           </li>
           <li>
-            <NavLink
-              onClick={onClickLogout}
-              className={cnNavMenu(null, ['List-Button'])}
+            <button
+              onClick={() => dispatch(openModal())}
               style={{ color: textColor }}
-              to={'/'}>
+              className={cnNavMenu(null, ['List-Button'])}>
               <SpanChangeColor colorHover={colorHover} colorActive={colorDark}>
                 {text.menu.logout[lang]}
               </SpanChangeColor>
-            </NavLink>
+            </button>
           </li>
         </ul>
       )}
