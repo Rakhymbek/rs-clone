@@ -55,18 +55,11 @@ export const Centerblock: FC<PlayerProps> = ({ header, tracks }) => {
 
   const array = new Array(10).fill(0);
 
-  // const query = useAppSelector((state) => state.sortingSettings.searchQuery);
-  // console.log('--> query center', query);
-
   const [value, setValue] = useState('');
-  // console.log('--> query value', value);
 
   useEffect(() => {
-    setValue(value);
-  }, [value, setValue]);
-  // useEffect(() => {
-  //   setValue('');
-  // }, []);
+    return () => setValue('');
+  }, [header]);
 
   const handleSearch = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,

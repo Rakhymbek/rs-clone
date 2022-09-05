@@ -1,10 +1,19 @@
 .FilterButtons-Filters {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
-  gap: 10px;
+  align-items: top;
+  /* gap: 10px; */
 
   margin-bottom: 51px;
+}
+
+.FilterButtons-Buttons-Wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 10px;
+  align-items: center;
+  margin-right: 20px;
+  margin-bottom: 20px;
 }
 
 .FilterButtons-Filters-Text {

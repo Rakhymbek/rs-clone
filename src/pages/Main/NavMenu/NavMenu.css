@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
 
-  /* width: 244px; */
+  min-width: 150px;
   width: 12%;
   padding: 30px 0 20px 36px;
 
@@ -42,7 +42,7 @@
   flex-direction: column;
 }
 
-.List-Button {
+.NavMenu-List-Button {
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -59,11 +59,11 @@
   transition: all 0.2s ease;
 }
 
-.List-Button:hover {
+.NavMenu-List-Button:hover {
   color: #acacac;
 }
 
-.List-Button:active {
+.NavMenu-List-Button:active {
   color: #696969;
 }
 
@@ -76,20 +76,20 @@
 }
 
 .NavMenu-Footer-Top {
-  min-height: 50vh;
+  height: 50vh;
 }
 
 .NavMenu-Animation-Top {
-  min-height: 40vh;
+  height: 40vh;
 }
 
 @media (max-width: 1919px) {
   .NavMenu-Footer-Top {
-    min-height: 40vh;
+    height: 40vh;
   }
 
   .NavMenu-Animation-Top {
-    min-height: 25vh;
+    height: 35vh;
   }
 }
 
@@ -98,7 +98,8 @@
     margin-bottom: 30px;
   }
 
-  .List-Button {
+  .NavMenu-List-Button {
+    font-size: 12px;
     margin-bottom: 10px;
   }
 
@@ -107,26 +108,33 @@
     font-size: 12px;
   }
 
-  .NavMenu-List li {
+  /* .NavMenu-List {
     margin-bottom: 6px;
-  }
+  } */
 
   .NavMenu-Footer-Top {
-    min-height: 25vh;
+    height: 35vh;
   }
 
   .NavMenu-Animation-Top {
-    min-height: 15vh;
+    height: 25vh;
   }
 }
 
 @media (max-width: 1199px) {
-  .List-Button {
+  .NavMenu-List-Button {
     margin-bottom: 10px;
+    margin-left: 0;
+    padding-left: 0;
   }
 
   .NavMenu-Footer-Top {
-    min-height: 25vh;
+    height: 35vh;
+  }
+
+  .NavMenu {
+    padding-left: 20px;
+    width: 150px;
   }
 
   /* .NavMenu-Animation-Top {

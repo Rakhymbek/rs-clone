@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { FC } from 'react';
 import { cn } from '@bem-react/classname';
 import { NavLink } from 'react-router-dom';
 import {
   Box,
-  Card,
+  Button,
   createTheme,
   FormControl,
   MenuItem,
@@ -17,7 +17,11 @@ import {
 import { SpanChangeColor } from '../../../components/changeColor/SpanChangeColor';
 import { AlbumCover } from '../../../components/AlbumCover/AlbumCover';
 import { ALBUM_DANCE, TEXT } from '../../../constants';
-import { useAppDispatch, useAppSelector } from '../../../hook';
+import {
+  useAppDispatch,
+  useAppSelector,
+  useOnClickOutside,
+} from '../../../hook';
 import {
   bgColorToBgColorLight,
   extradarkToDark,
@@ -164,8 +168,19 @@ export const Sidebar: FC<SidebarProps> = ({
     dispatch(uploadRandomTracks(finalFilteredTracks));
   };
 
+  const [isAlbumsVisible, setIsAlbumsVisible] = useState(false);
+
+  const handleAlbumList = () => {
+    setIsAlbumsVisible(!isAlbumsVisible);
+    console.log(isAlbumsVisible);
+  };
+
+  useEffect(() => {
+    return () => setIsAlbumsVisible(false);
+  }, []);
+
   return (
-    <Box className={cnSidebar()}>
+    <div className={cnSidebar()}>
       {isUserVisible && (
         <div className={cnSidebar('User')}>
           <NavLink to={'/profile'}>
@@ -211,34 +226,53 @@ export const Sidebar: FC<SidebarProps> = ({
         </div>
       )}
 
-      <div
-        className={cnSidebar('List')}
-        style={
-          isVisible
-            ? { display: 'block', backgroundColor: 'transparent' }
-            : { display: 'none' }
-        }
-        // style={{ border: 'none', boxShadow: 'none' }}
-      >
-        {/* <canvas id="myCanvas" width="1200" height="250"></canvas> */}
+      {isUserVisible && (
+        <div style={{ backgroundColor: 'transparent' }}>
+          <div className={cnSidebar('List')}>
+            <NavLink to={'/random'} onClick={handleClickRandom}>
+              <AlbumCover text={TEXT.albums.dayplaylist[lang]}></AlbumCover>
+            </NavLink>
 
-        <NavLink to={'/random'} onClick={handleClickRandom}>
-          <AlbumCover text={TEXT.albums.dayplaylist[lang]}></AlbumCover>
-        </NavLink>
+            <NavLink to={'/dance'} onClick={handleClickDance}>
+              <AlbumCover text={TEXT.albums.dance[lang]}></AlbumCover>
+            </NavLink>
+          </div>
 
-        <NavLink to={'/dance'} onClick={handleClickDance}>
-          <AlbumCover text={TEXT.albums.dance[lang]}></AlbumCover>
-        </NavLink>
+          <div className={cnSidebar('Button-Visibility')}>
+            <Button
+              onClick={handleAlbumList}
+              color="secondary"
+              variant="contained"
+              sx={{
+                textTransform: 'none',
+                color: textColor,
+                width: '100%',
+                minHeight: '30px',
+                marginBottom: '13px',
+                marginTop: '10px',
+                padding: '10px',
+              }}
+              className={cnSidebar('Button-Mobile-List')}
+            >
+              {TEXT.collections[lang]}
+            </Button>
+          </div>
 
-        {/* <NavLink to={'/indie'}>
-          <CardMedia
-            component="img"
-            className={cnSidebar('Button')}
-            image="./playlist/playlist-indie.png"
-            alt="Indie charge"
-          />
-        </NavLink> */}
-      </div>
-    </Box>
+          {isAlbumsVisible && (
+            <div className={cnSidebar('Mobile-List')}>
+              <div>
+                <NavLink to={'/random'} onClick={handleClickRandom}>
+                  <AlbumCover text={TEXT.albums.dayplaylist[lang]}></AlbumCover>
+                </NavLink>
+
+                <NavLink to={'/dance'} onClick={handleClickDance}>
+                  <AlbumCover text={TEXT.albums.dance[lang]}></AlbumCover>
+                </NavLink>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
   );
 };

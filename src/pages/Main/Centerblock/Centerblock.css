@@ -50,3 +50,9 @@
     font-size: 45px;
   }
 }
+
+@media (max-width: 1199px) {
+  .Centerblock-Input-Wrapper {
+    padding-right: 185px;
+  }
+}

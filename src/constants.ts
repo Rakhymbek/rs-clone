@@ -68,6 +68,7 @@ export const TEXT = {
     bel: 'Пошук па артысту або назве песні',
   },
   header: { tracks: { ru: 'Треки', en: 'Tracks', bel: 'Трэк' } },
+  collections: { ru: 'Подборки', en: 'Collections', bel: 'Падборка' },
   albums: ALBUMS,
   search: {
     // searchBy: { ru: 'Искать по:', en: 'Search by', bel: 'Шукаць па:' },

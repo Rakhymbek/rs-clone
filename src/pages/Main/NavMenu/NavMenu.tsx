@@ -158,7 +158,7 @@ export const NavMenu: FC<{}> = () => {
         <>
           <div className={cnNavMenu('List')}>
             <NavLink
-              className={cnNavMenu(null, ['List-Button'])}
+              className={cnNavMenu('List-Button')}
               style={{ color: textColor }}
               to="/main"
             >
@@ -169,7 +169,7 @@ export const NavMenu: FC<{}> = () => {
 
             <NavLink
               onClick={handleClickToMain}
-              className={cnNavMenu(null, ['List-Button'])}
+              className={cnNavMenu('List-Button')}
               style={{ color: textColor }}
               to="/mytracks"
             >
@@ -179,7 +179,7 @@ export const NavMenu: FC<{}> = () => {
             </NavLink>
 
             <NavLink
-              className={cnNavMenu(null, ['List-Button'])}
+              className={cnNavMenu('List-Button')}
               style={{ color: textColor }}
               to={'/profile'}
             >
