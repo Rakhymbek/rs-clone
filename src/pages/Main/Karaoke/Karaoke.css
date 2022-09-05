@@ -1,6 +1,6 @@
 .Karaoke {
     display: flex;
-    height: 100vh;
+    height: 100%;
     flex: 1 1 auto;
 }
 
@@ -16,7 +16,7 @@
     border: 1px solid #ffffff8c;
     margin: 0;
     text-align: center;
-    width: 80%;
+    width: 85%;
     margin: auto;
 }
 
@@ -37,7 +37,18 @@
 }
 
 .muse-drawer .muse-drawer__lyric .muse-lyric__text {
-    font-size: 2vw!important;
+    transition: all 0.2s ease-in-out!important;
+    font-size: 2.5rem!important;
+}
+
+.muse-drawer .muse-drawer__lyric .muse-lyric__state-active .muse-lyric__text {
+    transform: scale(1.05);
+}
+
+.muse-drawer .muse-drawer__lyric li  {
+    margin: 45px 0px!important;
+    list-style: none!important;
+    line-height: 60px!important;
 }
 
 .muse-selector {
@@ -47,4 +58,13 @@
 .Karaoke-Controls {
     margin: auto;
     max-width: 80%;
+}
+
+@media (max-width: 1080px) {
+    .muse-drawer.muse-drawer__state-close {
+        padding-top: 5%!important;
+    }
+    .muse-drawer .muse-drawer__lyric .muse-lyric__text {
+        font-size: 2rem!important;
+    }
 }

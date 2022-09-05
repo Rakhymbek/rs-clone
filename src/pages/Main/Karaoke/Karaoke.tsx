@@ -38,17 +38,13 @@ const KaraokeWrapper = styled(Box)`
 const Karaoke = () => {
   const dispatch = useAppDispatch();
   const tracks = useAppSelector((state) => state.tracks.allTracks);
-  const currentTrack = useAppSelector<SongType>(
-    (state) => state.tracks.currentTrack
-  );
+  const currentTrack = useAppSelector<SongType>((state) => state.tracks.currentTrack);
   const txt = currentTrack.lyrics;
   const [msg, setMsg] = useState("");
 
   const data = {
-    title: "",
-    artist: "",
-    cover: "",
-    src: currentTrack.urlPlay,
+   
+    src: currentTrack.minus,
     lyric: txt,
   };
 
@@ -64,7 +60,7 @@ const Karaoke = () => {
   }
 
   useEffect(() => {
-    setMsg("Lyrics");
+    setMsg("Karaoke");
     const player = document.querySelector(
       ".muse-controller audio"
     ) as HTMLAudioElement;
@@ -80,10 +76,10 @@ const Karaoke = () => {
         ${changeLyrics(lyrics)}
         `;
       }
-      player.src = currentTrack.urlPlay as string;
+      player.src = currentTrack.minus as string;
       player.pause();
     }
-  }, [currentTrack.lyrics, currentTrack.urlPlay, txt]);
+  }, [currentTrack.lyrics, currentTrack.minus, txt]);
 
   useEffect(() => {
     MuseDOM.render([data, {}], document.getElementById("player"));
@@ -96,33 +92,33 @@ const Karaoke = () => {
     const firstLine = document.querySelector(
       ".muse-lyric__text"
     ) as HTMLElement;
-    console.log(firstLine);
     if (firstLine) {
       if (firstLine.innerHTML.includes("这首歌没有歌词~")) {
         firstLyricsContainer.innerHTML = "";
         setMsg(
-          "Если вы вошли на страницу Караоке 'впервые', то пожалуйста выберите песню\n и обновите страницу!"
+          "После выбора песни, пожалуйста\n обновляйте страницу!\nЭто нужно для корректной работы плеера"
         );
       }
     }
+    console.log("После выбора песни, пожалуйста\n обновляйте страницу!\nЭто нужно для корректной работы плеера")
   }, []);
 
   return (
-    <div className="Karaoke">
+    <div className='Karaoke'>
       <NavMenu />
-      <div className="Karaoke-Content">
+      <div className='Karaoke-Content'>
         <Typography
-          variant="h2"
-          fontSize={40}
+          variant='h2'
+          sx={{fontSize: {md: 25, sm: 16}}}
           marginBottom={1}
           textAlign={"center"}
         >
           {msg}
         </Typography>
-        <div id="player" className="Karaoke-Line"></div>
-        <div className="Karaoke-Controls">
+        <div id='player' className='Karaoke-Line'></div>
+        <div className='Karaoke-Controls'>
           <Typography
-            variant="h2"
+            variant='h2'
             fontSize={40}
             marginBottom={2}
             marginTop={3}
@@ -130,10 +126,10 @@ const Karaoke = () => {
           >
             Список песен
           </Typography>
-          <KaraokeWrapper className="Karaoke-Wrapper">
+          <KaraokeWrapper className='Karaoke-Wrapper'>
             <TrackList tracks={tracks as SongType[]}></TrackList>
           </KaraokeWrapper>
-          <div className="Karaoke-Player"></div>
+          <div className='Karaoke-Player'></div>
         </div>
       </div>
     </div>

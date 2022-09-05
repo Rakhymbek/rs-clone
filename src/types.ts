@@ -30,6 +30,7 @@ export type SongType = {
   year?: string;
   duration?: string;
   lyrics?: string;
+  minus?: string;
 };
 
 // export type THeader =
