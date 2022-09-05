@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from '../../axios';
+import { SongType } from '../../types';
 import { TData, Login, DataState } from './types';
 
 export const fetchLogin = createAsyncThunk<TData, Login>('auth/fetchLogin', async (params) => {
@@ -17,6 +18,13 @@ export const fetchRegister = createAsyncThunk<TData, Login>(
 
 export const fetchAuthMe = createAsyncThunk('auth/fetchAuthMe', async () => {
   const { data } = await axios.get('/user');
+  return data;
+});
+
+export const updateFavourites: any = createAsyncThunk('auth/updateFavourites', async (id, track) => {
+  console.log('data')
+  const { data } = await axios.patch(`/user/:${id}`, {favorites: ['mnm']});
+ 
   return data;
 });
 
@@ -68,6 +76,19 @@ const authSlice = createSlice({
         state.data = action.payload;
       })
       .addCase(fetchRegister.rejected, (state) => {
+        state.status = 'failed';
+        state.data = null;
+      })
+      .addCase(updateFavourites.pending, (state) => {
+        state.status = 'loading';
+        state.data = null;
+      })
+      .addCase(updateFavourites.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.data = action.payload;
+        
+      })
+      .addCase(updateFavourites.rejected, (state) => {
         state.status = 'failed';
         state.data = null;
       });

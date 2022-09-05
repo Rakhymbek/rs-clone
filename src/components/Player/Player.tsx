@@ -83,6 +83,7 @@ export const Player: FC<PlayerProps> = ({ track }) => {
         onEnded={handleAudioEnded}
         src={audio}
         autoPlay={autoplay}
+        autoPlayAfterSrcChange={false}
         defaultDuration={false}
         defaultCurrentTime={false}
         ref={audioCtx}
