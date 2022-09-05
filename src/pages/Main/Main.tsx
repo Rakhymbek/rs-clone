@@ -76,7 +76,6 @@ export const Main: FC<MainProps> = ({ header }) => {
         dispatch(
           uploadRandomTracks(getRandomTracks(NUMBER_OF_RANDOM_ITEMS, data)),
         );
-        // console.log(getRandomTracks(NUMBER_OF_RANDOM_ITEMS, data));
         dispatch(updateSearchQuery(''));
       });
     } else {
@@ -99,7 +98,6 @@ export const Main: FC<MainProps> = ({ header }) => {
       dispatch(
         uploadRandomTracks(getRandomTracks(NUMBER_OF_RANDOM_ITEMS, dataTracks)),
       );
-      // console.log(getRandomTracks(NUMBER_OF_RANDOM_ITEMS, dataTracks));
       dispatch(updateSearchQuery(''));
     }
   }, [allTracks]);
@@ -116,11 +114,7 @@ export const Main: FC<MainProps> = ({ header }) => {
         className={cnMain()}
       >
         <NavMenu />
-        <Centerblock
-          tracks={tracks}
-          header={header}
-          // query={query}
-        ></Centerblock>
+        <Centerblock tracks={tracks} header={header}></Centerblock>
         <Sidebar
           isVisible={header === TEXT.header.tracks[lang]}
           isUserVisible={header !== TEXT.menu.profile[lang]}

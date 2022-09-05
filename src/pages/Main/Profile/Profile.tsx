@@ -7,10 +7,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { Button as MUIButton, createTheme, ThemeProvider } from '@mui/material';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 
-import './Profile.css';
-
 import { useAppDispatch, useAppSelector } from '../../../hook';
-import { Typography } from '@mui/material';
 import { BGCOLOR, COLOR, COLOR_EXTRADARK, TEXT } from '../../../constants';
 import {
   changeBgColor,
@@ -20,6 +17,8 @@ import {
 import { colorToSecondary } from '../../../utils/colorUtils';
 import { changeLanguage } from '../../../store/languageSlice';
 import { TLanguages } from '../../../types';
+
+import './Profile.css';
 
 const cnProfile = cn('Profile');
 
@@ -92,14 +91,9 @@ export const Profile: FC = () => {
 
   return (
     <div className={cnProfile()}>
-      <Typography
-        variant="h2"
-        marginTop={11}
-        marginBottom={6}
-        style={{ color: textColor }}
-      >
+      <h2 style={{ color: textColor }} className={cnProfile('Header-Main')}>
         {TEXT.menu.profile[lang]}
-      </Typography>
+      </h2>
       <div className={cnProfile('Data')} style={{ color: textColor }}>
         <h4
           className={cnProfile('Header')}

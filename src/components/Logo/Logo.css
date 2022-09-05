@@ -1,5 +1,5 @@
 .Logo {
-  font-size: 22px;
+  font-size: 18px;
   font-weight: 600;
   margin-bottom: 46px;
 }
@@ -7,6 +7,12 @@
 @media (max-width: 1439px) {
   .Logo {
     font-size: 16px;
-    font-weight: 600;
+    margin-bottom: 30px;
+  }
+}
+
+@media (max-width: 1199px) {
+  .Logo {
+    margin-bottom: 30px;
   }
 }

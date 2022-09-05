@@ -3,7 +3,6 @@ import { FC } from 'react';
 import { cn } from '@bem-react/classname';
 import AudioPlayer, { RHAP_UI } from 'react-h5-audio-player';
 import 'react-h5-audio-player/lib/styles.css';
-import './Player.css';
 import { SongType } from '../../types';
 import {
   PlayArrow,
@@ -27,6 +26,9 @@ import {
   PlayerControlsWrapper,
   PlayerWrapper,
 } from '../changeColor/PlayerChangeColor';
+
+import './Player.css';
+
 const cnPlayer = cn('Player');
 
 export type PlayerProps = {

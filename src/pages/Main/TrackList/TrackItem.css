@@ -59,3 +59,16 @@
     font-size: 12px;
   }
 }
+
+@media (max-width: 767px) {
+  .TrackItem-Info {
+    min-height: 42px;
+  }
+}
+
+@media (max-width: 767px) {
+  .TrackItem-Info {
+    align-items: flex-start;
+    font-size: 10px;
+  }
+}

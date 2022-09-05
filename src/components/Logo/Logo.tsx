@@ -15,7 +15,6 @@ type typeLogoProps = {
 };
 
 const Logo: FC<typeLogoProps> = ({ textColor }) => {
-  const textColorStore = useAppSelector((state) => state.colorTheme.textColor);
   const decorativeColor = useAppSelector(
     (state) => state.colorTheme.decorativeColor,
   );

@@ -10,9 +10,9 @@ import { useForm } from 'react-hook-form';
 import { useAppDispatch, useAppSelector } from '../../hook';
 import { fetchRegister, selectIsAuth } from '../../store/auth/auth';
 import { Navigate, useNavigate } from 'react-router-dom';
+import { Login } from '../../store/auth/types';
 
 import './RegisterWindow.css';
-import { Login } from '../../store/auth/types';
 
 const cnRegisterWindow = cn('RegisterWindow');
 
@@ -98,7 +98,8 @@ export const RegisterWindow: FC<{}> = () => {
             required: 'Укажите пароль',
             pattern: {
               value: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,}$/,
-              message: 'Не менее 6 символов, цифры, латинские буквы в верхнем и нижнем регистре',
+              message:
+                'Не менее 6 символов, цифры, латинские буквы в верхнем и нижнем регистре',
             },
           })}
           helperText={errors.password?.message}
@@ -107,7 +108,8 @@ export const RegisterWindow: FC<{}> = () => {
         <Button
           buttonType="submit"
           buttonVariant="contained"
-          buttonText="Зарегистрироваться"></Button>
+          buttonText="Зарегистрироваться"
+        ></Button>
       </form>
     </Box>
   );

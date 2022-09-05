@@ -78,33 +78,34 @@ export const FilterButtons: FC<FilterButtonsProps> = ({ lang, textColor }) => {
 
   return (
     <Box className={cnFilterButtons('Filters')} style={{ color: textColor }}>
-      <span className={cnFilterButtons('Filters-Text')}>
-        {TEXT.search.searchBy[lang]}
-      </span>
-      <FilterButton
-        buttonName="checkedArtists"
-        buttonText={TEXT.search.artist[lang]}
-        rows={3}
-        checkItems={checkedArtists}
-      ></FilterButton>
-      <FilterButton
-        buttonName="checkedYears"
-        buttonText={TEXT.search.release[lang]}
-        rows={3}
-        checkItems={checkedYears}
-      ></FilterButton>
-      <FilterButton
-        buttonName="checkedGenres"
-        buttonText={TEXT.search.genre[lang]}
-        rows={2}
-        checkItems={checkedGenres}
-      ></FilterButton>
+      <div className={cnFilterButtons('Buttons-Wrapper')}>
+        <span className={cnFilterButtons('Filters-Text')}>
+          {TEXT.search.searchBy[lang]}
+        </span>
+        <FilterButton
+          buttonName="checkedArtists"
+          buttonText={TEXT.search.artist[lang]}
+          rows={3}
+          checkItems={checkedArtists}
+        ></FilterButton>
+        <FilterButton
+          buttonName="checkedGenres"
+          buttonText={TEXT.search.genre[lang]}
+          rows={2}
+          checkItems={checkedGenres}
+        ></FilterButton>
+        <FilterButton
+          buttonName="checkedYears"
+          buttonText={TEXT.search.release[lang]}
+          rows={3}
+          checkItems={checkedYears}
+        ></FilterButton>
+      </div>
 
       <ThemeProvider theme={buttonTheme}>
         <FormControl
           variant="standard"
           sx={{
-            marginLeft: '25px',
             width: '175px',
           }}
         >

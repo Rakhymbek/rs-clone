@@ -4,12 +4,11 @@ import { cn } from '@bem-react/classname';
 
 import { Box, Button, Typography } from '@mui/material';
 import { NavLink } from 'react-router-dom';
-import './WelcomePage.css';
-
-import './WelcomePage.css';
 import { COLOR_DARK_DEFAULT } from '../../constants';
 import { setVpnState } from '../../store/vpnSlice';
 import { useAppDispatch } from '../../hook';
+
+import './WelcomePage.css';
 
 const cnWelcomePage = cn('WelcomePage');
 
