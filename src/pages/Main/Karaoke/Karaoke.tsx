@@ -38,9 +38,10 @@ const KaraokeWrapper = styled(Box)`
 const Karaoke = () => {
   const dispatch = useAppDispatch();
   const tracks = useAppSelector((state) => state.tracks.allTracks);
-  const currentTrack = useAppSelector<SongType>((state) => state.tracks.currentTrack);
-  // const txt = currentTrack.lyrics;
-  const [txt, setTxt] = useState("");
+  const currentTrack = useAppSelector<SongType>(
+    (state) => state.tracks.currentTrack
+  );
+  const txt = currentTrack.lyrics;
   const [msg, setMsg] = useState("");
 
   const data = {
@@ -63,7 +64,6 @@ const Karaoke = () => {
   }
 
   useEffect(() => {
-    setTxt(currentTrack.lyrics as string);
     setMsg("Lyrics");
     const player = document.querySelector(
       ".muse-controller audio"
@@ -96,6 +96,7 @@ const Karaoke = () => {
     const firstLine = document.querySelector(
       ".muse-lyric__text"
     ) as HTMLElement;
+    console.log(firstLine);
     if (firstLine) {
       if (firstLine.innerHTML.includes("这首歌没有歌词~")) {
         firstLyricsContainer.innerHTML = "";
@@ -107,21 +108,21 @@ const Karaoke = () => {
   }, []);
 
   return (
-    <div className='Karaoke'>
+    <div className="Karaoke">
       <NavMenu />
-      <div className='Karaoke-Content'>
+      <div className="Karaoke-Content">
         <Typography
-          variant='h2'
+          variant="h2"
           fontSize={40}
           marginBottom={1}
           textAlign={"center"}
         >
           {msg}
         </Typography>
-        <div id='player' className='Karaoke-Line'></div>
-        <div className='Karaoke-Controls'>
+        <div id="player" className="Karaoke-Line"></div>
+        <div className="Karaoke-Controls">
           <Typography
-            variant='h2'
+            variant="h2"
             fontSize={40}
             marginBottom={2}
             marginTop={3}
@@ -129,10 +130,10 @@ const Karaoke = () => {
           >
             Список песен
           </Typography>
-          <KaraokeWrapper className='Karaoke-Wrapper'>
+          <KaraokeWrapper className="Karaoke-Wrapper">
             <TrackList tracks={tracks as SongType[]}></TrackList>
           </KaraokeWrapper>
-          <div className='Karaoke-Player'></div>
+          <div className="Karaoke-Player"></div>
         </div>
       </div>
     </div>
