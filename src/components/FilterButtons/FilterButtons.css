@@ -2,7 +2,6 @@
   display: flex;
   flex-wrap: wrap;
   align-items: top;
-  /* gap: 10px; */
 
   margin-bottom: 51px;
 }
@@ -30,5 +29,11 @@
   }
   .css-1rxz5jq-MuiSelect-select-MuiInputBase-input-MuiInput-input {
     font-size: 12px !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .FilterButtons-Filters {
+    margin-bottom: 30px;
   }
 }

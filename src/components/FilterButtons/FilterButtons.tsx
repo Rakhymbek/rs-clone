@@ -89,16 +89,16 @@ export const FilterButtons: FC<FilterButtonsProps> = ({ lang, textColor }) => {
           checkItems={checkedArtists}
         ></FilterButton>
         <FilterButton
-          buttonName="checkedYears"
-          buttonText={TEXT.search.release[lang]}
-          rows={3}
-          checkItems={checkedYears}
-        ></FilterButton>
-        <FilterButton
           buttonName="checkedGenres"
           buttonText={TEXT.search.genre[lang]}
           rows={2}
           checkItems={checkedGenres}
+        ></FilterButton>
+        <FilterButton
+          buttonName="checkedYears"
+          buttonText={TEXT.search.release[lang]}
+          rows={3}
+          checkItems={checkedYears}
         ></FilterButton>
       </div>
 

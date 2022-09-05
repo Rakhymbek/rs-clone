@@ -71,12 +71,27 @@
   }
 }
 
-/* @media (max-width: 1199px) {
-  .NavMenu-Footer-Top {
-    min-height: 50vh;
+@media (max-width: 1439px) {
+  .Profile {
+    padding-left: 45px;
+    width: 68%;
+  }
+}
+
+@media (max-width: 767px) {
+  .Profile {
+    width: 100%;
+    padding-right: 20px;
   }
 
-  .NavMenu-Animation-Top {
-    min-height: 32vh;
+  .Profile-Header-Main {
+    font-size: 40px;
+    margin-bottom: 20px;
   }
-} */
+}
+
+@media (max-width: 549px) {
+  .Profile {
+    padding-left: 20px;
+  }
+}

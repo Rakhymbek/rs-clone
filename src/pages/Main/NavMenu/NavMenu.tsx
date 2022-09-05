@@ -83,6 +83,12 @@ export const NavMenu: FC<{}> = () => {
     setIsVisible(!isVisible);
   };
 
+  const [isVisibleMobile, setIsVisibleMobile] = useState(false);
+
+  const handleClickMobile = () => {
+    setIsVisibleMobile(!isVisibleMobile);
+  };
+
   const handleLogOut = () => {
     localStorage.clear();
 
@@ -135,84 +141,179 @@ export const NavMenu: FC<{}> = () => {
   };
 
   return (
-    <nav
-      className={cnNavMenu()}
-      style={
-        isVisible
-          ? { backgroundColor: bgColorLight }
-          : { backgroundColor: bgColor }
-      }
-    >
-      <NavLink to={'/main'} onClick={handleClickToMain}>
-        <Logo textColor={textColor} />
-      </NavLink>
+    <>
+      <div className={cnNavMenu('Wrapper-Desktop')}>
+        <nav
+          className={cnNavMenu()}
+          style={
+            isVisible
+              ? { backgroundColor: bgColorLight }
+              : { backgroundColor: bgColor }
+          }
+        >
+          <NavLink to={'/main'} onClick={handleClickToMain}>
+            <Logo textColor={textColor} />
+          </NavLink>
 
-      <IconButton className={cnNavMenu('Burger')} onClick={handleClick}>
-        <MenuIcon
-          className={cnNavMenu('Burger-Icon')}
-          style={{ color: textColor }}
-          sx={{ mb: 3.5 }}
-        />
-      </IconButton>
-      {isVisible && (
-        <>
-          <div className={cnNavMenu('List')}>
-            <NavLink
-              className={cnNavMenu('List-Button')}
+          <IconButton className={cnNavMenu('Burger')} onClick={handleClick}>
+            <MenuIcon
+              className={cnNavMenu('Burger-Icon')}
               style={{ color: textColor }}
-              to="/main"
-            >
-              <SpanChangeColor colorHover={colorHover} colorActive={colorDark}>
-                {TEXT.menu.homepage[lang]}
-              </SpanChangeColor>
+              sx={{ mb: 3.5 }}
+            />
+          </IconButton>
+          {isVisible && (
+            <>
+              <div className={cnNavMenu('List')}>
+                <NavLink
+                  className={cnNavMenu('List-Button')}
+                  style={{ color: textColor }}
+                  to="/main"
+                >
+                  <SpanChangeColor
+                    colorHover={colorHover}
+                    colorActive={colorDark}
+                  >
+                    {TEXT.menu.homepage[lang]}
+                  </SpanChangeColor>
+                </NavLink>
+
+                <NavLink
+                  onClick={handleClickToMain}
+                  className={cnNavMenu('List-Button')}
+                  style={{ color: textColor }}
+                  to="/mytracks"
+                >
+                  <SpanChangeColor
+                    colorHover={colorHover}
+                    colorActive={colorDark}
+                  >
+                    {TEXT.menu.mytracks[lang]}
+                  </SpanChangeColor>
+                </NavLink>
+
+                <NavLink
+                  className={cnNavMenu('List-Button')}
+                  style={{ color: textColor }}
+                  to={'/profile'}
+                >
+                  <SpanChangeColor
+                    colorHover={colorHover}
+                    colorActive={colorDark}
+                  >
+                    {TEXT.menu.profile[lang]}
+                  </SpanChangeColor>
+                </NavLink>
+
+                <button
+                  onClick={() => dispatch(openModal())}
+                  style={{ color: textColor }}
+                  className={'Logout-Button'}
+                >
+                  <SpanChangeColor
+                    colorHover={colorHover}
+                    colorActive={colorDark}
+                    onClick={handleLogOut}
+                  >
+                    {TEXT.menu.logout[lang]}
+                  </SpanChangeColor>
+                </button>
+              </div>
+              <div className={cnNavMenu('Animation-Top')}></div>
+              <Animation></Animation>
+            </>
+          )}
+
+          {!isVisible && (
+            <>
+              <div className={cnNavMenu('Footer-Top')}></div>
+              <Footer></Footer>
+            </>
+          )}
+        </nav>
+      </div>
+
+      <div className={cnNavMenu('Burger-Mobile')}>
+        <IconButton onClick={handleClickMobile}>
+          <MenuIcon
+            className={cnNavMenu('Burger-Icon')}
+            style={{ color: textColor }}
+            sx={{ mb: 3.5 }}
+          />
+        </IconButton>
+      </div>
+      <div className={cnNavMenu('Wrapper-Mobile')}>
+        {isVisibleMobile && (
+          <nav
+            className={cnNavMenu()}
+            style={{ backgroundColor: bgColorLight, paddingTop: '70px' }}
+          >
+            <NavLink to={'/main'} onClick={handleClickToMain}>
+              <Logo textColor={textColor} />
             </NavLink>
 
-            <NavLink
-              onClick={handleClickToMain}
-              className={cnNavMenu('List-Button')}
-              style={{ color: textColor }}
-              to="/mytracks"
-            >
-              <SpanChangeColor colorHover={colorHover} colorActive={colorDark}>
-                {TEXT.menu.mytracks[lang]}
-              </SpanChangeColor>
-            </NavLink>
+            <>
+              <div className={cnNavMenu('List')}>
+                <NavLink
+                  className={cnNavMenu('List-Button')}
+                  style={{ color: textColor }}
+                  to="/main"
+                >
+                  <SpanChangeColor
+                    colorHover={colorHover}
+                    colorActive={colorDark}
+                  >
+                    {TEXT.menu.homepage[lang]}
+                  </SpanChangeColor>
+                </NavLink>
 
-            <NavLink
-              className={cnNavMenu('List-Button')}
-              style={{ color: textColor }}
-              to={'/profile'}
-            >
-              <SpanChangeColor colorHover={colorHover} colorActive={colorDark}>
-                {TEXT.menu.profile[lang]}
-              </SpanChangeColor>
-            </NavLink>
+                <NavLink
+                  onClick={handleClickToMain}
+                  className={cnNavMenu('List-Button')}
+                  style={{ color: textColor }}
+                  to="/mytracks"
+                >
+                  <SpanChangeColor
+                    colorHover={colorHover}
+                    colorActive={colorDark}
+                  >
+                    {TEXT.menu.mytracks[lang]}
+                  </SpanChangeColor>
+                </NavLink>
 
-            <button
-              onClick={() => dispatch(openModal())}
-              style={{ color: textColor }}
-              className={'Logout-Button'}
-            >
-              <SpanChangeColor
-                colorHover={colorHover}
-                colorActive={colorDark}
-                onClick={handleLogOut}
-              >
-                {TEXT.menu.logout[lang]}
-              </SpanChangeColor>
-            </button>
-          </div>
-          <div className={cnNavMenu('Animation-Top')}></div>
-          <Animation></Animation>
-        </>
-      )}
+                <NavLink
+                  className={cnNavMenu('List-Button')}
+                  style={{ color: textColor }}
+                  to={'/profile'}
+                >
+                  <SpanChangeColor
+                    colorHover={colorHover}
+                    colorActive={colorDark}
+                  >
+                    {TEXT.menu.profile[lang]}
+                  </SpanChangeColor>
+                </NavLink>
 
-      {!isVisible && (
-        <>
-          <div className={cnNavMenu('Footer-Top')}></div>
-          <Footer></Footer>
-        </>
-      )}
-    </nav>
+                <button
+                  onClick={() => dispatch(openModal())}
+                  style={{ color: textColor }}
+                  className={'Logout-Button'}
+                >
+                  <SpanChangeColor
+                    colorHover={colorHover}
+                    colorActive={colorDark}
+                    onClick={handleLogOut}
+                  >
+                    {TEXT.menu.logout[lang]}
+                  </SpanChangeColor>
+                </button>
+              </div>
+              <div className={cnNavMenu('Animation-Top')}></div>
+              <Animation></Animation>
+            </>
+          </nav>
+        )}
+      </div>
+    </>
   );
 };
