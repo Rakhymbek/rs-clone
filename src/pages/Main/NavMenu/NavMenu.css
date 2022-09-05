@@ -52,7 +52,7 @@
 
   width: 100%;
   padding: 0;
-  margin-bottom: 26px;
+  margin-bottom: 20px;
 
   background-color: transparent;
 
@@ -75,7 +75,33 @@
   text-align: left;
 }
 
+.NavMenu-Footer-Top {
+  min-height: 50vh;
+}
+
+.NavMenu-Animation-Top {
+  min-height: 40vh;
+}
+
+@media (max-width: 1919px) {
+  .NavMenu-Footer-Top {
+    min-height: 40vh;
+  }
+
+  .NavMenu-Animation-Top {
+    min-height: 25vh;
+  }
+}
+
 @media (max-width: 1439px) {
+  .NavMenu-Logo {
+    margin-bottom: 30px;
+  }
+
+  .List-Button {
+    margin-bottom: 10px;
+  }
+
   .NavMenu,
   .Logout-Button {
     font-size: 12px;
@@ -84,4 +110,26 @@
   .NavMenu-List li {
     margin-bottom: 6px;
   }
+
+  .NavMenu-Footer-Top {
+    min-height: 25vh;
+  }
+
+  .NavMenu-Animation-Top {
+    min-height: 15vh;
+  }
+}
+
+@media (max-width: 1199px) {
+  .List-Button {
+    margin-bottom: 10px;
+  }
+
+  .NavMenu-Footer-Top {
+    min-height: 25vh;
+  }
+
+  /* .NavMenu-Animation-Top {
+    min-height: 12vh;
+  } */
 }

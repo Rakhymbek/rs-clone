@@ -33,6 +33,7 @@ import getRandomTracks from '../../utils/getRandomTracks';
 import dataTracks from './data.json';
 
 import './Main.css';
+// import { Footer } from '../../components/Footer/Footer';
 
 const cnMain = cn('Main');
 
@@ -127,6 +128,7 @@ export const Main: FC<MainProps> = ({ header }) => {
         ></Sidebar>
       </Box>
       <Player track={currentTrack}></Player>
+      {/* <Footer></Footer> */}
     </Wrapper>
   );
 };

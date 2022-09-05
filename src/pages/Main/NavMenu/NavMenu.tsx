@@ -3,7 +3,7 @@ import { FC } from 'react';
 import { cn } from '@bem-react/classname';
 
 import { NavLink } from 'react-router-dom';
-import { Button, IconButton } from '@mui/material';
+import { IconButton } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import Logo from '../../../components/Logo/Logo';
 import {
@@ -45,6 +45,7 @@ import { updateSearchQuery } from '../../../store/sortingSettingsSlice';
 import { Animation } from '../../../components/Animation/Animation';
 
 import './NavMenu.css';
+import { Footer } from '../../../components/Footer/Footer';
 
 const cnNavMenu = cn('NavMenu');
 
@@ -201,16 +202,17 @@ export const NavMenu: FC<{}> = () => {
               </SpanChangeColor>
             </button>
           </div>
+          <div className={cnNavMenu('Animation-Top')}></div>
           <Animation></Animation>
         </>
       )}
 
-      {/* <audio
-        src={currentTrack.urlPlay}
-        id="player"
-        controls
-        loop
-      ></audio> */}
+      {!isVisible && (
+        <>
+          <div className={cnNavMenu('Footer-Top')}></div>
+          <Footer></Footer>
+        </>
+      )}
     </nav>
   );
 };

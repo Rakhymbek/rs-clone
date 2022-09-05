@@ -43,8 +43,6 @@ export const TrackList: FC<{ header: string }> = ({ header }) => {
       : tracksRandom;
   }
 
-  // console.log('--> allTracks', allTracks);
-
   const [trackItems, setTrackItems] = useState(allTracks);
 
   useEffect(() => {
@@ -54,8 +52,6 @@ export const TrackList: FC<{ header: string }> = ({ header }) => {
   useEffect(() => {
     dispatch(uploadMovedTracks(trackItems));
   }, [dispatch, trackItems]);
-
-  // console.log('--> trackItems', trackItems);
 
   const moveTrackItem = useCallback((dragIndex: number, hoverIndex: number) => {
     setTrackItems((prevTrackItems: SongType[]) =>
