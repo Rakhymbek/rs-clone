@@ -1,10 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FC } from 'react';
 import { cn } from '@bem-react/classname';
 import { NavLink } from 'react-router-dom';
 import {
-  Box,
-  Card,
+  Button,
   createTheme,
   FormControl,
   MenuItem,
@@ -14,24 +13,40 @@ import {
   Typography,
 } from '@mui/material';
 
-import { SpanChangeColor } from '../../../components/changeColor/SpanChangeColor/SpanChangeColor';
+import { SpanChangeColor } from '../../../components/changeColor/SpanChangeColor';
 import { AlbumCover } from '../../../components/AlbumCover/AlbumCover';
-import { text, USER } from '../../../constants';
+import { ALBUM_DANCE, TEXT } from '../../../constants';
 import { useAppDispatch, useAppSelector } from '../../../hook';
-
-import './Sidebar.css';
 import {
   bgColorToBgColorLight,
   extradarkToDark,
   extradarkToHover,
-} from '../../../utils/utils';
-import { TLanguages } from '../../../types';
+} from '../../../utils/colorUtils';
+import { SongType, TCheckedItems, TLanguages } from '../../../types';
 import { changeLanguage } from '../../../store/languageSlice';
-// import './Animation.css';
+import {
+  updateCheckedArtists,
+  updateCheckedGenres,
+  updateCheckedYears,
+  updateFilteredDanceTracks,
+  updateFilteredRandomTracks,
+  updateFilteredTracks,
+  updateSearchedTracks,
+  updateSearchedTracksDance,
+  updateSearchedTracksRandom,
+} from '../../../store/filteredItemsSlice';
+import { getFinalItems } from '../../../utils/getFinalItems';
+import {
+  uploadDanceTracks,
+  uploadRandomTracks,
+} from '../../../store/trackSlice';
+import { updateSearchQuery } from '../../../store/sortingSettingsSlice';
+
+import './Sidebar.css';
 
 const cnSidebar = cn('Sidebar');
 
-export type SidebarProps = {
+type SidebarProps = {
   isVisible: boolean;
   isUserVisible?: boolean;
 };
@@ -41,6 +56,9 @@ export const Sidebar: FC<SidebarProps> = ({
   isUserVisible = true,
 }) => {
   const dispatch = useAppDispatch();
+
+  const dataUser = useAppSelector((state) => state.auth.data);
+  // const dataUser = { fullName: 'Evgenia Leleo' };
 
   const lang = useAppSelector((state) => state.language.lang);
   const textColor = useAppSelector((state) => state.colorTheme.textColor);
@@ -69,8 +87,95 @@ export const Sidebar: FC<SidebarProps> = ({
     },
   });
 
+  const allTracks: SongType[] = useAppSelector(
+    (state) => state.tracks.allTracks,
+  );
+  const allTracksDance: SongType[] = useAppSelector(
+    (state) => state.tracks.danceTracks,
+  );
+  const allTracksRandom: SongType[] = useAppSelector(
+    (state) => state.tracks.randomTracks,
+  );
+
+  const order = useAppSelector((state) => state.sortingSettings.order);
+
+  const handleClickDance = () => {
+    const newFilter: TCheckedItems = {
+      checkedArtists: [],
+      checkedYears: [],
+      checkedGenres: [],
+    };
+    const searchedItemsCurrent = allTracksDance;
+
+    newFilter.checkedGenres = [ALBUM_DANCE];
+
+    dispatch(updateCheckedGenres([ALBUM_DANCE]));
+    dispatch(updateCheckedArtists([]));
+    dispatch(updateCheckedYears([]));
+
+    dispatch(updateFilteredTracks([]));
+    dispatch(updateFilteredDanceTracks([]));
+    dispatch(updateFilteredRandomTracks([]));
+
+    dispatch(updateSearchQuery(''));
+    dispatch(updateSearchedTracks(allTracks));
+    dispatch(updateSearchedTracksDance(allTracksDance));
+    dispatch(updateSearchedTracksRandom(allTracksRandom));
+
+    const finalFilteredTracks = getFinalItems(
+      allTracksDance,
+      newFilter,
+      searchedItemsCurrent,
+      order,
+    );
+
+    dispatch(uploadDanceTracks(finalFilteredTracks));
+  };
+
+  const handleClickRandom = () => {
+    const searchedItemsCurrent = allTracksRandom;
+    const newFilter: TCheckedItems = {
+      checkedArtists: [],
+      checkedYears: [],
+      checkedGenres: [],
+    };
+
+    dispatch(updateCheckedGenres([]));
+    dispatch(updateCheckedArtists([]));
+    dispatch(updateCheckedYears([]));
+
+    dispatch(updateFilteredTracks([]));
+    dispatch(updateFilteredDanceTracks([]));
+    dispatch(updateFilteredRandomTracks([]));
+
+    dispatch(updateSearchQuery(''));
+    dispatch(updateSearchedTracks(allTracks));
+    dispatch(updateSearchedTracksDance(allTracksDance));
+    dispatch(updateSearchedTracksRandom(allTracksRandom));
+
+    const finalFilteredTracks = getFinalItems(
+      allTracksRandom,
+      newFilter,
+      searchedItemsCurrent,
+      order,
+    );
+
+    dispatch(uploadRandomTracks(finalFilteredTracks));
+  };
+
+  const [isAlbumsVisible, setIsAlbumsVisible] = useState(false);
+
+  const handleAlbumList = () => {
+    setIsAlbumsVisible(!isAlbumsVisible);
+    console.log(isAlbumsVisible);
+  };
+
+  useEffect(() => {
+    return () => setIsAlbumsVisible(false);
+  }, []);
+
   return (
-    <Box className={cnSidebar()}>
+    <div className={cnSidebar()}>
       {isUserVisible && (
         <div className={cnSidebar('User')}>
           <NavLink to={'/profile'}>
@@ -79,11 +184,10 @@ export const Sidebar: FC<SidebarProps> = ({
               style={{ color: textColor }}
             >
               <SpanChangeColor colorHover={colorHover} colorActive={colorDark}>
-                {USER.name}
+                {dataUser?.fullName}
               </SpanChangeColor>
             </Typography>
           </NavLink>
-          {/* <div className={cnSidebar('User-Avatar')}></div> */}
 
           <ThemeProvider theme={buttonTheme}>
             <FormControl
@@ -117,44 +221,55 @@ export const Sidebar: FC<SidebarProps> = ({
         </div>
       )}
 
-      <Card
-        className={cnSidebar('List')}
-        sx={
-          isVisible
-            ? { display: 'block', backgroundColor: 'transparent' }
-            : { display: 'none' }
-        }
-        style={{ border: 'none', boxShadow: 'none' }}
-      >
-        {/* <canvas id="myCanvas" width="1200" height="250"></canvas> */}
-        <NavLink to={'/dayplaylist'}>
-          {/* <CardMedia
-            component="img"
-            className={cnSidebar('Button')}
-            image="./playlist/playlist-day.png"
-            alt="Playlist of the day"
-          /> */}
+      {isUserVisible && (
+        <div style={{ backgroundColor: 'transparent' }}>
+          <div className={cnSidebar('List')}>
+            <NavLink to={'/random'} onClick={handleClickRandom}>
+              <AlbumCover text={TEXT.albums.dayplaylist[lang]}></AlbumCover>
+            </NavLink>
 
-          <AlbumCover text={text.albums.dayplaylist[lang]}></AlbumCover>
-        </NavLink>
-        <NavLink to={'/hits'}>
-          {/* <CardMedia
-            component="img"
-            className={cnSidebar('Button')}
-            image="./playlist/playlist-hits.png"
-            alt="Playlist of hits"
-          /> */}
-          <AlbumCover text={text.albums.hits[lang]}></AlbumCover>
-        </NavLink>
-        {/* <NavLink to={'/indie'}>
-          <CardMedia
-            component="img"
-            className={cnSidebar('Button')}
-            image="./playlist/playlist-indie.png"
-            alt="Indie charge"
-          />
-        </NavLink> */}
-      </Card>
-    </Box>
+            <NavLink to={'/dance'} onClick={handleClickDance}>
+              <AlbumCover text={TEXT.albums.dance[lang]}></AlbumCover>
+            </NavLink>
+          </div>
+
+          <ThemeProvider theme={buttonTheme}>
+            <div className={cnSidebar('Button-Visibility')}>
+              <Button
+                onClick={handleAlbumList}
+                color="primary"
+                variant="contained"
+                sx={{
+                  textTransform: 'none',
+                  color: textColor,
+                  width: '100%',
+                  minHeight: '30px',
+                  marginBottom: '13px',
+                  marginTop: '10px',
+                  padding: '10px',
+                }}
+                className={cnSidebar('Button-Mobile-List')}
+              >
+                {TEXT.collections[lang]}
+              </Button>
+            </div>
+          </ThemeProvider>
+
+          {isAlbumsVisible && (
+            <div className={cnSidebar('Mobile-List')}>
+              <div>
+                <NavLink to={'/random'} onClick={handleClickRandom}>
+                  <AlbumCover text={TEXT.albums.dayplaylist[lang]}></AlbumCover>
+                </NavLink>
+
+                <NavLink to={'/dance'} onClick={handleClickDance}>
+                  <AlbumCover text={TEXT.albums.dance[lang]}></AlbumCover>
+                </NavLink>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
   );
 };

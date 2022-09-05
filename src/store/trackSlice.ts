@@ -1,56 +1,103 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { SongType } from "../types";
-const firstSong = require('../firstSong.mp3')
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { SongType } from '../types';
+import dataTracks from '../pages/Main/data.json';
 
 type TTrackState = {
   currentTrack: SongType;
   allTracks: SongType[];
+  danceTracks: SongType[];
+  randomTracks: SongType[];
+  movedTracks: SongType[];
   autoplay: boolean;
+  isMoved: boolean;
+  isShuffleActive: boolean;
 };
 
 const initialState: TTrackState = {
-  currentTrack: JSON.parse(localStorage.getItem("currentTrack")!) || firstSong || {},
+  currentTrack:
+    JSON.parse(localStorage.getItem('currentTrack')!) || dataTracks[0] || {},
   allTracks: [],
+  randomTracks: [],
+  danceTracks: [],
+  movedTracks: [],
+  isMoved: false,
   autoplay: false,
+  isShuffleActive: false,
 };
 
 const trackSlice = createSlice({
-  name: "tracks",
+  name: 'tracks',
   initialState,
   reducers: {
     changeCurrentSong(state, action: PayloadAction<SongType>) {
       state.autoplay = true;
       state.currentTrack = action.payload;
-      localStorage.setItem("currentTrack", JSON.stringify(state.currentTrack));
+      localStorage.setItem('currentTrack', JSON.stringify(state.currentTrack));
     },
     uploadAllTracks(state, action: PayloadAction<SongType[]>) {
       state.allTracks = action.payload;
     },
+    uploadDanceTracks(state, action: PayloadAction<SongType[]>) {
+      state.danceTracks = action.payload;
+    },
+    uploadRandomTracks(state, action: PayloadAction<SongType[]>) {
+      state.randomTracks = action.payload;
+    },
+    uploadMovedTracks(state, action: PayloadAction<SongType[]>) {
+      state.movedTracks = action.payload;
+    },
     switchToNextTrack(state, action: PayloadAction<SongType[]>) {
       state.autoplay = true;
-      let nextTrack;
-      let currentIndex = action.payload?.findIndex(
-        (track) => track.url === state.currentTrack.url
-      );
-      if (currentIndex! >= action.payload?.length! - 1) {
-        nextTrack = action.payload?.[0];
+      let nextTrack: SongType;
+      let allTracks: SongType[];
+
+      if  (state.isMoved) {
+        allTracks = JSON.parse(JSON.stringify(state.movedTracks));
       } else {
-        nextTrack = action.payload?.[currentIndex! + 1];
+        allTracks = action.payload;
       }
-      state.currentTrack = nextTrack;
+
+      let currentIndex = allTracks?.findIndex(
+        (track) => track.url === state.currentTrack.url,
+      );
+      if (currentIndex! >= allTracks?.length! - 1) {
+        nextTrack = allTracks?.[0];
+      } else {
+        nextTrack = allTracks?.[currentIndex! + 1];
+      }
+      if (state.isShuffleActive) {
+        let nextTrack = allTracks?.[Math.floor(Math.random() * allTracks.length)];
+        state.currentTrack = nextTrack;
+      } else {
+        state.currentTrack = nextTrack;
+      }
     },
     switchToPreviousTrack(state, action: PayloadAction<SongType[]>) {
       state.autoplay = true;
       let previousTrack;
-      let currentIndex = action.payload?.findIndex(
-        (track) => track.url === state.currentTrack.url
+
+      let allTracks: SongType[];
+
+      if  (state.isMoved) {
+        allTracks = JSON.parse(JSON.stringify(state.movedTracks));
+      } else {
+        allTracks = action.payload;
+      }
+
+      let currentIndex = allTracks?.findIndex(
+        (track) => track.url === state.currentTrack.url,
       );
       if (currentIndex! <= 0) {
-        previousTrack = action.payload?.[action.payload?.length! - 1];
+        previousTrack = allTracks?.[allTracks?.length! - 1];
       } else {
-        previousTrack = action.payload?.[currentIndex! - 1];
+        previousTrack = allTracks?.[currentIndex! - 1];
       }
-      state.currentTrack = previousTrack;
+      if (state.isShuffleActive) {
+        let nextTrack = allTracks?.[Math.floor(Math.random() * allTracks.length)];
+        state.currentTrack = nextTrack;
+      } else {
+        state.currentTrack = previousTrack;
+      }
     },
     shuffleTracks(state, action) {
       if (action.payload) {
@@ -59,15 +106,30 @@ const trackSlice = createSlice({
         state.currentTrack = nextTrack;
       }
     },
+    setShuffleStatus(state, action) {
+      state.isShuffleActive = !action.payload;
+    },
+    setAutoplayStatus(state, action) {
+      state.autoplay = action.payload;
+    },
+    setMovedStatus(state, action) {
+      state.isMoved = action.payload;
+    },
   },
 });
 
 export const {
   changeCurrentSong,
   uploadAllTracks,
+  uploadDanceTracks,
+  uploadRandomTracks,
+  uploadMovedTracks,
   switchToNextTrack,
   switchToPreviousTrack,
   shuffleTracks,
+  setShuffleStatus,
+  setAutoplayStatus,
+  setMovedStatus,
 } = trackSlice.actions;
 
 export default trackSlice.reducer;

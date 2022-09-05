@@ -1,130 +1,94 @@
-import { cn } from '@bem-react/classname';
-import { FavoriteBorder } from '@mui/icons-material';
-import { IconButton } from '@mui/material';
-import { FC, useCallback } from 'react';
-import { DivChangeColor } from '../../../components/changeColor/DivChangeColor/DivChangeColor';
-import { SkeletonRect } from '../../../components/Skeleton/Skeleton';
-import { useAppDispatch, useAppSelector } from '../../../hook';
-import { changeCurrentSong } from '../../../store/trackSlice';
-import { SongType } from '../../../types';
+import update from 'immutability-helper';
+import { FC, useEffect } from 'react';
+import { useCallback, useState } from 'react';
 import {
-  colorToSecondary,
-  extradarkToDark,
-  extradarkToHover,
-  lightenDarkenColor,
-} from '../../../utils/utils';
+  ALBUM_DANCE,
+  ALBUM_RANDOM,
+  EMPTY_ARTIST,
+  TEXT,
+} from '../../../constants';
+import { useAppDispatch, useAppSelector } from '../../../hook';
+import { setMovedStatus, uploadMovedTracks } from '../../../store/trackSlice';
+import { SongType } from '../../../types';
+import { TrackItem } from './TrackItem';
 
-import './TrackList.css';
-
-const cnTrackList = cn('TrackList');
-
-type TrackListProps = {
-  tracks: SongType[];
-};
-
-export const TrackList: FC<TrackListProps> = ({ tracks }) => {
+export const TrackList: FC<{ header: string }> = ({ header }) => {
   const dispatch = useAppDispatch();
 
-  const textColor = useAppSelector((state) => state.colorTheme.textColor);
-  const currentTrack = useAppSelector((state) => state.tracks.currentTrack);
-  const decorativeColor = useAppSelector(
-    (state) => state.colorTheme.decorativeColor,
+  const lang = useAppSelector((state) => state.language.lang);
+
+  const tracksAll = useAppSelector((state) => state.tracks.allTracks);
+  const tracksDance = useAppSelector((state) => state.tracks.danceTracks);
+  const tracksRandom = useAppSelector((state) => state.tracks.randomTracks);
+
+  const filteredTracks = useAppSelector(
+    (state) => state.filteredItems.filteredTracks,
+  );
+  const filteredTracksDance = useAppSelector(
+    (state) => state.filteredItems.filteredDanceTracks,
+  );
+  const filteredTracks_Random = useAppSelector(
+    (state) => state.filteredItems.filteredRandomTracks,
   );
 
-  const colorHover = extradarkToHover(decorativeColor);
-  const colorDark = extradarkToDark(decorativeColor);
-  const skeletonColor = lightenDarkenColor(textColor, -10);
-  const textColorSecondary = colorToSecondary(textColor);
+  let allTracks = filteredTracks.length ? filteredTracks : tracksAll;
 
-  const handleChooseSong = useCallback(
-    (track: SongType) => {
-      dispatch(changeCurrentSong(track));
-    },
-    [dispatch],
-  );
+  if (header === TEXT.albums[ALBUM_DANCE][lang]) {
+    allTracks = filteredTracksDance.length ? filteredTracksDance : tracksDance;
+  }
 
-  const defineCurrentTrack = useCallback((track: SongType) => {
-    return currentTrack._id === track._id;
-  }, [currentTrack._id]);
+  if (header === TEXT.albums[ALBUM_RANDOM][lang]) {
+    allTracks = filteredTracks_Random.length
+      ? filteredTracks_Random
+      : tracksRandom;
+  }
 
+  const [trackItems, setTrackItems] = useState(allTracks);
 
-  const array = new Array(10).fill(0);
+  useEffect(() => {
+    setTrackItems(allTracks);
+  }, [allTracks, header]);
+
+  useEffect(() => {
+    dispatch(uploadMovedTracks(trackItems));
+    dispatch(setMovedStatus(true));
+  }, [dispatch, trackItems]);
+
+  const moveTrackItem = useCallback((dragIndex: number, hoverIndex: number) => {
+    setTrackItems((prevTrackItems: SongType[]) =>
+      update(prevTrackItems, {
+        $splice: [
+          [dragIndex, 1],
+          [hoverIndex, 0, prevTrackItems[dragIndex] as SongType],
+        ],
+      }),
+    );
+  }, []);
+
+  const renderTrackItem = useCallback((track: SongType, index: number) => {
+    return (
+      <TrackItem
+        key={track._id}
+        index={index}
+        id={track._id}
+        moveTrackItem={moveTrackItem}
+        track={track}
+      />
+    );
+  }, []);
 
   return (
     <>
-      {!tracks
-        ? array.map((_, i) => (
-            <div className={cnTrackList('Info')} key={i.toString()}>
-              <SkeletonRect
-                width="4%"
-                margin="2%"
-                height="45px"
-                color={skeletonColor}
-              ></SkeletonRect>
-
-              <SkeletonRect
-                width="24%"
-                margin="5%"
-                color={skeletonColor}
-              ></SkeletonRect>
-
-              <SkeletonRect
-                width="20%"
-                margin="5%"
-                color={skeletonColor}
-              ></SkeletonRect>
-
-              <SkeletonRect
-                width="25%"
-                margin="6%"
-                color={skeletonColor}
-              ></SkeletonRect>
-
-              <SkeletonRect
-                width="9%"
-                margin="0"
-                color={skeletonColor}
-              ></SkeletonRect>
-            </div>
-          ))
-        : tracks.map((track) => (
-            <DivChangeColor
-              color={defineCurrentTrack(track) ? colorHover : textColor}
-              colorHover={colorHover}
-              colorActive={colorDark}
-              className={cnTrackList('Info')}
-              key={track._id}
-              onClick={() => handleChooseSong(track)}
-            >
-              <img
-                className={cnTrackList('Icon')}
-                src={track.img ? track.img : './icons/note.svg'}
-                alt="Album_image"
-              ></img>
-
-              <span className={cnTrackList('Name')}>{track.title}</span>
-              <span className={cnTrackList('Author')}>{track.artist}</span>
-              <span
-                className={cnTrackList('Album')}
-                style={{ color: textColorSecondary }}
-              >
-                {track.album}
-              </span>
-              <IconButton
-                sx={{ width: '5%' }}
-                style={{ color: textColorSecondary }}
-              >
-                <FavoriteBorder fontSize="small" />
-              </IconButton>
-              <span
-                className={cnTrackList('Duration')}
-                style={{ color: textColorSecondary }}
-              >
-                {/* {secondsToHms(track.duration_in_seconds)} */}
-                {track?.duration}
-              </span>
-            </DivChangeColor>
-          ))}
+      {trackItems[0].artist === EMPTY_ARTIST && (
+        <div>{TEXT.empty_results[lang]}</div>
+      )}
+      {trackItems[0].artist !== EMPTY_ARTIST && (
+        <div>
+          {trackItems.map((track: SongType, i: number) =>
+            renderTrackItem(track, i),
+          )}
+        </div>
+      )}
     </>
   );
 };

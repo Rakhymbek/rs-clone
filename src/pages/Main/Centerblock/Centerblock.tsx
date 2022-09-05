@@ -1,32 +1,33 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FC } from 'react';
 import { cn } from '@bem-react/classname';
-import {
-  Box,
-  InputAdornment,
-  SvgIcon,
-  TextField,
-  Typography,
-} from '@mui/material';
-import { Search, AccessTime } from '@mui/icons-material';
-
-import { FilterButton } from '../../../components/FilterButton/FilterButton';
-import { colorToSecondary } from '../../../utils/utils';
+import { Box, InputAdornment, TextField } from '@mui/material';
+import { Search } from '@mui/icons-material';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 import { SongType } from '../../../types';
-import {
-  filterItems1,
-  filterItems2,
-  filterItems3,
-  text,
-} from '../../../constants';
+import { ALBUM_DANCE, ALBUM_RANDOM, TEXT } from '../../../constants';
 import { Profile } from '../Profile/Profile';
-import { useAppSelector } from '../../../hook';
+import { useAppDispatch, useAppSelector } from '../../../hook';
 import { TrackList } from '../TrackList/TrackList';
+import { FilterButtons } from '../../../components/FilterButtons/FilterButtons';
+import { getSearchQueryArray } from '../../../utils/getSearchQueryArray';
+import {
+  updateFilteredDanceTracks,
+  updateFilteredRandomTracks,
+  updateFilteredTracks,
+  updateSearchedTracks,
+  updateSearchedTracksDance,
+  updateSearchedTracksRandom,
+} from '../../../store/filteredItemsSlice';
+import { getFinalItems } from '../../../utils/getFinalItems';
+import { updateSearchQuery } from '../../../store/sortingSettingsSlice';
+import { SkeletonTrack } from '../../../components/SkeletonTrack/SkeletonTrack';
+import { ListHeaders } from '../../../components/ListHeaders/ListHeaders';
 
 import './Centerblock.css';
 
 const cnCenterblock = cn('Centerblock');
-const cnContent = cn('Content');
 
 type PlayerProps = {
   tracks: SongType[];
@@ -34,90 +35,142 @@ type PlayerProps = {
 };
 
 export const Centerblock: FC<PlayerProps> = ({ header, tracks }) => {
+  const dispatch = useAppDispatch();
+
   const lang = useAppSelector((state) => state.language.lang);
   const textColor = useAppSelector((state) => state.colorTheme.textColor);
+  const order = useAppSelector((state) => state.sortingSettings.order);
 
-  const textColorSecondary = colorToSecondary(textColor);
+  const allTracksStore = useAppSelector((state) => state.tracks.allTracks);
+  const allTracksDance: SongType[] = useAppSelector(
+    (state) => state.tracks.danceTracks,
+  );
+  const allTracksRandom: SongType[] = useAppSelector(
+    (state) => state.tracks.randomTracks,
+  );
 
-  if (header === text.menu.profile[lang]) {
+  const checkedItems = useAppSelector((state) => state.filteredItems);
+
+  const array = new Array(10).fill(0);
+
+  const [value, setValue] = useState('');
+
+  useEffect(() => {
+    return () => setValue('');
+  }, [header]);
+
+  const handleSearch = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    setValue(e.target.value);
+
+    let allTracks = allTracksStore;
+
+    const searchedItems = getSearchQueryArray(e.currentTarget.value, allTracks);
+
+    dispatch(updateSearchQuery(e.currentTarget.value));
+    dispatch(updateSearchedTracks(searchedItems));
+
+    const finalItems = getFinalItems(
+      allTracks,
+      checkedItems,
+      searchedItems,
+      order,
+    );
+    dispatch(updateFilteredTracks(finalItems));
+
+    if (header === TEXT.albums[ALBUM_DANCE][lang]) {
+      const searchedItemsDance = getSearchQueryArray(
+        e.currentTarget.value,
+        allTracksDance,
+      );
+
+      dispatch(updateSearchQuery(e.currentTarget.value));
+      dispatch(updateSearchedTracksDance(searchedItemsDance));
+
+      const finalItems = getFinalItems(
+        allTracksDance,
+        checkedItems,
+        searchedItemsDance,
+        order,
+      );
+
+      dispatch(updateFilteredDanceTracks(finalItems));
+    }
+
+    if (header === TEXT.albums[ALBUM_RANDOM][lang]) {
+      const searchedItemsRandom = getSearchQueryArray(
+        e.currentTarget.value,
+        allTracksRandom,
+      );
+
+      dispatch(updateSearchQuery(e.currentTarget.value));
+      dispatch(updateSearchedTracksRandom(searchedItemsRandom));
+
+      const finalItems = getFinalItems(
+        allTracksRandom,
+        checkedItems,
+        searchedItemsRandom,
+        order,
+      );
+
+      dispatch(updateFilteredRandomTracks(finalItems));
+    }
+  };
+
+  if (header === TEXT.menu.profile[lang]) {
     return <Profile />;
   } else {
     return (
-      <div className={cnCenterblock()}>
-        <form className={cnCenterblock('Input-Wrapper')}>
-          <TextField
-            InputLabelProps={{}}
-            placeholder={text.searchInput[lang]}
-            fullWidth
-            autoComplete="off"
-            variant="standard"
-            type={'search'}
-            sx={{
-              mt: '5px',
-              input: { color: textColor },
-              label: { color: textColor, pl: '30px' },
-            }}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment sx={{ color: textColor }} position="start">
-                  <Search style={{ color: textColor }} />
-                </InputAdornment>
-              ),
-            }}
-          />
-        </form>
-        <Typography variant="h2" marginBottom={6} style={{ color: textColor }}>
-          {header}
-        </Typography>
-        {header === text.header.tracks[lang] && (
-          <Box
-            className={cnCenterblock('Filters')}
-            style={{ color: textColor }}
-          >
-            <span className={cnCenterblock('Filters-Text')}>
-              {text.search.searchBy[lang]}
-            </span>
-            <FilterButton
-              buttonText={text.search.artist[lang]}
-              checkItems={filterItems1}
-            ></FilterButton>
-            <FilterButton
-              buttonText={text.search.release[lang]}
-              checkItems={filterItems2}
-            ></FilterButton>
-            <FilterButton
-              buttonText={text.search.genre[lang]}
-              checkItems={filterItems3}
-            ></FilterButton>
+      <DndProvider backend={HTML5Backend}>
+        <div className={cnCenterblock()}>
+          <form className={cnCenterblock('Input-Wrapper')}>
+            <TextField
+              value={value}
+              onChange={(e) => handleSearch(e)}
+              InputLabelProps={{}}
+              placeholder={TEXT.searchInput[lang]}
+              fullWidth
+              autoComplete="off"
+              variant="standard"
+              type={'search'}
+              sx={{
+                mt: '5px',
+                input: { color: textColor },
+                label: { color: textColor, pl: '30px' },
+              }}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment sx={{ color: textColor }} position="start">
+                    <Search
+                      style={{ color: textColor }}
+                      className={cnCenterblock('Input')}
+                    />
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </form>
+          <h2 style={{ color: textColor }} className={cnCenterblock('Header')}>
+            {header}
+          </h2>
+          {header === TEXT.header.tracks[lang] && (
+            <FilterButtons lang={lang} textColor={textColor}></FilterButtons>
+          )}
+
+          <Box className={cnCenterblock('Content')}>
+            <ListHeaders></ListHeaders>
+
+            {!tracks.length ? (
+              array.map((_, i) => (
+                <SkeletonTrack key={i.toString()}></SkeletonTrack>
+              ))
+            ) : (
+              <TrackList header={header}></TrackList>
+            )}
           </Box>
-        )}
-        <Box className={cnCenterblock('Content')}>
-          <div className={cnContent('Header')}>
-            <span
-              className={cnContent('Track')}
-              style={{ color: textColorSecondary }}
-            >
-              {text.listHeader.track[lang]}
-            </span>
-            <span
-              className={cnContent('Singer')}
-              style={{ color: textColorSecondary }}
-            >
-              {text.listHeader.artist[lang]}
-            </span>
-            <span
-              className={cnContent('Album')}
-              style={{ color: textColorSecondary }}
-            >
-              {text.listHeader.album[lang]}
-            </span>
-            <SvgIcon fontSize="small" sx={{ my: 'auto', ml: 'auto' }}>
-              <AccessTime />
-            </SvgIcon>
-          </div>
-          <TrackList tracks={tracks}></TrackList>
-        </Box>
-      </div>
+        </div>
+      </DndProvider>
     );
   }
 };

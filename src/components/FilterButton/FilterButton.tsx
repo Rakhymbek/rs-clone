@@ -1,25 +1,29 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { FC } from 'react';
 import { cn } from '@bem-react/classname';
 
-import { NumberOfCheckedItems } from '../../constants';
 import { Popup } from '../Popup/Popup';
-import { useAppSelector } from '../../hook';
-import { extradarkToDark, extradarkToHover } from '../../utils/utils';
+import { useAppSelector, useOnClickOutside } from '../../hook';
+import { extradarkToDark, extradarkToHover } from '../../utils/colorUtils';
+import { ButtonChangeColor } from '../changeColor/ButtonChangeColor';
+import { TFilterButtonName } from '../../types';
 
 import './FilterButton.css';
-import { ButtonChangeColor } from '../changeColor/ButtonChangeColor/ButtonChangeColor';
 
 const cnFilterButton = cn('FilterButton');
 
 export type FilterButtonProps = {
   buttonText: string;
+  buttonName: TFilterButtonName;
   checkItems: string[];
+  rows: 1 | 2 | 3;
 };
 
 export const FilterButton: FC<FilterButtonProps> = ({
+  buttonName,
   buttonText,
   checkItems,
+  rows,
 }) => {
   const textColor = useAppSelector((state) => state.colorTheme.textColor);
   const decorativeColor = useAppSelector(
@@ -29,16 +33,23 @@ export const FilterButton: FC<FilterButtonProps> = ({
   const colorHover = extradarkToHover(decorativeColor);
   const colorDark = extradarkToDark(decorativeColor);
 
-  const [clicked, setClicked] = useState(false);
+  const checkedItems = useAppSelector(
+    (state) => state.filteredItems[`${buttonName}`],
+  );
+
+  const ref = useRef(null);
+  const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [color, setColor] = useState(textColor);
 
-  const handleClick = () => {
-    setClicked(!clicked);
-    setColor(!clicked ? colorDark : textColor);
-  };
+  useOnClickOutside(ref, () => {
+    setIsPopupVisible(false);
+    setColor(textColor);
+  });
 
-  let display;
-  clicked ? (display = 'block') : (display = 'none');
+  const togglePopup = () => {
+    setIsPopupVisible(!isPopupVisible);
+    setColor(colorDark);
+  };
 
   return (
     <div className={cnFilterButton('Wrapper')}>
@@ -48,17 +59,23 @@ export const FilterButton: FC<FilterButtonProps> = ({
         colorHover={colorHover}
         colorActive={colorDark}
         borderColor={color}
-        onClick={handleClick}
+        onClick={togglePopup}
       >
         {buttonText.toLowerCase()}
-        <div
-          className={cnFilterButton('NumberOfCheckedItems')}
-          style={{ display: display, backgroundColor: decorativeColor }}
-        >
-          {NumberOfCheckedItems}
-        </div>
+        {isPopupVisible && (
+          <div
+            className={cnFilterButton('NumberOfCheckedItems')}
+            style={{ backgroundColor: decorativeColor }}
+          >
+            {checkedItems.length}
+          </div>
+        )}
       </ButtonChangeColor>
-      <Popup items={checkItems} rows={2} isVisible={clicked}></Popup>
+      <div ref={ref}>
+        {isPopupVisible && (
+          <Popup items={checkItems} rows={rows} buttonName={buttonName}></Popup>
+        )}
+      </div>
     </div>
   );
 };
