@@ -233,25 +233,27 @@ export const Sidebar: FC<SidebarProps> = ({
             </NavLink>
           </div>
 
-          <div className={cnSidebar('Button-Visibility')}>
-            <Button
-              onClick={handleAlbumList}
-              color="secondary"
-              variant="contained"
-              sx={{
-                textTransform: 'none',
-                color: textColor,
-                width: '100%',
-                minHeight: '30px',
-                marginBottom: '13px',
-                marginTop: '10px',
-                padding: '10px',
-              }}
-              className={cnSidebar('Button-Mobile-List')}
-            >
-              {TEXT.collections[lang]}
-            </Button>
-          </div>
+          <ThemeProvider theme={buttonTheme}>
+            <div className={cnSidebar('Button-Visibility')}>
+              <Button
+                onClick={handleAlbumList}
+                color="primary"
+                variant="contained"
+                sx={{
+                  textTransform: 'none',
+                  color: textColor,
+                  width: '100%',
+                  minHeight: '30px',
+                  marginBottom: '13px',
+                  marginTop: '10px',
+                  padding: '10px',
+                }}
+                className={cnSidebar('Button-Mobile-List')}
+              >
+                {TEXT.collections[lang]}
+              </Button>
+            </div>
+          </ThemeProvider>
 
           {isAlbumsVisible && (
             <div className={cnSidebar('Mobile-List')}>

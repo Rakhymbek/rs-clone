@@ -309,7 +309,7 @@ export const NavMenu: FC<{}> = () => {
                 </button>
               </div>
               <div className={cnNavMenu('Animation-Top')}></div>
-              <Animation></Animation>
+              <Footer></Footer>
             </>
           </nav>
         )}
