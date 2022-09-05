@@ -9,6 +9,7 @@ type TTrackState = {
   randomTracks: SongType[];
   movedTracks: SongType[];
   autoplay: boolean;
+  isMoved: boolean;
   isShuffleActive: boolean;
 };
 
@@ -19,6 +20,7 @@ const initialState: TTrackState = {
   randomTracks: [],
   danceTracks: [],
   movedTracks: [],
+  isMoved: false,
   autoplay: false,
   isShuffleActive: false,
 };
@@ -46,18 +48,25 @@ const trackSlice = createSlice({
     },
     switchToNextTrack(state, action: PayloadAction<SongType[]>) {
       state.autoplay = true;
-      let nextTrack;
-      let currentIndex = action.payload?.findIndex(
+      let nextTrack: SongType;
+      let allTracks: SongType[];
+
+      if  (state.isMoved) {
+        allTracks = JSON.parse(JSON.stringify(state.movedTracks));
+      } else {
+        allTracks = action.payload;
+      }
+
+      let currentIndex = allTracks?.findIndex(
         (track) => track.url === state.currentTrack.url,
       );
-      if (currentIndex! >= action.payload?.length! - 1) {
-        nextTrack = action.payload?.[0];
+      if (currentIndex! >= allTracks?.length! - 1) {
+        nextTrack = allTracks?.[0];
       } else {
-        nextTrack = action.payload?.[currentIndex! + 1];
+        nextTrack = allTracks?.[currentIndex! + 1];
       }
       if (state.isShuffleActive) {
-        let tracks = JSON.parse(JSON.stringify(state.allTracks));
-        let nextTrack = tracks?.[Math.floor(Math.random() * tracks.length)];
+        let nextTrack = allTracks?.[Math.floor(Math.random() * allTracks.length)];
         state.currentTrack = nextTrack;
       } else {
         state.currentTrack = nextTrack;
@@ -66,17 +75,25 @@ const trackSlice = createSlice({
     switchToPreviousTrack(state, action: PayloadAction<SongType[]>) {
       state.autoplay = true;
       let previousTrack;
-      let currentIndex = action.payload?.findIndex(
+
+      let allTracks: SongType[];
+
+      if  (state.isMoved) {
+        allTracks = JSON.parse(JSON.stringify(state.movedTracks));
+      } else {
+        allTracks = action.payload;
+      }
+
+      let currentIndex = allTracks?.findIndex(
         (track) => track.url === state.currentTrack.url,
       );
       if (currentIndex! <= 0) {
-        previousTrack = action.payload?.[action.payload?.length! - 1];
+        previousTrack = allTracks?.[allTracks?.length! - 1];
       } else {
-        previousTrack = action.payload?.[currentIndex! - 1];
+        previousTrack = allTracks?.[currentIndex! - 1];
       }
       if (state.isShuffleActive) {
-        let tracks = JSON.parse(JSON.stringify(state.allTracks));
-        let nextTrack = tracks?.[Math.floor(Math.random() * tracks.length)];
+        let nextTrack = allTracks?.[Math.floor(Math.random() * allTracks.length)];
         state.currentTrack = nextTrack;
       } else {
         state.currentTrack = previousTrack;
@@ -95,6 +112,9 @@ const trackSlice = createSlice({
     setAutoplayStatus(state, action) {
       state.autoplay = action.payload;
     },
+    setMovedStatus(state, action) {
+      state.isMoved = action.payload;
+    },
   },
 });
 
@@ -109,6 +129,7 @@ export const {
   shuffleTracks,
   setShuffleStatus,
   setAutoplayStatus,
+  setMovedStatus,
 } = trackSlice.actions;
 
 export default trackSlice.reducer;

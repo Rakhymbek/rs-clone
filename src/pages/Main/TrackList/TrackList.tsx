@@ -8,7 +8,7 @@ import {
   TEXT,
 } from '../../../constants';
 import { useAppDispatch, useAppSelector } from '../../../hook';
-import { uploadMovedTracks } from '../../../store/trackSlice';
+import { setMovedStatus, uploadMovedTracks } from '../../../store/trackSlice';
 import { SongType } from '../../../types';
 import { TrackItem } from './TrackItem';
 
@@ -53,6 +53,7 @@ export const TrackList: FC<{ header: string }> = ({ header }) => {
 
   useEffect(() => {
     dispatch(uploadMovedTracks(trackItems));
+    dispatch(setMovedStatus(true));
   }, [dispatch, trackItems]);
 
   // console.log('--> trackItems', trackItems);
