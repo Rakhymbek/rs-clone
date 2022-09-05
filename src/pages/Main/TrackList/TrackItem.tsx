@@ -3,18 +3,14 @@ import { FavoriteBorder } from '@mui/icons-material';
 import { IconButton } from '@mui/material';
 import type { Identifier, XYCoord } from 'dnd-core';
 import { FC, useCallback } from 'react';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 
 import { DivChangeColor } from '../../../components/changeColor/DivChangeColor';
 import { useAppDispatch, useAppSelector } from '../../../hook';
 import { changeCurrentSong } from '../../../store/trackSlice';
 import { SongType } from '../../../types';
-import {
-  colorToSecondary,
-  extradarkToDark,
-  extradarkToHover,
-} from '../../../utils/colorUtils';
+import { colorToSecondary, extradarkToDark, extradarkToHover } from '../../../utils/colorUtils';
 
 import './TrackItem.css';
 
@@ -37,18 +33,9 @@ interface DragItem {
   type: string;
 }
 
-export const TrackItem: FC<TrackItemProps> = ({
-  id,
-  index,
-  moveTrackItem,
-  track,
-}) => {
+export const TrackItem: FC<TrackItemProps> = ({ id, index, moveTrackItem, track }) => {
   const ref = useRef<HTMLDivElement>(null);
-  const [{ handlerId }, drop] = useDrop<
-    DragItem,
-    void,
-    { handlerId: Identifier | null }
-  >({
+  const [{ handlerId }, drop] = useDrop<DragItem, void, { handlerId: Identifier | null }>({
     accept: ItemTypes.TRACK,
     collect(monitor) {
       return {
@@ -68,8 +55,7 @@ export const TrackItem: FC<TrackItemProps> = ({
 
       const hoverBoundingRect = ref.current?.getBoundingClientRect();
 
-      const hoverMiddleY =
-        (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+      const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
 
       const clientOffset = monitor.getClientOffset();
 
@@ -107,9 +93,7 @@ export const TrackItem: FC<TrackItemProps> = ({
   const currentTrack = useAppSelector((state) => state.tracks.currentTrack);
 
   const textColor = useAppSelector((state) => state.colorTheme.textColor);
-  const decorativeColor = useAppSelector(
-    (state) => state.colorTheme.decorativeColor,
-  );
+  const decorativeColor = useAppSelector((state) => state.colorTheme.decorativeColor);
   const textColorSecondary = colorToSecondary(textColor);
   const colorHover = extradarkToHover(decorativeColor);
   const colorDark = extradarkToDark(decorativeColor);
@@ -128,26 +112,21 @@ export const TrackItem: FC<TrackItemProps> = ({
     [dispatch],
   );
 
+  const [active, setActive] = useState(false);
+
   return (
-    <div
-      ref={ref}
-      className={cnTrackItem('Info')}
-      style={{ opacity }}
-      data-handler-id={handlerId}
-    >
+    <div ref={ref} className={cnTrackItem('Info')} style={{ opacity }} data-handler-id={handlerId}>
       <DivChangeColor
         color={defineCurrentTrack(track) ? colorHover : textColor}
         colorHover={colorHover}
         colorActive={colorDark}
         className={cnTrackItem('Info')}
         key={track._id}
-        onClick={() => handleChooseSong(track)}
-      >
+        onClick={() => handleChooseSong(track)}>
         <img
           className={cnTrackItem('Icon')}
           src={track.img ? track.img : './icons/note.svg'}
-          alt="Album_image"
-        ></img>
+          alt="Album_image"></img>
 
         <span className={cnTrackItem('Name')}>{track.title}</span>
 
@@ -155,23 +134,21 @@ export const TrackItem: FC<TrackItemProps> = ({
         {/* <span style={{ margin: '10px' }}>{track.year}</span> */}
 
         <span className={cnTrackItem('Author')}>{track.artist}</span>
-        <span
-          className={cnTrackItem('Album')}
-          style={{ color: textColorSecondary }}
-        >
+        <span className={cnTrackItem('Album')} style={{ color: textColorSecondary }}>
           {track.album}, {track.year}
         </span>
-        <IconButton sx={{ width: '5%' }} style={{ color: textColorSecondary }}>
-          <FavoriteBorder fontSize="small" />
-        </IconButton>
-        <span
-          className={cnTrackItem('Duration')}
-          style={{ color: textColorSecondary }}
-        >
+
+        <span className={cnTrackItem('Duration')} style={{ color: textColorSecondary }}>
           {/* {secondsToHms(track.duration_in_seconds)} */}
           {track?.duration}
         </span>
       </DivChangeColor>
+      <IconButton
+        sx={{ width: '5%' }}
+        style={{ color: !active ? textColorSecondary : 'red' }}
+        onClick={() => setActive(!active)}>
+        <FavoriteBorder fontSize="small" />
+      </IconButton>
     </div>
   );
 };
