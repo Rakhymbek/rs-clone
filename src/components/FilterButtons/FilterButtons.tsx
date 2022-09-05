@@ -73,14 +73,6 @@ export const FilterButtons: FC<FilterButtonsProps> = ({ lang, textColor }) => {
       newOrder,
     );
 
-    // console.log('--> searchedItems', searchedItems);
-    // console.log('--> searchQuery', searchQuery);
-    // console.log('--> allTracksStore', allTracksStore);
-    // console.log('--> checkedItems', checkedItems);
-    // console.log('--> searchedItems', searchedItems);
-    // console.log('--> newOrder', newOrder);
-    // console.log('--> finalItems', finalItems);
-
     dispatch(updateFilteredTracks(finalItems));
   };
 
@@ -124,6 +116,7 @@ export const FilterButtons: FC<FilterButtonsProps> = ({ lang, textColor }) => {
               fontSize: '20px',
               fontFamily: 'inherit',
             }}
+            className={cnFilterButtons('Filters-Text')}
           >
             {TEXT.search.order[lang]}
           </InputLabel>

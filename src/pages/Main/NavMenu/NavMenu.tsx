@@ -21,8 +21,6 @@ import {
   extradarkToHover,
 } from '../../../utils/colorUtils';
 import { openModal } from '../../../store/modalSlice';
-
-import './NavMenu.css';
 import {
   changeBgColor,
   changeDecorativeColor,
@@ -45,6 +43,8 @@ import { getFinalItems } from '../../../utils/getFinalItems';
 import { SongType, TCheckedItems } from '../../../types';
 import { updateSearchQuery } from '../../../store/sortingSettingsSlice';
 import { Animation } from '../../../components/Animation/Animation';
+
+import './NavMenu.css';
 
 const cnNavMenu = cn('NavMenu');
 
@@ -81,9 +81,6 @@ export const NavMenu: FC<{}> = () => {
   const handleClick = () => {
     setIsVisible(!isVisible);
   };
-
-  // const currentTrack = useAppSelector((state) => state.tracks.currentTrack);
-  // console.log(currentTrack);
 
   const handleLogOut = () => {
     localStorage.clear();

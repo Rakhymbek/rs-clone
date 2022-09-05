@@ -53,3 +53,9 @@
   width: 5%;
   text-align: right;
 }
+
+@media (max-width: 1439px) {
+  .TrackItem-Info {
+    font-size: 12px;
+  }
+}

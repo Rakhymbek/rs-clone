@@ -25,8 +25,6 @@ import {
 } from '../../../utils/colorUtils';
 import { SongType, TCheckedItems, TLanguages } from '../../../types';
 import { changeLanguage } from '../../../store/languageSlice';
-
-import './Sidebar.css';
 import {
   updateCheckedArtists,
   updateCheckedGenres,
@@ -45,6 +43,8 @@ import {
 } from '../../../store/trackSlice';
 import { updateSearchQuery } from '../../../store/sortingSettingsSlice';
 
+import './Sidebar.css';
+
 const cnSidebar = cn('Sidebar');
 
 type SidebarProps = {
@@ -58,7 +58,9 @@ export const Sidebar: FC<SidebarProps> = ({
 }) => {
   const dispatch = useAppDispatch();
 
-  const dataUser = useAppSelector((state) => state.auth.data);
+  // const dataUser = useAppSelector((state) => state.auth.data);
+  const dataUser = { fullName: 'Evgenia Leleo' };
+
   const lang = useAppSelector((state) => state.language.lang);
   const textColor = useAppSelector((state) => state.colorTheme.textColor);
   const bgColor = useAppSelector((state) => state.colorTheme.bgColor);
@@ -209,28 +211,25 @@ export const Sidebar: FC<SidebarProps> = ({
         </div>
       )}
 
-      <Card
+      <div
         className={cnSidebar('List')}
-        sx={
+        style={
           isVisible
             ? { display: 'block', backgroundColor: 'transparent' }
             : { display: 'none' }
         }
-        style={{ border: 'none', boxShadow: 'none' }}
+        // style={{ border: 'none', boxShadow: 'none' }}
       >
         {/* <canvas id="myCanvas" width="1200" height="250"></canvas> */}
 
-        <div onClick={handleClickRandom}>
-          <NavLink to={'/random'}>
-            <AlbumCover text={TEXT.albums.dayplaylist[lang]}></AlbumCover>
-          </NavLink>
-        </div>
+        <NavLink to={'/random'} onClick={handleClickRandom}>
+          <AlbumCover text={TEXT.albums.dayplaylist[lang]}></AlbumCover>
+        </NavLink>
 
-        <div onClick={handleClickDance}>
-          <NavLink to={'/dance'}>
-            <AlbumCover text={TEXT.albums.dance[lang]}></AlbumCover>
-          </NavLink>
-        </div>
+        <NavLink to={'/dance'} onClick={handleClickDance}>
+          <AlbumCover text={TEXT.albums.dance[lang]}></AlbumCover>
+        </NavLink>
+
         {/* <NavLink to={'/indie'}>
           <CardMedia
             component="img"
@@ -239,7 +238,7 @@ export const Sidebar: FC<SidebarProps> = ({
             alt="Indie charge"
           />
         </NavLink> */}
-      </Card>
+      </div>
     </Box>
   );
 };

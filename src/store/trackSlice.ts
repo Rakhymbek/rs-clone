@@ -1,6 +1,6 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { SongType } from "../types";
-import dataTracks from "../pages/Main/data.json";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { SongType } from '../types';
+import dataTracks from '../pages/Main/data.json';
 
 type TTrackState = {
   currentTrack: SongType;
@@ -14,7 +14,7 @@ type TTrackState = {
 
 const initialState: TTrackState = {
   currentTrack:
-    JSON.parse(localStorage.getItem("currentTrack")!) || dataTracks[0] || {},
+    JSON.parse(localStorage.getItem('currentTrack')!) || dataTracks[0] || {},
   allTracks: [],
   randomTracks: [],
   danceTracks: [],
@@ -24,13 +24,13 @@ const initialState: TTrackState = {
 };
 
 const trackSlice = createSlice({
-  name: "tracks",
+  name: 'tracks',
   initialState,
   reducers: {
     changeCurrentSong(state, action: PayloadAction<SongType>) {
       state.autoplay = true;
       state.currentTrack = action.payload;
-      localStorage.setItem("currentTrack", JSON.stringify(state.currentTrack));
+      localStorage.setItem('currentTrack', JSON.stringify(state.currentTrack));
     },
     uploadAllTracks(state, action: PayloadAction<SongType[]>) {
       state.allTracks = action.payload;
@@ -48,7 +48,7 @@ const trackSlice = createSlice({
       state.autoplay = true;
       let nextTrack;
       let currentIndex = action.payload?.findIndex(
-        (track) => track.url === state.currentTrack.url
+        (track) => track.url === state.currentTrack.url,
       );
       if (currentIndex! >= action.payload?.length! - 1) {
         nextTrack = action.payload?.[0];
@@ -67,7 +67,7 @@ const trackSlice = createSlice({
       state.autoplay = true;
       let previousTrack;
       let currentIndex = action.payload?.findIndex(
-        (track) => track.url === state.currentTrack.url
+        (track) => track.url === state.currentTrack.url,
       );
       if (currentIndex! <= 0) {
         previousTrack = action.payload?.[action.payload?.length! - 1];
@@ -92,6 +92,9 @@ const trackSlice = createSlice({
     setShuffleStatus(state, action) {
       state.isShuffleActive = !action.payload;
     },
+    setAutoplayStatus(state, action) {
+      state.autoplay = action.payload;
+    },
   },
 });
 
@@ -105,6 +108,7 @@ export const {
   switchToPreviousTrack,
   shuffleTracks,
   setShuffleStatus,
+  setAutoplayStatus,
 } = trackSlice.actions;
 
 export default trackSlice.reducer;

@@ -107,8 +107,6 @@ export const Centerblock: FC<PlayerProps> = ({ header, tracks }) => {
       dispatch(updateFilteredDanceTracks(finalItems));
     }
 
-    /////
-
     if (header === TEXT.albums[ALBUM_RANDOM][lang]) {
       const searchedItemsRandom = getSearchQueryArray(
         e.currentTarget.value,
@@ -153,19 +151,18 @@ export const Centerblock: FC<PlayerProps> = ({ header, tracks }) => {
               InputProps={{
                 startAdornment: (
                   <InputAdornment sx={{ color: textColor }} position="start">
-                    <Search style={{ color: textColor }} />
+                    <Search
+                      style={{ color: textColor }}
+                      className={cnCenterblock('Input')}
+                    />
                   </InputAdornment>
                 ),
               }}
             />
           </form>
-          <Typography
-            variant="h2"
-            marginBottom={6}
-            style={{ color: textColor }}
-          >
+          <h2 style={{ color: textColor }} className={cnCenterblock('Header')}>
             {header}
-          </Typography>
+          </h2>
           {header === TEXT.header.tracks[lang] && (
             <FilterButtons lang={lang} textColor={textColor}></FilterButtons>
           )}

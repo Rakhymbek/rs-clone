@@ -6,7 +6,6 @@ import { Login } from './pages/Login/Login';
 import { Register } from './pages/Register/Register';
 import { Main } from './pages/Main/Main';
 
-import './App.css';
 import { TEXT } from './constants';
 import { useAppDispatch, useAppSelector } from './hook';
 import { AlertDialog } from './components/AlertDialog/AlertDialog';

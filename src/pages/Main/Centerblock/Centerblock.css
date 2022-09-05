@@ -17,15 +17,36 @@
 }
 
 .css-1wgtpfo-MuiInputBase-root-MuiInput-root:before {
-  border-bottom: 1px solid rgba(160, 160, 160, 0.42) !important;
+  border-bottom: 1px solid rgba(160, 160, 160, 0.42);
 }
 
 .css-1wgtpfo-MuiInputBase-root-MuiInput-root:hover:not(.Mui-disabled):before {
-  border-bottom: 1px solid rgb(255 255 255 / 42%) !important;
+  border-bottom: 1px solid rgb(255 255 255 / 42%);
 }
 
 .Centerblock-Input-Icon {
   position: absolute;
   left: 5px;
   top: 6px;
+}
+
+.Centerblock-Header {
+  font-size: 60px;
+  font-weight: 400;
+  margin-bottom: 45px;
+}
+
+@media (max-width: 1439px) {
+  .Centerblock {
+    padding-left: 45px;
+    width: 68%;
+  }
+
+  .css-1k5niar-MuiFormControl-root-MuiTextField-root input {
+    font-size: 10px;
+  }
+
+  .Centerblock-Header {
+    font-size: 45px;
+  }
 }

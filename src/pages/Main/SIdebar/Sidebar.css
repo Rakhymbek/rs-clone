@@ -30,16 +30,10 @@
   padding-top: 260px;
 }
 
-/* 
-.Sidebar-Button {
-  margin-bottom: 25px;
-  transition: all 0.2s ease;
+@media (max-width: 1439px) {
+  .Sidebar {
+    max-width: 418px;
+    width: 20%;
+    padding: 30px 20px 85px 20px;
+  }
 }
-
-.Sidebar-Button:hover {
-  filter: brightness(1.4);
-}
-
-.Sidebar-Button:active {
-  filter: brightness(1.7);
-} */

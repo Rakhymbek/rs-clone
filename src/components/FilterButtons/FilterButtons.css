@@ -10,3 +10,9 @@
 .FilterButtons-Filters-Text {
   margin-right: 15px;
 }
+
+@media (max-width: 1439px) {
+  .FilterButtons-Filters {
+    font-size: 12px;
+  }
+}
