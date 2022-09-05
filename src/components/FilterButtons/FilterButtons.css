@@ -15,4 +15,11 @@
   .FilterButtons-Filters {
     font-size: 12px;
   }
+
+  .css-ts3zvq-MuiFormLabel-root-MuiInputLabel-root {
+    font-size: 12px !important;
+  }
+  .css-1rxz5jq-MuiSelect-select-MuiInputBase-input-MuiInput-input {
+    font-size: 12px !important;
+  }
 }
