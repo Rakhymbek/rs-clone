@@ -14,15 +14,6 @@
   margin: 0 0 0 auto;
 }
 
-.Sidebar-User-Avatar {
-  width: 43px;
-  height: 43px;
-  margin: 0 0 0 20px;
-
-  background-color: #313131;
-  border-radius: 50%;
-}
-
 .Sidebar-List {
   display: flex;
   flex-direction: column;
@@ -30,16 +21,24 @@
   padding-top: 260px;
 }
 
-/* 
-.Sidebar-Button {
-  margin-bottom: 25px;
-  transition: all 0.2s ease;
+@media (max-width: 1500px) {
+  .Sidebar {
+    width: 25%;
+    padding: 30px 90px 85px 40px;
+  }
 }
 
-.Sidebar-Button:hover {
-  filter: brightness(1.4);
-}
+@media (max-width: 1439px) {
+  .Sidebar {
+    width: 20%;
+    padding: 30px 20px 85px 20px;
+  }
 
-.Sidebar-Button:active {
-  filter: brightness(1.7);
-} */
+  .css-1rxz5jq-MuiSelect-select-MuiInputBase-input-MuiInput-input {
+    font-size: 10px;
+  }
+
+  .css-1tqk9ti {
+    font-size: 12px;
+  }
+}

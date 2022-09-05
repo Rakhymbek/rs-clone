@@ -4,10 +4,16 @@ export const getRandomTracks = (
   arrayLength: number,
   data: SongType[],
 ): SongType[] => {
-  const itemsArray = [];
-  for (let i = 0; i < arrayLength; i += 1) {
-    itemsArray.push(getRandomTrack(data));
+  const itemsArray: SongType[] = [];
+
+  while (itemsArray.length < arrayLength) {
+    const randomTrack = getRandomTrack(data);
+
+    if (!itemsArray.includes(randomTrack)) {
+      itemsArray.push(randomTrack);
+    }
   }
+
   return itemsArray;
 };
 

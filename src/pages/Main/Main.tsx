@@ -32,6 +32,8 @@ import { checkedGenresFilterArray } from '../../utils/checkedGenresFilterArray';
 import getRandomTracks from '../../utils/getRandomTracks';
 import dataTracks from './data.json';
 
+import './Main.css';
+
 const cnMain = cn('Main');
 
 export type MainProps = {

@@ -23,3 +23,12 @@
 .AlbumCover:active {
   filter: brightness(1.7);
 }
+
+@media (max-width: 1439px) {
+  .AlbumCover {
+    font-size: 18px;
+
+    width: 190px;
+    height: 125px;
+  }
+}
