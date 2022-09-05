@@ -1,9 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FC } from 'react';
 import { cn } from '@bem-react/classname';
 import { NavLink } from 'react-router-dom';
 import {
-  Box,
   Button,
   createTheme,
   FormControl,
@@ -17,11 +16,7 @@ import {
 import { SpanChangeColor } from '../../../components/changeColor/SpanChangeColor';
 import { AlbumCover } from '../../../components/AlbumCover/AlbumCover';
 import { ALBUM_DANCE, TEXT } from '../../../constants';
-import {
-  useAppDispatch,
-  useAppSelector,
-  useOnClickOutside,
-} from '../../../hook';
+import { useAppDispatch, useAppSelector } from '../../../hook';
 import {
   bgColorToBgColorLight,
   extradarkToDark,
@@ -62,8 +57,8 @@ export const Sidebar: FC<SidebarProps> = ({
 }) => {
   const dispatch = useAppDispatch();
 
-  // const dataUser = useAppSelector((state) => state.auth.data);
-  const dataUser = { fullName: 'Evgenia Leleo' };
+  const dataUser = useAppSelector((state) => state.auth.data);
+  // const dataUser = { fullName: 'Evgenia Leleo' };
 
   const lang = useAppSelector((state) => state.language.lang);
   const textColor = useAppSelector((state) => state.colorTheme.textColor);

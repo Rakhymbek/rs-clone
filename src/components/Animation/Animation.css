@@ -20,7 +20,6 @@
   border-top-right-radius: 2px;
 
   transition: 0.5s;
-  /* animation: equalize 5s 0s infinite; */
   animation-timing-function: linear;
 }
 

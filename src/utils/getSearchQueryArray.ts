@@ -10,7 +10,6 @@ export const getSearchQueryArray: (
 ) => SongType[] = (query, initialData) => {
   if (query === '' && initialData.length) {
     return initialData;
-    // console.log('--> initialData', initialData);
   }
 
   const tempArray: SongType[] = [];
@@ -23,8 +22,6 @@ export const getSearchQueryArray: (
       tempArray.push(item);
     }
   });
-
-  //   console.log('--> getSearchQueryArray', tempArray);
 
   return tempArray;
 };

@@ -8,7 +8,6 @@ import { Button as MUIButton, createTheme, ThemeProvider } from '@mui/material';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 
 import { useAppDispatch, useAppSelector } from '../../../hook';
-import { Typography } from '@mui/material';
 import { BGCOLOR, COLOR, COLOR_EXTRADARK, TEXT } from '../../../constants';
 import {
   changeBgColor,

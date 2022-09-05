@@ -4,16 +4,15 @@ import { cn } from '@bem-react/classname';
 import { NavLink } from 'react-router-dom';
 import { Box, TextField } from '@mui/material';
 
-import { Button } from '../Button/Button';
-import Logo from '../Logo/Logo';
-
 import { useForm } from 'react-hook-form';
 import { useAppDispatch, useAppSelector } from '../../hook';
 import { fetchLogin, selectIsAuth } from '../../store/auth/auth';
 import { Navigate } from 'react-router-dom';
+import { Button } from '../Button/Button';
+import Logo from '../Logo/Logo';
+import { Login } from '../../store/auth/types';
 
 import './LoginWindow.css';
-import { Login } from '../../store/auth/types';
 
 const cnLoginWindow = cn('LoginWindow');
 
@@ -36,7 +35,10 @@ export const LoginWindow: FC<{}> = () => {
   const onSubmit = async (val: Login) => {
     const data: any = await dispatch(fetchLogin(val));
     if (!data.payload) {
-      const formError = { type: 'server', message: 'Неверный логин или пароль' };
+      const formError = {
+        type: 'server',
+        message: 'Неверный логин или пароль',
+      };
       setError('password', formError);
       setError('email', formError);
     }
@@ -80,16 +82,24 @@ export const LoginWindow: FC<{}> = () => {
             required: 'Укажите пароль',
             pattern: {
               value: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,}$/,
-              message: 'Не менее 6 символов, цифры, латинские буквы в верхнем и нижнем регистре',
+              message:
+                'Не менее 6 символов, цифры, латинские буквы в верхнем и нижнем регистре',
             },
           })}
           helperText={errors.password?.message}
           error={Boolean(errors.password?.message)}
         />
-        <Button buttonType="submit" buttonVariant="contained" buttonText="Войти"></Button>
+        <Button
+          buttonType="submit"
+          buttonVariant="contained"
+          buttonText="Войти"
+        ></Button>
       </form>
       <NavLink to={'/register'}>
-        <Button buttonVariant="outlined" buttonText="Зарегистрироваться"></Button>
+        <Button
+          buttonVariant="outlined"
+          buttonText="Зарегистрироваться"
+        ></Button>
       </NavLink>
     </Box>
   );
