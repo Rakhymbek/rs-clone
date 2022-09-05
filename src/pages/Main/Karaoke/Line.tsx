@@ -6,8 +6,6 @@ interface ILineProps {
 }
 
 const Line: FC<ILineProps> = ({text}) => {
-        console.log(text);
-       
         return (
           <div className='WrapperStyle'>
             <div className='FontStyle'>{text}</div>
