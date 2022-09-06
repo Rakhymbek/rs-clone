@@ -10,6 +10,7 @@ import { useAppDispatch, useAppSelector } from './hook';
 import { AlertDialog } from './components/AlertDialog/AlertDialog';
 import { fetchAuthMe } from './store/auth/auth';
 import { WelcomePage } from './pages/WelcomePage/WelcomePage';
+import Karaoke from './pages/Main/Karaoke/Karaoke';
 
 function App() {
   const lang = useAppSelector((state) => state.language.lang);
@@ -42,6 +43,10 @@ function App() {
         <Route
           path="/profile"
           element={<Main header={TEXT.menu.profile[lang]} />}
+        ></Route>
+        <Route
+          path="/karaoke"
+          element={<Karaoke />}
         ></Route>
         <Route
           path="/random"

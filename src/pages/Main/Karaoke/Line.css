@@ -1,0 +1,22 @@
+.WrapperStyle {
+  position: relative;
+  display: inline-block;
+}
+
+.FontStyle {
+  font-size: 2.5vw;
+  color: white;
+  text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+}
+
+.ActiveStyle {
+  font-size: 2.5vw;
+  color: white;
+  text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: blue;
+  z-index: 1;
+  text-shadow: -2px 0 white, 0 2px white, 2px 0 white, 0 -2px white;
+}

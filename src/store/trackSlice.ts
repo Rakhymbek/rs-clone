@@ -92,12 +92,7 @@ const trackSlice = createSlice({
       } else {
         previousTrack = allTracks?.[currentIndex! - 1];
       }
-      if (state.isShuffleActive) {
-        let nextTrack = allTracks?.[Math.floor(Math.random() * allTracks.length)];
-        state.currentTrack = nextTrack;
-      } else {
-        state.currentTrack = previousTrack;
-      }
+      state.currentTrack = previousTrack;
     },
     shuffleTracks(state, action) {
       if (action.payload) {

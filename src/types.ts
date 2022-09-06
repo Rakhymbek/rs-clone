@@ -10,6 +10,8 @@ export type SongType = {
   year?: string;
   duration?: string;
   genre?: string;
+  lyrics?: string;
+  minus?: string;
 };
 
 export type USER = { name: string; login: string; avatar: string };
