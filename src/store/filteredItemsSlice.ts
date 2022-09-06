@@ -8,9 +8,11 @@ type TCheckedItems = {
   searchedTracks: SongType[];
   searchedTracksDance: SongType[];
   searchedTracksRandom: SongType[];
+  searchedTracksFavourites: SongType[];
   filteredTracks: SongType[];
   filteredDanceTracks: SongType[];
   filteredRandomTracks: SongType[];
+  filteredFavouritesTracks: SongType[];
 };
 
 const initialState: TCheckedItems = {
@@ -20,9 +22,11 @@ const initialState: TCheckedItems = {
   searchedTracks: [],
   searchedTracksDance: [],
   searchedTracksRandom: [],
+  searchedTracksFavourites: [],
   filteredTracks: [],
   filteredDanceTracks: [],
   filteredRandomTracks: [],
+  filteredFavouritesTracks: [],
 };
 
 const filteredItemsSlice = createSlice({
@@ -48,6 +52,9 @@ const filteredItemsSlice = createSlice({
     updateSearchedTracksRandom(state, action: PayloadAction<SongType[]>) {
       state.searchedTracksRandom = action.payload;
     },
+    updateSearchedTracksFavourites(state, action: PayloadAction<SongType[]>) {
+      state.searchedTracksFavourites = action.payload;
+    },
 
     updateFilteredTracks(state, action: PayloadAction<SongType[]>) {
       state.filteredTracks = action.payload;
@@ -57,6 +64,9 @@ const filteredItemsSlice = createSlice({
     },
     updateFilteredRandomTracks(state, action: PayloadAction<SongType[]>) {
       state.filteredRandomTracks = action.payload;
+    },
+    updateFilteredFavouritesTracks(state, action: PayloadAction<SongType[]>) {
+      state.filteredFavouritesTracks = action.payload;
     },
   },
 });
@@ -68,9 +78,11 @@ export const {
   updateSearchedTracks,
   updateSearchedTracksDance,
   updateSearchedTracksRandom,
+  updateSearchedTracksFavourites,
   updateFilteredTracks,
   updateFilteredDanceTracks,
   updateFilteredRandomTracks,
+  updateFilteredFavouritesTracks,
 } = filteredItemsSlice.actions;
 
 export default filteredItemsSlice.reducer;
