@@ -1,12 +1,15 @@
-import { Box, styled, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import { Box, IconButton, styled, Typography } from "@mui/material";
+import React, { useCallback, useEffect, useState } from "react";
 import { fetchTracks } from "../../../fetchers/fetchTracks";
 import { useAppDispatch, useAppSelector } from "../../../hook";
-import { uploadAllTracks } from "../../../store/trackSlice";
+import { changeCurrentSong, uploadAllTracks } from "../../../store/trackSlice";
 import { SongType } from "../../../types";
-import { TrackList } from "../TrackList/TrackList";
 import "./Karaoke.css";
 import { NavMenu } from "../NavMenu/NavMenu";
+import { DivChangeColor } from '../../../components/changeColor/DivChangeColor';
+import { cn } from '@bem-react/classname';
+import { colorToSecondary, extradarkToDark, extradarkToHover } from '../../../utils/colorUtils';
+import { FavoriteBorder } from '@mui/icons-material';
 const { MuseDOM } = require("muse-player");
 
 const KaraokeWrapper = styled(Box)`
@@ -34,6 +37,8 @@ const KaraokeWrapper = styled(Box)`
     display: none !important;
   }
 `;
+const cnTrackItem = cn('TrackItem');
+
 
 const Karaoke = () => {
   const dispatch = useAppDispatch();
@@ -41,6 +46,27 @@ const Karaoke = () => {
   const currentTrack = useAppSelector<SongType>((state) => state.tracks.currentTrack);
   const txt = currentTrack.lyrics;
   const [msg, setMsg] = useState("");
+  const textColor = useAppSelector((state) => state.colorTheme.textColor);
+  const decorativeColor = useAppSelector(
+    (state) => state.colorTheme.decorativeColor,
+  );
+  const textColorSecondary = colorToSecondary(textColor);
+  const colorHover = extradarkToHover(decorativeColor);
+  const colorDark = extradarkToDark(decorativeColor);
+
+  const defineCurrentTrack = useCallback(
+    (track: SongType) => {
+      return currentTrack._id === track._id;
+    },
+    [currentTrack._id],
+  );
+
+  const handleChooseSong = useCallback(
+    (track: SongType) => {
+      dispatch(changeCurrentSong(track));
+    },
+    [dispatch],
+  );
 
   const data = {
    
@@ -127,7 +153,40 @@ const Karaoke = () => {
             Список песен
           </Typography>
           <KaraokeWrapper className='Karaoke-Wrapper'>
-            <TrackList tracks={tracks as SongType[]}></TrackList>
+            {tracks.map((track) => (
+              <DivChangeColor
+              color={defineCurrentTrack(track) ? colorHover : textColor}
+              colorHover={colorHover}
+              colorActive={colorDark}
+              className={cnTrackItem('Info')}
+              key={track._id}
+              onClick={() => handleChooseSong(track)}
+            >
+              <img
+                className={cnTrackItem('Icon')}
+                src={track.img ? track.img : './icons/note.svg'}
+                alt="Album_image"
+              ></img>
+      
+              <span className={cnTrackItem('Name')}>{track.title}</span>
+              <span className={cnTrackItem('Author')}>{track.artist}</span>
+              <span
+                className={cnTrackItem('Album')}
+                style={{ color: textColorSecondary }}
+              >
+                {track.album}, {track.year}
+              </span>
+              <IconButton sx={{ width: '5%' }} style={{ color: textColorSecondary }}>
+                <FavoriteBorder fontSize="small" />
+              </IconButton>
+              <span
+                className={cnTrackItem('Duration')}
+                style={{ color: textColorSecondary }}
+              >
+                {track?.duration}
+              </span>
+            </DivChangeColor>
+            ))}
           </KaraokeWrapper>
           <div className='Karaoke-Player'></div>
         </div>

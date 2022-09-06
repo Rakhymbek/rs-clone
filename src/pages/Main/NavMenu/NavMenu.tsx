@@ -193,7 +193,7 @@ export const NavMenu: FC<{}> = () => {
                 </NavLink>
 
                 <NavLink
-                    className={cnNavMenu(null, ['List-Button'])}
+                    className={cnNavMenu('List-Button')}
                     style={{ color: textColor }}
                     to={'/karaoke'}
                 >
