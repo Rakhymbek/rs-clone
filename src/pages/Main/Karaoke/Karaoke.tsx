@@ -1,17 +1,20 @@
-import { Box, IconButton, styled, Typography } from "@mui/material";
-import React, { useCallback, useEffect, useState } from "react";
-import { fetchTracks } from "../../../fetchers/fetchTracks";
-import { useAppDispatch, useAppSelector } from "../../../hook";
-import { changeCurrentSong, uploadAllTracks } from "../../../store/trackSlice";
-import { SongType } from "../../../types";
-import "./Karaoke.css";
-import { NavMenu } from "../NavMenu/NavMenu";
+import { Box, IconButton, styled, Typography } from '@mui/material';
+import React, { useCallback, useEffect, useState } from 'react';
+import { fetchTracks } from '../../../fetchers/fetchTracks';
+import { useAppDispatch, useAppSelector } from '../../../hook';
+import { changeCurrentSong, uploadAllTracks } from '../../../store/trackSlice';
+import { SongType } from '../../../types';
+import './Karaoke.css';
+import { NavMenu } from '../NavMenu/NavMenu';
 import { DivChangeColor } from '../../../components/changeColor/DivChangeColor';
 import { cn } from '@bem-react/classname';
-import { colorToSecondary, extradarkToDark, extradarkToHover } from '../../../utils/colorUtils';
+import {
+  colorToSecondary,
+  extradarkToDark,
+  extradarkToHover,
+} from '../../../utils/colorUtils';
 import { FavoriteBorder } from '@mui/icons-material';
-const { MuseDOM } = require("muse-player");
-
+const { MuseDOM } = require('muse-player');
 
 const KaraokeWrapper = styled(Box)`
   max-height: 300px;
@@ -37,16 +40,22 @@ const KaraokeWrapper = styled(Box)`
   .css-apylqv-MuiButtonBase-root-MuiIconButton-root {
     display: none !important;
   }
+  @media (max-width: 568px) {
+    & {
+      padding: 8px;
+    }
+  }
 `;
 const cnTrackItem = cn('TrackItem');
-
 
 const Karaoke = () => {
   const dispatch = useAppDispatch();
   const tracks = useAppSelector((state) => state.tracks.allTracks);
-  const currentTrack = useAppSelector<SongType>((state) => state.tracks.currentTrack);
+  const currentTrack = useAppSelector<SongType>(
+    (state) => state.tracks.currentTrack,
+  );
   const txt = currentTrack.lyrics;
-  const [msg, setMsg] = useState("");
+  const [msg, setMsg] = useState('');
   const textColor = useAppSelector((state) => state.colorTheme.textColor);
   const decorativeColor = useAppSelector(
     (state) => state.colorTheme.decorativeColor,
@@ -70,7 +79,6 @@ const Karaoke = () => {
   );
 
   const data = {
-   
     src: currentTrack.minus,
     lyric: txt,
   };
@@ -81,23 +89,23 @@ const Karaoke = () => {
         (text, i) => `
               <li class="muse-lyric__item" data-lyric-item-id="${i}">
                 <span class="muse-lyric__text">${text}</span>
-              </li>`
+              </li>`,
       )
-      .join("");
+      .join('');
   }
 
   useEffect(() => {
-    setMsg("Karaoke");
+    setMsg('Karaoke');
     const player = document.querySelector(
-      ".muse-controller audio"
+      '.muse-controller audio',
     ) as HTMLAudioElement;
     if (player) {
       const lyricsContainer = document.querySelector(
-        ".muse-drawer__lyric-container"
+        '.muse-drawer__lyric-container',
       ) as HTMLElement;
-      const lyrics = txt?.replace(/\[(.*)\]/g, "").split(/\n/) as string[];
+      const lyrics = txt?.replace(/\[(.*)\]/g, '').split(/\n/) as string[];
 
-      lyricsContainer.innerHTML = "";
+      lyricsContainer.innerHTML = '';
       if (lyrics) {
         lyricsContainer.innerHTML = `
         ${changeLyrics(lyrics)}
@@ -109,52 +117,57 @@ const Karaoke = () => {
   }, [currentTrack.lyrics, currentTrack.minus, txt]);
 
   useEffect(() => {
-    MuseDOM.render([data, {}], document.getElementById("player"));
+    MuseDOM.render([data, {}], document.getElementById('player'));
     fetchTracks().then((data) => {
       dispatch(uploadAllTracks(data));
     });
     const firstLyricsContainer = document.querySelector(
-      ".muse-drawer__lyric-container"
+      '.muse-drawer__lyric-container',
     ) as HTMLElement;
     const firstLine = document.querySelector(
-      ".muse-lyric__text"
+      '.muse-lyric__text',
     ) as HTMLElement;
     if (firstLine) {
-      if (firstLine.innerHTML.includes("这首歌没有歌词~")) {
-        firstLyricsContainer.innerHTML = "";
+      if (firstLine.innerHTML.includes('这首歌没有歌词~')) {
+        firstLyricsContainer.innerHTML = '';
         setMsg(
-          "После выбора песни, пожалуйста\n обновляйте страницу!\nЭто нужно для корректной работы плеера"
+          'После выбора песни, пожалуйста\n обновляйте страницу!\nЭто нужно для корректной работы плеера',
         );
       }
     }
     const player = document.querySelector(
-      ".muse-controller audio"
+      '.muse-controller audio',
     ) as HTMLAudioElement;
     if (player) {
-      console.log(currentTrack.minus);
       player.src = currentTrack.minus as string;
       player.pause();
     }
-    console.log("После выбора песни, пожалуйста\n обновляйте страницу!\nЭто нужно для корректной работы плеера")
+    console.log(
+      'После выбора песни, пожалуйста,\n обновляйте страницу!\nЭто нужно для корректной работы плеера',
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <div className='Karaoke'>
+    <div className="Karaoke">
       <NavMenu />
-      <div className='Karaoke-Content'>
+      <div className="Karaoke-Content">
         <Typography
-          variant='h2'
-          sx={{fontSize: {md: 25, sm: 16}}}
+          variant="h2"
+          sx={{ fontSize: { md: 25, sm: 16 } }}
           marginBottom={1}
-          textAlign={"center"}
+          textAlign={'center'}
         >
           {msg}
         </Typography>
-        <Typography variant="subtitle1" textAlign={'center'}>После выбора песни, пожалуйста обновляйте страницу! Это нужно для корректной работы плеера</Typography>
-        <div id='player' className='Karaoke-Line'></div>
-        <div className='Karaoke-Controls'>
+        <Typography variant="subtitle1" textAlign={'center'}>
+          После выбора песни, пожалуйста обновляйте страницу! Это нужно для
+          корректной работы плеера
+        </Typography>
+        <div id="player" className="Karaoke-Line"></div>
+        <div className="Karaoke-Controls">
           <Typography
-            variant='h2'
+            variant="h2"
             fontSize={40}
             marginBottom={2}
             marginTop={3}
@@ -162,43 +175,46 @@ const Karaoke = () => {
           >
             Список песен
           </Typography>
-          <KaraokeWrapper className='Karaoke-Wrapper'>
+          <KaraokeWrapper className="Karaoke-Wrapper">
             {tracks.map((track) => (
               <DivChangeColor
-              color={defineCurrentTrack(track) ? colorHover : textColor}
-              colorHover={colorHover}
-              colorActive={colorDark}
-              className={cnTrackItem('Info')}
-              key={track._id}
-              onClick={() => handleChooseSong(track)}
-            >
-              <img
-                className={cnTrackItem('Icon')}
-                src={track.img ? track.img : './icons/note.svg'}
-                alt="Album_image"
-              ></img>
-      
-              <span className={cnTrackItem('Name')}>{track.title}</span>
-              <span className={cnTrackItem('Author')}>{track.artist}</span>
-              <span
-                className={cnTrackItem('Album')}
-                style={{ color: textColorSecondary }}
+                color={defineCurrentTrack(track) ? colorHover : textColor}
+                colorHover={colorHover}
+                colorActive={colorDark}
+                className={cnTrackItem('Info')}
+                key={track._id}
+                onClick={() => handleChooseSong(track)}
               >
-                {track.album}, {track.year}
-              </span>
-              <IconButton sx={{ width: '5%' }} style={{ color: textColorSecondary }}>
-                <FavoriteBorder fontSize="small" />
-              </IconButton>
-              <span
-                className={cnTrackItem('Duration')}
-                style={{ color: textColorSecondary }}
-              >
-                {track?.duration}
-              </span>
-            </DivChangeColor>
+                <img
+                  className={cnTrackItem('Icon')}
+                  src={track.img ? track.img : './icons/note.svg'}
+                  alt="Album_image"
+                ></img>
+
+                <span className={cnTrackItem('Name')}>{track.title}</span>
+                <span className={cnTrackItem('Author')}>{track.artist}</span>
+                <span
+                  className={cnTrackItem('Album')}
+                  style={{ color: textColorSecondary }}
+                >
+                  {track.album}, {track.year}
+                </span>
+                <IconButton
+                  sx={{ width: '5%' }}
+                  style={{ color: textColorSecondary }}
+                >
+                  <FavoriteBorder fontSize="small" />
+                </IconButton>
+                <span
+                  className={cnTrackItem('Duration')}
+                  style={{ color: textColorSecondary }}
+                >
+                  {track?.duration}
+                </span>
+              </DivChangeColor>
             ))}
           </KaraokeWrapper>
-          <div className='Karaoke-Player'></div>
+          <div className="Karaoke-Player"></div>
         </div>
       </div>
     </div>
@@ -206,5 +222,5 @@ const Karaoke = () => {
 };
 
 export default Karaoke;
-if (document.getElementById("player")) {
+if (document.getElementById('player')) {
 }

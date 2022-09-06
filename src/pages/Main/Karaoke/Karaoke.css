@@ -99,6 +99,12 @@
     .muse-drawer .muse-drawer__lyric .muse-lyric__text {
         font-size: 1.5rem!important;
     }
+    .Karaoke-Line {
+        width: 95%;
+    }
+    .Karaoke-Controls {
+        max-width: 95%;
+    }
 }
 
 @media (max-width: 568px) {
