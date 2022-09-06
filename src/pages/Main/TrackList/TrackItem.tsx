@@ -1,5 +1,5 @@
 import { cn } from '@bem-react/classname';
-import { FavoriteBorder } from '@mui/icons-material';
+import { FavoriteBorder, Favorite } from '@mui/icons-material';
 import { IconButton } from '@mui/material';
 import type { Identifier, XYCoord } from 'dnd-core';
 import { FC, useCallback } from 'react';
@@ -8,7 +8,7 @@ import { useDrag, useDrop } from 'react-dnd';
 
 import { DivChangeColor } from '../../../components/changeColor/DivChangeColor';
 import { useAppDispatch, useAppSelector } from '../../../hook';
-import { changeCurrentSong } from '../../../store/trackSlice';
+import { addTrackToFavourites, changeCurrentSong, removeTrackFromFavourites } from '../../../store/trackSlice';
 import { SongType } from '../../../types';
 import {
   colorToSecondary,
@@ -105,6 +105,7 @@ export const TrackItem: FC<TrackItemProps> = ({
   const dispatch = useAppDispatch();
 
   const currentTrack = useAppSelector((state) => state.tracks.currentTrack);
+  const favourites = useAppSelector((state) => state.tracks.favourites);
 
   const textColor = useAppSelector((state) => state.colorTheme.textColor);
   const decorativeColor = useAppSelector(
@@ -128,6 +129,23 @@ export const TrackItem: FC<TrackItemProps> = ({
     [dispatch],
   );
 
+  const handleAddToFavourites = useCallback((track: SongType) => {
+    if (favourites.some((favTrack: SongType) => favTrack.url === track.url)) {
+      dispatch(removeTrackFromFavourites(track));
+    } else {
+      dispatch(addTrackToFavourites(track));
+
+    }
+  }, [dispatch, favourites]);
+
+  const checkFavouriteTrack = (track: SongType) => {
+    if (favourites.some((favTrack: SongType) => favTrack.url === track.url)) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
   return (
     <div
       ref={ref}
@@ -141,8 +159,8 @@ export const TrackItem: FC<TrackItemProps> = ({
         colorActive={colorDark}
         className={cnTrackItem('Info')}
         key={track._id}
-        onClick={() => handleChooseSong(track)}
       >
+        <span onClick={() => handleChooseSong(track)} className={cnTrackItem('Info')}>
         <img
           className={cnTrackItem('Icon')}
           src={track.img ? track.img : './icons/note.svg'}
@@ -157,14 +175,15 @@ export const TrackItem: FC<TrackItemProps> = ({
         >
           {track.album}, {track.year}
         </span>
-        <IconButton sx={{ width: '5%' }} style={{ color: textColorSecondary }}>
-          <FavoriteBorder fontSize="small" />
+
+        </span>
+        <IconButton onClick={() => handleAddToFavourites(track)} sx={{ width: '5%' }} style={{ color: checkFavouriteTrack(track) ? "rgb(223 82 82)" : textColorSecondary }}>
+          {checkFavouriteTrack(track) ? <Favorite fontSize="small" /> : <FavoriteBorder  fontSize="small" />}
         </IconButton>
         <span
           className={cnTrackItem('Duration')}
           style={{ color: textColorSecondary }}
         >
-          {/* {secondsToHms(track.duration_in_seconds)} */}
           {track?.duration}
         </span>
       </DivChangeColor>

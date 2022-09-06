@@ -37,6 +37,7 @@ export const ORDER = { notSelected: 'notSelected', asc: 'ASC', desc: 'DESC' };
 
 export const ALBUM_RANDOM = 'dayplaylist';
 export const ALBUM_DANCE = 'dance';
+export const ALBUM_FAVOURITES = 'favourites'
 
 export const ALBUMS = {
   [ALBUM_RANDOM]: {
@@ -48,6 +49,11 @@ export const ALBUMS = {
     ru: 'Танцевальные хиты',
     en: 'Dance hits',
     bel: 'Танцавальныя хіты',
+  },
+  [ALBUM_FAVOURITES]: {
+    ru: 'Мои треки',
+    en: 'My tracks',
+    bel: 'Мае трэкі',
   },
 };
 

@@ -12,6 +12,7 @@ import { colorToSecondary, extradarkToDark, extradarkToHover } from '../../../ut
 import { FavoriteBorder } from '@mui/icons-material';
 const { MuseDOM } = require("muse-player");
 
+
 const KaraokeWrapper = styled(Box)`
   max-height: 300px;
   overflow-y: scroll;
@@ -126,6 +127,14 @@ const Karaoke = () => {
         );
       }
     }
+    const player = document.querySelector(
+      ".muse-controller audio"
+    ) as HTMLAudioElement;
+    if (player) {
+      console.log(currentTrack.minus);
+      player.src = currentTrack.minus as string;
+      player.pause();
+    }
     console.log("После выбора песни, пожалуйста\n обновляйте страницу!\nЭто нужно для корректной работы плеера")
   }, []);
 
@@ -141,6 +150,7 @@ const Karaoke = () => {
         >
           {msg}
         </Typography>
+        <Typography variant="subtitle1" textAlign={'center'}>После выбора песни, пожалуйста обновляйте страницу! Это нужно для корректной работы плеера</Typography>
         <div id='player' className='Karaoke-Line'></div>
         <div className='Karaoke-Controls'>
           <Typography

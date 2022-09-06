@@ -11,10 +11,13 @@ import {
   VolumeOff,
   FavoriteBorder,
   Shuffle,
+  Favorite
 } from '@mui/icons-material';
 import { IconButton } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../hook';
 import {
+  addTrackToFavourites,
+  removeTrackFromFavourites,
   setAutoplayStatus,
   setShuffleStatus,
   shuffleTracks,
@@ -42,6 +45,8 @@ export const Player: FC<PlayerProps> = ({ track }) => {
   );
   const isActive = useAppSelector((state) => state.tracks.isShuffleActive);
   const currentTrack = useAppSelector((state) => state.tracks.currentTrack);
+  const favourites = useAppSelector((state) => state.tracks.favourites);
+
   const autoplay = useAppSelector((state) => state.tracks.autoplay);
   const alltracks = useAppSelector((state) => state.tracks.allTracks);
   const decorativeColor = useAppSelector(
@@ -78,6 +83,23 @@ export const Player: FC<PlayerProps> = ({ track }) => {
   const handleClickOnPlay = useCallback(() => {
     dispatch(setAutoplayStatus(true));
   }, [dispatch]);
+
+  const handleAddToFavourites = useCallback((song: SongType) => {
+    if (favourites.some((favTrack: SongType) => favTrack.url === song.url)) {
+      dispatch(removeTrackFromFavourites(song));
+    } else {
+      dispatch(addTrackToFavourites(song));
+
+    }
+  }, [dispatch, favourites]);
+
+  const checkFavouriteTrack = (song: SongType) => {
+    if (favourites.some((favTrack: SongType) => favTrack.url === song.url)) {
+      return true;
+    } else {
+      return false;
+    }
+  };
 
   return (
     <PlayerWrapper progressсolor={progressColor} className={cnPlayer()}>
@@ -117,8 +139,8 @@ export const Player: FC<PlayerProps> = ({ track }) => {
                 <p>{track.artist}</p>
               </div>
             </div>
-            <IconButton>
-              <FavoriteBorder className={cnPlayer('ControlsIcon')} />
+            <IconButton onClick={() => handleAddToFavourites(track)}>
+              {checkFavouriteTrack(track) ? <Favorite className={cnPlayer('ControlsIcon')} /> : <FavoriteBorder className={cnPlayer('ControlsIcon')} />}
             </IconButton>
           </PlayerControlsWrapper>,
           RHAP_UI.VOLUME_CONTROLS,

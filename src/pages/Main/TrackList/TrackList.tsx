@@ -1,16 +1,17 @@
-import update from 'immutability-helper';
-import { FC, useEffect } from 'react';
-import { useCallback, useState } from 'react';
+import update from "immutability-helper";
+import { FC, useEffect } from "react";
+import { useCallback, useState } from "react";
 import {
   ALBUM_DANCE,
+  ALBUM_FAVOURITES,
   ALBUM_RANDOM,
   EMPTY_ARTIST,
   TEXT,
-} from '../../../constants';
-import { useAppDispatch, useAppSelector } from '../../../hook';
-import { setMovedStatus, uploadMovedTracks } from '../../../store/trackSlice';
-import { SongType } from '../../../types';
-import { TrackItem } from './TrackItem';
+} from "../../../constants";
+import { useAppDispatch, useAppSelector } from "../../../hook";
+import { setMovedStatus, uploadMovedTracks } from "../../../store/trackSlice";
+import { SongType } from "../../../types";
+import { TrackItem } from "./TrackItem";
 
 export const TrackList: FC<{ header: string }> = ({ header }) => {
   const dispatch = useAppDispatch();
@@ -20,15 +21,19 @@ export const TrackList: FC<{ header: string }> = ({ header }) => {
   const tracksAll = useAppSelector((state) => state.tracks.allTracks);
   const tracksDance = useAppSelector((state) => state.tracks.danceTracks);
   const tracksRandom = useAppSelector((state) => state.tracks.randomTracks);
+  const tracksFavourites = useAppSelector((state) => state.tracks.favourites);
 
   const filteredTracks = useAppSelector(
-    (state) => state.filteredItems.filteredTracks,
+    (state) => state.filteredItems.filteredTracks
   );
   const filteredTracksDance = useAppSelector(
-    (state) => state.filteredItems.filteredDanceTracks,
+    (state) => state.filteredItems.filteredDanceTracks
   );
   const filteredTracks_Random = useAppSelector(
-    (state) => state.filteredItems.filteredRandomTracks,
+    (state) => state.filteredItems.filteredRandomTracks
+  );
+  const filteredTracks_Favourites = useAppSelector(
+    (state) => state.filteredItems.filteredFavouritesTracks
   );
 
   let allTracks = filteredTracks.length ? filteredTracks : tracksAll;
@@ -41,6 +46,12 @@ export const TrackList: FC<{ header: string }> = ({ header }) => {
     allTracks = filteredTracks_Random.length
       ? filteredTracks_Random
       : tracksRandom;
+  }
+
+  if (header === TEXT.albums[ALBUM_FAVOURITES][lang]) {
+    allTracks = filteredTracks_Favourites.length
+      ? filteredTracks_Favourites
+      : tracksFavourites;
   }
 
   const [trackItems, setTrackItems] = useState(allTracks);
@@ -61,7 +72,7 @@ export const TrackList: FC<{ header: string }> = ({ header }) => {
           [dragIndex, 1],
           [hoverIndex, 0, prevTrackItems[dragIndex] as SongType],
         ],
-      }),
+      })
     );
   }, []);
 
@@ -77,15 +88,22 @@ export const TrackList: FC<{ header: string }> = ({ header }) => {
     );
   }, []);
 
+  if (
+    header === TEXT.albums[ALBUM_FAVOURITES][lang] &&
+    trackItems.length === 0
+  ) {
+    return <div>{TEXT.empty_results[lang]}</div>;
+  }
+
   return (
     <>
-      {trackItems[0].artist === EMPTY_ARTIST && (
+      {!trackItems.length && (
         <div>{TEXT.empty_results[lang]}</div>
       )}
-      {trackItems[0].artist !== EMPTY_ARTIST && (
+      {trackItems.length && (
         <div>
           {trackItems.map((track: SongType, i: number) =>
-            renderTrackItem(track, i),
+            renderTrackItem(track, i)
           )}
         </div>
       )}
