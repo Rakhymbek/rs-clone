@@ -37,8 +37,10 @@ import {
   updateSearchedTracksDance,
   updateFilteredRandomTracks,
   updateSearchedTracksRandom,
+  updateFilteredFavouritesTracks,
+  updateSearchedTracksFavourites,
 } from '../../../store/filteredItemsSlice';
-import { uploadAllTracks, uploadDanceTracks } from '../../../store/trackSlice';
+import { uploadAllTracks } from '../../../store/trackSlice';
 import { getFinalItems } from '../../../utils/getFinalItems';
 import { SongType, TCheckedItems } from '../../../types';
 import { updateSearchQuery } from '../../../store/sortingSettingsSlice';
@@ -77,6 +79,10 @@ export const NavMenu: FC<{}> = () => {
   );
   const allTracksRandom = useAppSelector((state) => state.tracks.randomTracks);
 
+  const allTracksFavourites = useAppSelector(
+    (state) => state.tracks.favourites,
+  );
+
   const [isVisible, setIsVisible] = useState(false);
 
   const handleClick = () => {
@@ -104,12 +110,14 @@ export const NavMenu: FC<{}> = () => {
     dispatch(updateFilteredTracks([]));
     dispatch(updateFilteredDanceTracks([]));
     dispatch(updateFilteredRandomTracks([]));
+    dispatch(updateFilteredFavouritesTracks([]));
 
     dispatch(updateSearchQuery(''));
     dispatch(uploadAllTracks([]));
     dispatch(updateSearchedTracks(allTracks));
     dispatch(updateSearchedTracksDance(allTracksDance));
     dispatch(updateSearchedTracksRandom(allTracksRandom));
+    dispatch(updateSearchedTracksFavourites(allTracksFavourites));
   };
 
   const order = useAppSelector((state) => state.sortingSettings.order);
@@ -124,11 +132,13 @@ export const NavMenu: FC<{}> = () => {
     dispatch(updateFilteredTracks([]));
     dispatch(updateFilteredDanceTracks([]));
     dispatch(updateFilteredRandomTracks([]));
+    dispatch(updateFilteredFavouritesTracks([]));
 
     dispatch(updateSearchQuery(''));
     dispatch(updateSearchedTracks(allTracks));
     dispatch(updateSearchedTracksDance(allTracksDance));
     dispatch(updateSearchedTracksRandom(allTracksRandom));
+    dispatch(updateSearchedTracksFavourites(allTracksFavourites));
 
     const finalFilteredTracks = getFinalItems(
       allTracks,
@@ -137,7 +147,7 @@ export const NavMenu: FC<{}> = () => {
       order,
     );
 
-    dispatch(uploadDanceTracks(finalFilteredTracks));
+    dispatch(uploadAllTracks(finalFilteredTracks));
   };
 
   return (
@@ -193,13 +203,17 @@ export const NavMenu: FC<{}> = () => {
                 </NavLink>
 
                 <NavLink
-                    className={cnNavMenu('List-Button')}
-                    style={{ color: textColor }}
-                    to={'/karaoke'}
+                  onClick={handleClickToMain}
+                  className={cnNavMenu('List-Button')}
+                  style={{ color: textColor }}
+                  to={'/karaoke'}
                 >
-                    <SpanChangeColor colorHover={colorHover} colorActive={colorDark}>
-                      Караоке
-                    </SpanChangeColor>
+                  <SpanChangeColor
+                    colorHover={colorHover}
+                    colorActive={colorDark}
+                  >
+                    Караоке
+                  </SpanChangeColor>
                 </NavLink>
 
                 <NavLink

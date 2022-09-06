@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import { FC } from 'react';
 import { cn } from '@bem-react/classname';
@@ -29,10 +30,12 @@ import {
   updateCheckedGenres,
   updateCheckedYears,
   updateFilteredDanceTracks,
+  updateFilteredFavouritesTracks,
   updateFilteredRandomTracks,
   updateFilteredTracks,
   updateSearchedTracks,
   updateSearchedTracksDance,
+  updateSearchedTracksFavourites,
   updateSearchedTracksRandom,
 } from '../../../store/filteredItemsSlice';
 import { getFinalItems } from '../../../utils/getFinalItems';
@@ -96,6 +99,9 @@ export const Sidebar: FC<SidebarProps> = ({
   const allTracksRandom: SongType[] = useAppSelector(
     (state) => state.tracks.randomTracks,
   );
+  const allTracksFavourites = useAppSelector(
+    (state) => state.tracks.favourites,
+  );
 
   const order = useAppSelector((state) => state.sortingSettings.order);
 
@@ -116,11 +122,13 @@ export const Sidebar: FC<SidebarProps> = ({
     dispatch(updateFilteredTracks([]));
     dispatch(updateFilteredDanceTracks([]));
     dispatch(updateFilteredRandomTracks([]));
+    dispatch(updateFilteredFavouritesTracks([]));
 
     dispatch(updateSearchQuery(''));
     dispatch(updateSearchedTracks(allTracks));
     dispatch(updateSearchedTracksDance(allTracksDance));
     dispatch(updateSearchedTracksRandom(allTracksRandom));
+    dispatch(updateSearchedTracksFavourites(allTracksFavourites));
 
     const finalFilteredTracks = getFinalItems(
       allTracksDance,
@@ -147,11 +155,13 @@ export const Sidebar: FC<SidebarProps> = ({
     dispatch(updateFilteredTracks([]));
     dispatch(updateFilteredDanceTracks([]));
     dispatch(updateFilteredRandomTracks([]));
+    dispatch(updateFilteredFavouritesTracks([]));
 
     dispatch(updateSearchQuery(''));
     dispatch(updateSearchedTracks(allTracks));
     dispatch(updateSearchedTracksDance(allTracksDance));
     dispatch(updateSearchedTracksRandom(allTracksRandom));
+    dispatch(updateSearchedTracksFavourites(allTracksFavourites));
 
     const finalFilteredTracks = getFinalItems(
       allTracksRandom,

@@ -37,7 +37,7 @@ export const ORDER = { notSelected: 'notSelected', asc: 'ASC', desc: 'DESC' };
 
 export const ALBUM_RANDOM = 'dayplaylist';
 export const ALBUM_DANCE = 'dance';
-export const ALBUM_FAVOURITES = 'favourites'
+export const ALBUM_FAVOURITES = 'favourites';
 
 export const ALBUMS = {
   [ALBUM_RANDOM]: {
@@ -139,6 +139,11 @@ export const TEXT = {
     ru: 'Извините, Ваш запрос не дал результатов',
     en: 'Sorry, nothing was found',
     bel: 'Выбачайце, нічога не знайшлося',
+  },
+  no_favourites: {
+    ru: 'Избранных треков пока нет',
+    en: 'There are no favorite tracks yet',
+    bel: 'Абраных трэкаў пакуль няма',
   },
 };
 
