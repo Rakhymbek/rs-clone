@@ -155,11 +155,10 @@ export const NavMenu: FC<{}> = () => {
             <Logo textColor={textColor} />
           </NavLink>
 
-          <IconButton className={cnNavMenu('Burger')} onClick={handleClick}>
+          <IconButton sx={{ mb: 3.5 }} className={cnNavMenu('Burger')} onClick={handleClick}>
             <MenuIcon
               className={cnNavMenu('Burger-Icon')}
               style={{ color: textColor }}
-              sx={{ mb: 3.5 }}
             />
           </IconButton>
           {isVisible && (
@@ -244,11 +243,10 @@ export const NavMenu: FC<{}> = () => {
       </div>
 
       <div className={cnNavMenu('Burger-Mobile')}>
-        <IconButton onClick={handleClickMobile}>
+        <IconButton sx={{ mb: 3.5 }} onClick={handleClickMobile}>
           <MenuIcon
             className={cnNavMenu('Burger-Icon')}
             style={{ color: textColor }}
-            sx={{ mb: 3.5 }}
           />
         </IconButton>
       </div>
@@ -289,6 +287,16 @@ export const NavMenu: FC<{}> = () => {
                   >
                     {TEXT.menu.mytracks[lang]}
                   </SpanChangeColor>
+                </NavLink>
+
+                <NavLink
+                    className={cnNavMenu('List-Button')}
+                    style={{ color: textColor }}
+                    to={'/karaoke'}
+                >
+                    <SpanChangeColor colorHover={colorHover} colorActive={colorDark}>
+                      Караоке
+                    </SpanChangeColor>
                 </NavLink>
 
                 <NavLink

@@ -97,10 +97,10 @@ export const TrackList: FC<{ header: string }> = ({ header }) => {
 
   return (
     <>
-      {!trackItems.length && (
+      {trackItems[0]?.artist === EMPTY_ARTIST && (
         <div>{TEXT.empty_results[lang]}</div>
       )}
-      {trackItems.length && (
+      {trackItems[0]?.artist !== EMPTY_ARTIST && (
         <div>
           {trackItems.map((track: SongType, i: number) =>
             renderTrackItem(track, i)

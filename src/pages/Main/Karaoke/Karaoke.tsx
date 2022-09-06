@@ -16,7 +16,7 @@ const { MuseDOM } = require("muse-player");
 const KaraokeWrapper = styled(Box)`
   max-height: 300px;
   overflow-y: scroll;
-  padding: 20px 60px;
+  padding: 20px 20px;
   margin-top: 20px;
   &::-webkit-scrollbar {
     width: 0.5em;
