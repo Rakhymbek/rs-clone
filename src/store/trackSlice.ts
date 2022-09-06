@@ -1,6 +1,6 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { SongType } from '../types';
-import dataTracks from '../pages/Main/data.json';
+import { createSlice, current, PayloadAction } from "@reduxjs/toolkit";
+import { SongType } from "../types";
+import dataTracks from "../pages/Main/data.json";
 
 type TTrackState = {
   currentTrack: SongType;
@@ -8,6 +8,7 @@ type TTrackState = {
   danceTracks: SongType[];
   randomTracks: SongType[];
   movedTracks: SongType[];
+  favourites: SongType[];
   autoplay: boolean;
   isMoved: boolean;
   isShuffleActive: boolean;
@@ -15,24 +16,25 @@ type TTrackState = {
 
 const initialState: TTrackState = {
   currentTrack:
-    JSON.parse(localStorage.getItem('currentTrack')!) || dataTracks[0] || {},
+    JSON.parse(localStorage.getItem("currentTrack")!) || dataTracks[0] || {},
   allTracks: [],
   randomTracks: [],
   danceTracks: [],
   movedTracks: [],
+  favourites: JSON.parse(localStorage.getItem("favourites")!) || [],
   isMoved: false,
   autoplay: false,
   isShuffleActive: false,
 };
 
 const trackSlice = createSlice({
-  name: 'tracks',
+  name: "tracks",
   initialState,
   reducers: {
     changeCurrentSong(state, action: PayloadAction<SongType>) {
       state.autoplay = true;
       state.currentTrack = action.payload;
-      localStorage.setItem('currentTrack', JSON.stringify(state.currentTrack));
+      localStorage.setItem("currentTrack", JSON.stringify(state.currentTrack));
     },
     uploadAllTracks(state, action: PayloadAction<SongType[]>) {
       state.allTracks = action.payload;
@@ -46,19 +48,29 @@ const trackSlice = createSlice({
     uploadMovedTracks(state, action: PayloadAction<SongType[]>) {
       state.movedTracks = action.payload;
     },
+    addTrackToFavourites(state, action) {
+      state.favourites = [...state.favourites, action.payload];
+      localStorage.setItem("favourites", JSON.stringify(state.favourites));
+    },
+    removeTrackFromFavourites(state, action) {
+      state.favourites = state.favourites.filter(
+        (favSong) => favSong.url !== action.payload.url
+      );
+      localStorage.setItem("favourites", JSON.stringify(state.favourites));
+    },
     switchToNextTrack(state, action: PayloadAction<SongType[]>) {
       state.autoplay = true;
       let nextTrack: SongType;
       let allTracks: SongType[];
 
-      if  (state.isMoved) {
+      if (state.isMoved) {
         allTracks = JSON.parse(JSON.stringify(state.movedTracks));
       } else {
         allTracks = action.payload;
       }
 
       let currentIndex = allTracks?.findIndex(
-        (track) => track.url === state.currentTrack.url,
+        (track) => track.url === state.currentTrack.url
       );
       if (currentIndex! >= allTracks?.length! - 1) {
         nextTrack = allTracks?.[0];
@@ -66,7 +78,8 @@ const trackSlice = createSlice({
         nextTrack = allTracks?.[currentIndex! + 1];
       }
       if (state.isShuffleActive) {
-        let nextTrack = allTracks?.[Math.floor(Math.random() * allTracks.length)];
+        let nextTrack =
+          allTracks?.[Math.floor(Math.random() * allTracks.length)];
         state.currentTrack = nextTrack;
       } else {
         state.currentTrack = nextTrack;
@@ -78,14 +91,14 @@ const trackSlice = createSlice({
 
       let allTracks: SongType[];
 
-      if  (state.isMoved) {
+      if (state.isMoved) {
         allTracks = JSON.parse(JSON.stringify(state.movedTracks));
       } else {
         allTracks = action.payload;
       }
 
       let currentIndex = allTracks?.findIndex(
-        (track) => track.url === state.currentTrack.url,
+        (track) => track.url === state.currentTrack.url
       );
       if (currentIndex! <= 0) {
         previousTrack = allTracks?.[allTracks?.length! - 1];
@@ -125,6 +138,8 @@ export const {
   setShuffleStatus,
   setAutoplayStatus,
   setMovedStatus,
+  addTrackToFavourites,
+  removeTrackFromFavourites,
 } = trackSlice.actions;
 
 export default trackSlice.reducer;
