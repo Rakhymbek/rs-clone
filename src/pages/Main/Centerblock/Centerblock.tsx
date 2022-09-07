@@ -6,7 +6,12 @@ import { Search } from '@mui/icons-material';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { SongType } from '../../../types';
-import { ALBUM_DANCE, ALBUM_FAVOURITES, ALBUM_RANDOM, TEXT } from '../../../constants';
+import {
+  ALBUM_DANCE,
+  ALBUM_FAVOURITES,
+  ALBUM_RANDOM,
+  TEXT,
+} from '../../../constants';
 import { Profile } from '../Profile/Profile';
 import { useAppDispatch, useAppSelector } from '../../../hook';
 import { TrackList } from '../TrackList/TrackList';
@@ -51,8 +56,9 @@ export const Centerblock: FC<PlayerProps> = ({ header, tracks }) => {
     (state) => state.tracks.randomTracks,
   );
 
-  const allTracksFavourites = useAppSelector((state) => state.tracks.favourites);
-
+  const allTracksFavourites = useAppSelector(
+    (state) => state.tracks.favourites,
+  );
 
   const checkedItems = useAppSelector((state) => state.filteredItems);
 
@@ -71,18 +77,23 @@ export const Centerblock: FC<PlayerProps> = ({ header, tracks }) => {
 
     let allTracks = allTracksStore;
 
-    const searchedItems = getSearchQueryArray(e.currentTarget.value, allTracks);
+    if (header === TEXT.header.tracks[lang]) {
+      const searchedItems = getSearchQueryArray(
+        e.currentTarget.value,
+        allTracks,
+      );
 
-    dispatch(updateSearchQuery(e.currentTarget.value));
-    dispatch(updateSearchedTracks(searchedItems));
+      dispatch(updateSearchQuery(e.currentTarget.value));
+      dispatch(updateSearchedTracks(searchedItems));
 
-    const finalItems = getFinalItems(
-      allTracks,
-      checkedItems,
-      searchedItems,
-      order,
-    );
-    dispatch(updateFilteredTracks(finalItems));
+      const finalItems = getFinalItems(
+        allTracks,
+        checkedItems,
+        searchedItems,
+        order,
+      );
+      dispatch(updateFilteredTracks(finalItems));
+    }
 
     if (header === TEXT.albums[ALBUM_DANCE][lang]) {
       const searchedItemsDance = getSearchQueryArray(
@@ -121,7 +132,7 @@ export const Centerblock: FC<PlayerProps> = ({ header, tracks }) => {
 
       dispatch(updateFilteredRandomTracks(finalItems));
     }
-    
+
     if (header === TEXT.albums[ALBUM_FAVOURITES][lang]) {
       const searchedItemsFavourites = getSearchQueryArray(
         e.currentTarget.value,

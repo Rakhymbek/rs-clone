@@ -24,7 +24,7 @@ export const fetchAuthMe = createAsyncThunk('auth/fetchAuthMe', async () => {
 });
 
 const initialState = {
-  data: null,
+  data: JSON.parse(localStorage.getItem("dataUser")!) || null,
   status: 'loading',
 } as DataState;
 
@@ -45,6 +45,7 @@ const authSlice = createSlice({
       .addCase(fetchLogin.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.data = action.payload;
+        localStorage.setItem("dataUser", JSON.stringify(state.data));
       })
       .addCase(fetchLogin.rejected, (state) => {
         state.status = 'failed';
@@ -57,6 +58,7 @@ const authSlice = createSlice({
       .addCase(fetchAuthMe.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.data = action.payload;
+        localStorage.setItem("dataUser", JSON.stringify(state.data));
       })
       .addCase(fetchAuthMe.rejected, (state) => {
         state.status = 'failed';
@@ -69,6 +71,7 @@ const authSlice = createSlice({
       .addCase(fetchRegister.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.data = action.payload;
+        localStorage.setItem("dataUser", JSON.stringify(state.data));
       })
       .addCase(fetchRegister.rejected, (state) => {
         state.status = 'failed';

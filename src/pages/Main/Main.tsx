@@ -100,6 +100,7 @@ export const Main: FC<MainProps> = ({ header }) => {
       );
       dispatch(updateSearchQuery(''));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [allTracks]);
 
   return (
