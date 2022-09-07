@@ -54,12 +54,13 @@ export const Main: FC<MainProps> = ({ header }) => {
 
   const lang = useAppSelector((state) => state.language.lang);
   const bgColor = useAppSelector((state) => state.colorTheme.bgColor);
-  const isVpnEnabled = useAppSelector((state) => state.vpn.isEnabled);
+  // const isVpnEnabled = useAppSelector((state) => state.vpn.isEnabled);
+  const isVpnEnabledLocal = localStorage.getItem('isVpnEnabled');
 
   useEffect(() => {
     if (allTracks.length) {
       setTracks(allTracks);
-    } else if (isVpnEnabled) {
+    } else if (isVpnEnabledLocal === 'true') {
       fetchTracks().then((data) => {
         setTracks(data);
         dispatch(uploadAllTracks(data));
