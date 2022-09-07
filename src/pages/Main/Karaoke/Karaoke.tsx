@@ -199,12 +199,6 @@ const Karaoke = () => {
                 >
                   {track.album}, {track.year}
                 </span>
-                <IconButton
-                  sx={{ width: '5%' }}
-                  style={{ color: textColorSecondary }}
-                >
-                  <FavoriteBorder fontSize="small" />
-                </IconButton>
                 <span
                   className={cnTrackItem('Duration')}
                   style={{ color: textColorSecondary }}
