@@ -6,21 +6,15 @@ import { Login } from './pages/Login/Login';
 import { Register } from './pages/Register/Register';
 import { Main } from './pages/Main/Main';
 import { TEXT } from './constants';
-import { useAppDispatch, useAppSelector } from './hook';
+import { useAppSelector } from './hook';
 import { AlertDialog } from './components/AlertDialog/AlertDialog';
-import { fetchAuthMe } from './store/auth/auth';
 import { WelcomePage } from './pages/WelcomePage/WelcomePage';
 import Karaoke from './pages/Main/Karaoke/Karaoke';
 
 function App() {
   const lang = useAppSelector((state) => state.language.lang);
   const { isOpen } = useAppSelector((state) => state.modal);
-  const dispatch = useAppDispatch();
-
-  React.useEffect(() => {
-    dispatch(fetchAuthMe());
-  }, [dispatch]);
-
+  
   return (
     <>
       {isOpen && <AlertDialog />}
