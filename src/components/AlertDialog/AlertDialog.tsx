@@ -73,7 +73,6 @@ export const AlertDialog: FC<{}> = () => {
     dispatch(updateSearchedTracksRandom(allTracksRandom));
     dispatch(updateSearchedTracksFavourites(allTracksFavourites));
     dispatch(logout());
-    window.localStorage.removeItem("token");
     dispatch(closeModal());
     navigate("/");
   };
