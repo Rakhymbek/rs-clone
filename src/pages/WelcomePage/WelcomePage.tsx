@@ -17,10 +17,12 @@ export const WelcomePage: FC<{}> = () => {
 
   const handleEnableVpn = () => {
     dispatch(setVpnState(true));
+    localStorage.setItem('isVpnEnabled', 'true');
   };
 
   const handleDisableVpn = () => {
     dispatch(setVpnState(false));
+    localStorage.setItem('isVpnEnabled', 'false');
   };
 
   return (

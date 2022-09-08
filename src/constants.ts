@@ -61,6 +61,7 @@ export const TEXT = {
   menu: {
     homepage: { ru: 'Главная', en: 'Homepage', bel: 'Галоўны' },
     mytracks: { ru: 'Мои треки', en: 'My tracks', bel: 'Мае трэкі' },
+    karaoke: { ru: 'Караоке', en: 'Karaoke', bel: 'Караоке' },
     profile: {
       ru: 'Личный кабинет',
       en: 'Profile',

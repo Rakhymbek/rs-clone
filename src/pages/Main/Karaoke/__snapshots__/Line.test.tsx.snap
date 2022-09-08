@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Line /> should render successfully and match snapshot 1`] = `
+<div>
+  <div
+    class="WrapperStyle"
+  >
+    <div
+      class="FontStyle"
+    >
+      Song text
+    </div>
+    <div
+      class="ActiveStyle"
+    >
+      Song text
+    </div>
+  </div>
+</div>
+`;
