@@ -54,7 +54,6 @@ export const Main: FC<MainProps> = ({ header }) => {
 
   const lang = useAppSelector((state) => state.language.lang);
   const bgColor = useAppSelector((state) => state.colorTheme.bgColor);
-  // const isVpnEnabled = useAppSelector((state) => state.vpn.isEnabled);
   const isVpnEnabledLocal = localStorage.getItem('isVpnEnabled');
 
   useEffect(() => {
