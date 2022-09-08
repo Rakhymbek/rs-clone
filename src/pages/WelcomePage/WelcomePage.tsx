@@ -63,7 +63,7 @@ export const WelcomePage: FC<{}> = () => {
         </p>
         <p className={cnWelcomePage('Text')}>
           Без доступа к MongoDB отсутствует возможность авторизации, регистрации
-          и добавления треков в избранное.
+          и недоступен некоторый функционал приложения.
         </p>
         <NavLink to={'/login'} onClick={handleEnableVpn}>
           <Button
