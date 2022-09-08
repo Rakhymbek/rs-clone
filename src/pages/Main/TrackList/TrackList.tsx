@@ -17,6 +17,7 @@ export const TrackList: FC<{ header: string }> = ({ header }) => {
   const dispatch = useAppDispatch();
 
   const lang = useAppSelector((state) => state.language.lang);
+  const textColor = useAppSelector((state) => state.colorTheme.textColor);
 
   const tracksAll = useAppSelector((state) => state.tracks.allTracks);
   const tracksDance = useAppSelector((state) => state.tracks.danceTracks);
@@ -93,13 +94,13 @@ export const TrackList: FC<{ header: string }> = ({ header }) => {
     header === TEXT.albums[ALBUM_FAVOURITES][lang] &&
     trackItems.length === 0
   ) {
-    return <div>{TEXT.no_favourites[lang]}</div>;
+    return <div style={{ color: textColor }}>{TEXT.no_favourites[lang]}</div>;
   }
 
   return (
     <>
       {trackItems[0]?.artist === EMPTY_ARTIST && (
-        <div>{TEXT.empty_results[lang]}</div>
+        <div style={{ color: textColor }}>{TEXT.empty_results[lang]}</div>
       )}
       {trackItems[0]?.artist !== EMPTY_ARTIST && (
         <div>

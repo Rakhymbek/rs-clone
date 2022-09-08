@@ -1,20 +1,20 @@
-import React, { useState } from "react";
-import { FC } from "react";
-import { cn } from "@bem-react/classname";
+import React, { useState } from 'react';
+import { FC } from 'react';
+import { cn } from '@bem-react/classname';
 
-import { NavLink } from "react-router-dom";
-import { IconButton } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
-import Logo from "../../../components/Logo/Logo";
-import { TEXT } from "../../../constants";
-import { SpanChangeColor } from "../../../components/changeColor/SpanChangeColor";
-import { useAppDispatch, useAppSelector } from "../../../hook";
+import { NavLink } from 'react-router-dom';
+import { IconButton } from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
+import Logo from '../../../components/Logo/Logo';
+import { TEXT } from '../../../constants';
+import { SpanChangeColor } from '../../../components/changeColor/SpanChangeColor';
+import { useAppDispatch, useAppSelector } from '../../../hook';
 import {
   bgColorToBgColorLight,
   extradarkToDark,
   extradarkToHover,
-} from "../../../utils/colorUtils";
-import { openModal } from "../../../store/modalSlice";
+} from '../../../utils/colorUtils';
+import { openModal } from '../../../store/modalSlice';
 
 import {
   updateCheckedArtists,
@@ -28,17 +28,17 @@ import {
   updateSearchedTracksRandom,
   updateFilteredFavouritesTracks,
   updateSearchedTracksFavourites,
-} from "../../../store/filteredItemsSlice";
-import { uploadAllTracks } from "../../../store/trackSlice";
-import { getFinalItems } from "../../../utils/getFinalItems";
-import { SongType, TCheckedItems } from "../../../types";
-import { updateSearchQuery } from "../../../store/sortingSettingsSlice";
-import { Animation } from "../../../components/Animation/Animation";
+} from '../../../store/filteredItemsSlice';
+import { uploadAllTracks } from '../../../store/trackSlice';
+import { getFinalItems } from '../../../utils/getFinalItems';
+import { SongType, TCheckedItems } from '../../../types';
+import { updateSearchQuery } from '../../../store/sortingSettingsSlice';
+import { Animation } from '../../../components/Animation/Animation';
 
-import "./NavMenu.css";
-import { Footer } from "../../../components/Footer/Footer";
+import './NavMenu.css';
+import { Footer } from '../../../components/Footer/Footer';
 
-const cnNavMenu = cn("NavMenu");
+const cnNavMenu = cn('NavMenu');
 
 const newFilter: TCheckedItems = {
   checkedArtists: [],
@@ -55,21 +55,21 @@ export const NavMenu: FC<{}> = () => {
   const bgColorLight = bgColorToBgColorLight(bgColor);
 
   const decorativeColor = useAppSelector(
-    (state) => state.colorTheme.decorativeColor
+    (state) => state.colorTheme.decorativeColor,
   );
   const colorHover = extradarkToHover(decorativeColor);
   const colorDark = extradarkToDark(decorativeColor);
 
   const allTracks: SongType[] = useAppSelector(
-    (state) => state.tracks.allTracks
+    (state) => state.tracks.allTracks,
   );
   const allTracksDance: SongType[] = useAppSelector(
-    (state) => state.tracks.danceTracks
+    (state) => state.tracks.danceTracks,
   );
   const allTracksRandom = useAppSelector((state) => state.tracks.randomTracks);
 
   const allTracksFavourites = useAppSelector(
-    (state) => state.tracks.favourites
+    (state) => state.tracks.favourites,
   );
 
   const [isVisible, setIsVisible] = useState(false);
@@ -98,7 +98,7 @@ export const NavMenu: FC<{}> = () => {
     dispatch(updateFilteredRandomTracks([]));
     dispatch(updateFilteredFavouritesTracks([]));
 
-    dispatch(updateSearchQuery(""));
+    dispatch(updateSearchQuery(''));
     dispatch(updateSearchedTracks(allTracks));
     dispatch(updateSearchedTracksDance(allTracksDance));
     dispatch(updateSearchedTracksRandom(allTracksRandom));
@@ -108,7 +108,7 @@ export const NavMenu: FC<{}> = () => {
       allTracks,
       newFilter,
       searchedItemsCurrent,
-      order
+      order,
     );
 
     dispatch(uploadAllTracks(finalFilteredTracks));
@@ -116,7 +116,7 @@ export const NavMenu: FC<{}> = () => {
 
   return (
     <>
-      <div className={cnNavMenu("Wrapper-Desktop")}>
+      <div className={cnNavMenu('Wrapper-Desktop')}>
         <nav
           className={cnNavMenu()}
           style={
@@ -125,25 +125,25 @@ export const NavMenu: FC<{}> = () => {
               : { backgroundColor: bgColor }
           }
         >
-          <NavLink to={"/main"} onClick={handleClickToMain}>
+          <NavLink to={'/main'} onClick={handleClickToMain}>
             <Logo textColor={textColor} />
           </NavLink>
 
           <IconButton
             sx={{ mb: 3.5 }}
-            className={cnNavMenu("Burger")}
+            className={cnNavMenu('Burger')}
             onClick={handleClick}
           >
             <MenuIcon
-              className={cnNavMenu("Burger-Icon")}
+              className={cnNavMenu('Burger-Icon')}
               style={{ color: textColor }}
             />
           </IconButton>
           {isVisible && (
             <>
-              <div className={cnNavMenu("List")}>
+              <div className={cnNavMenu('List')}>
                 <NavLink
-                  className={cnNavMenu("List-Button")}
+                  className={cnNavMenu('List-Button')}
                   style={{ color: textColor }}
                   to="/main"
                 >
@@ -157,7 +157,7 @@ export const NavMenu: FC<{}> = () => {
 
                 <NavLink
                   onClick={handleClickToMain}
-                  className={cnNavMenu("List-Button")}
+                  className={cnNavMenu('List-Button')}
                   style={{ color: textColor }}
                   to="/mytracks"
                 >
@@ -171,22 +171,22 @@ export const NavMenu: FC<{}> = () => {
 
                 <NavLink
                   onClick={handleClickToMain}
-                  className={cnNavMenu("List-Button")}
+                  className={cnNavMenu('List-Button')}
                   style={{ color: textColor }}
-                  to={"/karaoke"}
+                  to={'/karaoke'}
                 >
                   <SpanChangeColor
                     colorHover={colorHover}
                     colorActive={colorDark}
                   >
-                    Караоке
+                    {TEXT.menu.karaoke[lang]}
                   </SpanChangeColor>
                 </NavLink>
 
                 <NavLink
-                  className={cnNavMenu("List-Button")}
+                  className={cnNavMenu('List-Button')}
                   style={{ color: textColor }}
-                  to={"/profile"}
+                  to={'/profile'}
                 >
                   <SpanChangeColor
                     colorHover={colorHover}
@@ -199,7 +199,7 @@ export const NavMenu: FC<{}> = () => {
                 <button
                   onClick={() => dispatch(openModal())}
                   style={{ color: textColor }}
-                  className={"Logout-Button"}
+                  className={'Logout-Button'}
                 >
                   <SpanChangeColor
                     colorHover={colorHover}
@@ -209,42 +209,42 @@ export const NavMenu: FC<{}> = () => {
                   </SpanChangeColor>
                 </button>
               </div>
-              <div className={cnNavMenu("Animation-Top")}></div>
+              <div className={cnNavMenu('Animation-Top')}></div>
               <Animation></Animation>
             </>
           )}
 
           {!isVisible && (
             <>
-              <div className={cnNavMenu("Footer-Top")}></div>
+              <div className={cnNavMenu('Footer-Top')}></div>
               <Footer></Footer>
             </>
           )}
         </nav>
       </div>
 
-      <div className={cnNavMenu("Burger-Mobile")}>
+      <div className={cnNavMenu('Burger-Mobile')}>
         <IconButton sx={{ mb: 3.5 }} onClick={handleClickMobile}>
           <MenuIcon
-            className={cnNavMenu("Burger-Icon")}
+            className={cnNavMenu('Burger-Icon')}
             style={{ color: textColor }}
           />
         </IconButton>
       </div>
-      <div className={cnNavMenu("Wrapper-Mobile")}>
+      <div className={cnNavMenu('Wrapper-Mobile')}>
         {isVisibleMobile && (
           <nav
             className={cnNavMenu()}
-            style={{ backgroundColor: bgColorLight, paddingTop: "70px" }}
+            style={{ backgroundColor: bgColorLight, paddingTop: '70px' }}
           >
-            <NavLink to={"/main"} onClick={handleClickToMain}>
+            <NavLink to={'/main'} onClick={handleClickToMain}>
               <Logo textColor={textColor} />
             </NavLink>
 
             <>
-              <div className={cnNavMenu("List")}>
+              <div className={cnNavMenu('List')}>
                 <NavLink
-                  className={cnNavMenu("List-Button")}
+                  className={cnNavMenu('List-Button')}
                   style={{ color: textColor }}
                   to="/main"
                 >
@@ -258,7 +258,7 @@ export const NavMenu: FC<{}> = () => {
 
                 <NavLink
                   onClick={handleClickToMain}
-                  className={cnNavMenu("List-Button")}
+                  className={cnNavMenu('List-Button')}
                   style={{ color: textColor }}
                   to="/mytracks"
                 >
@@ -271,22 +271,22 @@ export const NavMenu: FC<{}> = () => {
                 </NavLink>
 
                 <NavLink
-                  className={cnNavMenu("List-Button")}
+                  className={cnNavMenu('List-Button')}
                   style={{ color: textColor }}
-                  to={"/karaoke"}
+                  to={'/karaoke'}
                 >
                   <SpanChangeColor
                     colorHover={colorHover}
                     colorActive={colorDark}
                   >
-                    Караоке
+                    {TEXT.menu.karaoke[lang]}
                   </SpanChangeColor>
                 </NavLink>
 
                 <NavLink
-                  className={cnNavMenu("List-Button")}
+                  className={cnNavMenu('List-Button')}
                   style={{ color: textColor }}
-                  to={"/profile"}
+                  to={'/profile'}
                 >
                   <SpanChangeColor
                     colorHover={colorHover}
@@ -299,7 +299,7 @@ export const NavMenu: FC<{}> = () => {
                 <button
                   onClick={() => dispatch(openModal())}
                   style={{ color: textColor }}
-                  className={"Logout-Button"}
+                  className={'Logout-Button'}
                 >
                   <SpanChangeColor
                     colorHover={colorHover}
@@ -309,7 +309,7 @@ export const NavMenu: FC<{}> = () => {
                   </SpanChangeColor>
                 </button>
               </div>
-              <div className={cnNavMenu("Animation-Top")}></div>
+              <div className={cnNavMenu('Animation-Top')}></div>
               <Footer></Footer>
             </>
           </nav>
