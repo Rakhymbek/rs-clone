@@ -146,6 +146,11 @@ export const TEXT = {
     en: 'There are no favorite tracks yet',
     bel: 'Абраных трэкаў пакуль няма',
   },
+  karaoke_message: {
+    ru: 'После выбора песни, пожалуйста обновляйте страницу! Это нужно для корректной работы плеера',
+    en: 'Refresh the page after choosing a song! This is necessary for the player to work properly',
+    bel: 'Абновіце сторонку после выбора песни! Гэта неабходна для правильной працы прайгравальніка',
+  }
 };
 
 export const EMPTY_ARTIST = 'sorry_empty_artist';
