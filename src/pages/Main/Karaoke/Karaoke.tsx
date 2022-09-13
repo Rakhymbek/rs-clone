@@ -1,5 +1,5 @@
-import { Box, IconButton, styled, Typography } from "@mui/material";
-import React, { useCallback, useEffect, useState } from "react";
+import { Box, styled, Typography } from "@mui/material";
+import React, { useCallback, useEffect } from "react";
 import { fetchTracks } from "../../../fetchers/fetchTracks";
 import { useAppDispatch, useAppSelector } from "../../../hook";
 import { changeCurrentSong, uploadAllTracks } from "../../../store/trackSlice";
@@ -13,12 +13,11 @@ import {
   extradarkToDark,
   extradarkToHover,
 } from "../../../utils/colorUtils";
-import { FavoriteBorder } from "@mui/icons-material";
 import { TEXT } from "../../../constants";
 const { MuseDOM } = require("muse-player");
 
 const KaraokeWrapper = styled(Box)`
-  max-height: 300px;
+  max-height: 250px;
   overflow-y: scroll;
   padding: 20px 20px;
   margin-top: 20px;
@@ -56,7 +55,6 @@ const Karaoke = () => {
     (state) => state.tracks.currentTrack
   );
   const txt = currentTrack.lyrics;
-  const [msg, setMsg] = useState("");
   const textColor = useAppSelector((state) => state.colorTheme.textColor);
   const decorativeColor = useAppSelector(
     (state) => state.colorTheme.decorativeColor
@@ -98,7 +96,6 @@ const Karaoke = () => {
   }
 
   useEffect(() => {
-    setMsg("Karaoke");
     const player = document.querySelector(
       ".muse-controller audio"
     ) as HTMLAudioElement;
@@ -133,9 +130,7 @@ const Karaoke = () => {
     if (firstLine) {
       if (firstLine.innerHTML.includes("这首歌没有歌词~")) {
         firstLyricsContainer.innerHTML = "";
-        setMsg(
-          "После выбора песни, пожалуйста\n обновляйте страницу!\nЭто нужно для корректной работы плеера"
-        );
+       
       }
     }
     const player = document.querySelector(
@@ -161,15 +156,14 @@ const Karaoke = () => {
           marginBottom={1}
           textAlign={"center"}
         >
-          {msg}
+          {TEXT.menu.karaoke[lang]}
         </Typography>
         <Typography
           variant="subtitle1"
           textAlign={"center"}
           sx={{ color: textColorSecondary }}
         >
-          После выбора песни, пожалуйста обновляйте страницу! Это нужно для
-          корректной работы плеера
+          {TEXT.karaoke_message[lang]}
         </Typography>
         <div id="player" className="Karaoke-Line"></div>
         <div className="Karaoke-Controls">
